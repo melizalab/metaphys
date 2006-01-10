@@ -1,0 +1,20 @@
+
+Developed on:
+
+Pentium 4 2.8 GhZ Dell Computer, 1GB RAM
+Windows XP SP2
+Matlab 7.1 (R14SP3) (DAQ toolkit 2.7)
+NIDAQ 7.3 (legacy)
+National Instruments PCI-MIO-16-E
+
+Target Platforms:
+
+Pentium 3, 4. 256MB RAM
+Windows 2000 - XP SP2
+MATLAB R14SP3+
+Axopatch 1-D, 200B; Multiclamp 700A, 700B
+
+
+Notes:
+
+The NIDAQmx drivers are newer and support a wider range of hardware. However, they require the 2.8 version of the MATLAB DAQ toolkit, which I do not have access to.

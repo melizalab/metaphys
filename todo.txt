@@ -1,0 +1,18 @@
+
+MAIN GUI
+
+PROTOCOLS
+- SealTest
+- Episode
+
+BACKEND
+- telegraphs for 700X series
+- triggers
+
+EPISODEANALYSIS
+- >2 time points for parameters
+- crashes when opening daqdatas with multiple lengths
+- in daq2mat, set units on all input channels
+
+MISC
+- add as toolbox

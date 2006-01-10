@@ -1,0 +1,7 @@
+
+In this directory are two kinds of files, headers and defaults. Header
+files provide empty structures that define a "class". The mfiles should
+be named according to the form <classname>_struct.m.  Defaults also return
+structures, but are generally checked when initializing an object or
+uicontrol. If the default file exists (filenames <classname>_default.m),
+SET() should be called after creating the object.
