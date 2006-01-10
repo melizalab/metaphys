@@ -21,7 +21,7 @@ function fig = OpenGuideFigure(figfile, module)
 %
 %  See Also: OPENFIGURE, FINDFIGURE
 %
-% $Id: OpenGuideFigure.m,v 1.1 2006/01/10 20:59:53 meliza Exp $
+% $Id: OpenGuideFigure.m,v 1.2 2006/01/11 03:20:03 meliza Exp $
 
 if nargin == 1
     [pn fn ext] = fileparts(figfile);
@@ -31,7 +31,7 @@ else
 end
 
 % check for existing figure; if none, open
-DebugPrint('Opening GUIDE figure for module %s.\n', tag);
+DebugPrint('Opening GUIDE figure for module %s.', tag);
 fig     = FindFigure(tag);
 if fig == -1
    fig  = openfig(figfile);

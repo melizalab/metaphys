@@ -11,7 +11,7 @@ function [] = DeleteDAQ(daqnames)
 %
 % See Also: INITDAQ, STOPDAQ
 %
-% $Id: DeleteDAQ.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: DeleteDAQ.m,v 1.2 2006/01/11 03:19:55 meliza Exp $
 
 global mpctrl
 
@@ -19,8 +19,8 @@ StopDAQ(daqnames)
 daq     = GetDAQ(daqnames);
 
 if iscell(daqnames)
-    t   = evalc('daq');
-    DebugPrint('Deactivating DAQ devices:\n %s', t)
+    t   = sprintf(' %s', daqnames{:});
+    DebugPrint('Deactivating DAQ devices:%s.', t)
 else
     DebugPrint('Deactivating DAQ device %s.', daqnames)
 end

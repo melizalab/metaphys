@@ -10,23 +10,23 @@ function [] = metaphys()
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.1 2006/01/10 20:59:49 meliza Exp $
+% $Id: metaphys.m,v 1.2 2006/01/11 03:19:52 meliza Exp $
 
-DebugSetOutput('console')
-DebugPrint('Starting METAPHYS, Version $Revision: 1.1 $')
 initPath;
+DebugSetOutput('console')
+DebugPrint('Starting METAPHYS, $Revision: 1.2 $')
+DebugPrint('Initialized METAPHYS path.')
 InitControl;
 LoadControl;
 
 createFigure;
-initParams;
+updateFigure;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [] = initPath()
 % Locates the directory where this mfile resides and adds it and its
 % subdirectories to the path
-DebugPrint('Initializing METAPHYS path.')
 me      = mfilename('fullpath');
 pn      = fileparts(me);
 pathstr = genpath(pn);
@@ -76,9 +76,49 @@ uimenu(help, 'label', '&About METAPHYS', 'tag', 'm_about_metaphys',...
     'callback', cb, 'separator', 'on')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = initParams()
-% Initialize parameters for this module
-% InitParam(mfilename,'data_prefix',struct('fieldtype','string','value',''));
+function [] = updateFigure()
+% Updates the uicontrols with the most current information.
+
+%% Easy stuff:
+data_dir        = GetDefaults('data_dir');
+if isempty(data_dir)
+    data_dir    = getpref('METAPHYS', 'basedir');
+end
+SetUIParam(mfilename, 'data_dir', data_dir)
+
+%% Instruments and Channels
+updateInstruments
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = updateInstruments()
+% Updates the instrument list
+instruments = GetInstrumentNames;
+if isempty(instruments)
+    SetUIParam(mfilename,'instruments','String', ' ', 'Value', 1,...
+        'Enable','Inactive')
+else
+    SetUIParam(mfilename,'instruments','String',instruments,...
+       'Enable', 'On')
+end
+% updateChannels
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% function [] = updateChannels()
+% % Updates channel list
+% CLEARARGS   = {mfilename, 'channels', 'String', ' ', 'Value', 1,...
+%         'Enable', 'Inactive'};
+% instrument  = GetUIParam(mfilename, 'instruments', 'Selected');
+% if strcmpi(instrument, ' ')
+%     SetUIParam(CLEARARGS{:})
+% else
+%     channels    = GetInstrumentChannelNames(instrument);
+%     if isempty(channels)
+%         SetUIParam(CLEARARGS{:})
+%     else
+%         SetUIParam(mfilename,'channels','String',channels,...
+%             'Enable', 'On')
+%     end
+% end 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = close_metaphys(obj, event)
@@ -94,7 +134,61 @@ DigitizerDialog
 
 function [] = button_push(obj, event)
 % Handles button pushes in the the figure.
-keyboard
+tag     = get(obj,'tag');
+switch tag
+    case 'properties_digitizer'
+        digitizer_props(obj, event)
+    case 'data_dir_select'
+        data_dir    = GetUIParam(mfilename, 'data_dir');
+        if isempty(data_dir)
+            data_dir    = getpref('METAPHYS','basedir');
+        end
+        pn          = uigetdir(data_dir,'Select Data Directory');
+        if ~isnumeric(pn)
+            SetUIParam(mfilename,'data_dir', pn);
+            SetDefaults('data_dir','control', pn);
+        end
+    case 'data_prefix_select'
+        protocol    = GetUIParam(mfilename, 'protocol');
+        [pn fn ext] = fileparts(protocol);
+        if isempty(pn)
+            pn      = getpref('METAPHYS','basedir');
+        end
+        [fn pn]     = uigetfile({'*.m', 'Protocol Files (*.m)';...
+            '*.*', 'All Files (*.*)'},...
+            'Select Protocol...');
+        if ~isnumeric(fn)
+            SetUIParam(mfilename,'protocol', fn);
+        end
+    case 'instrument_add'
+        nn  =   NewInstrumentName;
+        InitInstrument(nn)
+        InstrumentDialog(nn)
+        updateInstruments;
+    case 'instrument_edit'
+        selected    = GetUIParam(mfilename,'instruments','Selected');
+        InstrumentDialog(selected)
+        updateInstruments
+    case 'instrument_delete'
+        selected    = GetUIParam(mfilename,'instruments','Selected');
+        DeleteInstrument(selected)
+        updateInstruments
+%     case 'channel_add'
+%         ChannelDialog
+%         updateChannels
+%     case 'channel_edit'
+%         selected    = GetUIParam(mfilename,'channels','Selected');
+%         ChannelDialog(selected)
+%         updateChannels
+%     case 'instrument_delete'
+%         selected    = GetUIParam(mfilename,'channels','Selected');
+%         DeleteInstrumentChannel(selected)
+%         updateChannels
+        
+    otherwise
+        DebugPrint('No action has been described for the callback on %s.',...
+            tag)
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = menu(obj, event)
@@ -131,8 +225,6 @@ switch tag
         digitizer_props(obj, event)
     case 'm_dig_reset'
         ResetDAQ
-        
-        
         
     otherwise
         warning('METAPHYS:tagCallbackUndefined',...

@@ -10,22 +10,16 @@ function chan   = GetInstrumentChannel(instrument, channel)
 % CHANNEL can be a cell array, in which case multiple channels will be
 % retrieved as an array of objects.
 %
-% $Id: GetInstrumentChannel.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
-global mpctrl
+% $Id: GetInstrumentChannel.m,v 1.2 2006/01/11 03:20:01 meliza Exp $
 
-if ~isfield(mpctrl.instrument, instrument)
-    error('METAPHYS:daq:noSuchInstrument',...
-        'No such instrument %s has been defined.', instrument)
-end
+instr   = GetInstrument(instrument);
 
 if iscell(channel)
     for i = 1:length(channel)
-        chan(i) = getchannel(mpctrl.instrument.(instrument).channels,...
-            channel{i});
+        chan(i) = getchannel(instr, channel{i});
     end
 else
-    chan    = getchannel(mpctrl.instrument.(instrument).channels,...
-        channel);
+    chan    = getchannel(instr, channel);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

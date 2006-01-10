@@ -5,7 +5,12 @@ function instruments = GetInstrumentNames()
 %
 % instruments = GETINSTRUMENTNAMES()
 %
-% $Id: GetInstrumentNames.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: GetInstrumentNames.m,v 1.2 2006/01/11 03:19:57 meliza Exp $
 global mpctrl
 
-instruments    = fieldnames(mpctrl.instrument);
+instruments = [];
+if isfield(mpctrl, 'instrument')
+    if isstruct(mpctrl.instrument)
+        instruments     = fieldnames(mpctrl.instrument);
+    end
+end

@@ -14,40 +14,18 @@ function [] = DeleteInstrumentChannel(instrument, channelname)
 % DELETEINSTRUMENTCHANNEL(instrument, 'input') - Deletes all input channels.
 % DELETEINSTRUMENTCHANNEL(instrument, 'output') - Deletes all output channels.
 %
-% $Id: DeleteInstrumentChannel.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: DeleteInstrumentChannel.m,v 1.2 2006/01/11 03:19:55 meliza Exp $
 
-global mpctrl
 instrument = lower(instrument);
 
-% Get some data about the channels, names and types
-instr   = GetInstrument(instrument);
-channames   = get(instr.channels, 'ChannelName');
-rents       = get(instr.channels, 'Parent');
-if iscell(rents)
-    rents   = [rents{:}];
-end
-chantypes   = get(rents,'Type');
-
-% Figure out which channels to delete. Note the tricky input/output
-% relationship between instrument and daq channels.
 switch lower(channelname)
-    case 'all'
-        del     = 1:length(chantypes);
-    case 'input'
-        del     = strmatch('Analog Output',chantypes);
-    case 'output'
-        del     = strmatch('Analog Input', chantypes);
+    case {'all','input','output'}
+        channelname  = GetInstrumentChannelNames(instrument, channelname);
     otherwise
-        del     = strmatch(channelname, channames);
+        channelname  = {channelname};
 end
 
-% Delete the selected channels, leaving the complementary set
-nodel   = setdiff(1:length(chantypes), del);
-
-% only call delete() on aichannels
-reallydelete = strmatch('Analog Input', chantypes{del});
-delete(instr.channels(reallydelete));
-
-z       = mpctrl.instrument.(instrument).channels(nodel);
-mpctrl.instrument.(instrument).channels = z;
-        
+for i = 1:length(channelname)
+    DeleteChannel(instrument, channelname{i});
+end
+     

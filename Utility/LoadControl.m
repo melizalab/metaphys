@@ -19,7 +19,7 @@ function [] = LoadControl(filename)
 %
 % See Also: INITCONTROL, SAVECONTROL
 %
-% $id$
+% $Id: LoadControl.m,v 1.2 2006/01/11 03:20:03 meliza Exp $
 
 DEFAULT_FILE    = 'metaphys.mcf';
 
@@ -50,6 +50,9 @@ z   = load('-mat', filename);
 %% Copy to control structure
 if isfield(z, 'daq')
     mpctrl.daq  = z.daq;
+    daqnames    = fieldnames(z.daq);
+    DebugPrint('Restored DAQ objects:%s.',...
+        sprintf(' %s', daqnames{:}));
 end
 if isfield(z, 'instrument')
     mpctrl.instrument = z.instrument;

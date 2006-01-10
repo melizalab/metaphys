@@ -6,10 +6,14 @@ function s  = instrument_struct()
 % instrument.
 %
 % Required fields:
+%   name      - the name of the instrument (string)
 %   type      - the type of the instrument (string)
 %   channels  - an array of channels connected to the device's input/output
+%   telegraph - a structure array defining the device's telegraphs
 %
-% $Id: instrument_struct.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: instrument_struct.m,v 1.2 2006/01/11 03:20:02 meliza Exp $
 
-s   = struct('type','',...
-             'channels',[]);
+s   = struct('name','',...
+             'type','',...
+             'channels',[],...
+             'telegraph',struct([]));

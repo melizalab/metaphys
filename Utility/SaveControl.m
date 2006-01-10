@@ -14,7 +14,7 @@ function [] = SaveControl(filename)
 %
 % See Also: LOADCONTROL, INITCONTROL
 %
-% $Id: SaveControl.m,v 1.1 2006/01/10 20:59:53 meliza Exp $
+% $Id: SaveControl.m,v 1.2 2006/01/11 03:20:03 meliza Exp $
 
 global mpctrl
 
@@ -23,4 +23,4 @@ savestruct  = struct('daq', mpctrl.daq,...
                      'instrument', mpctrl.instrument,...
                      'defaults', mpctrl.defaults);
 WriteStructure(filename, savestruct)
-DebugPrint('Wrote control structure to %s.\n', filename)
+DebugPrint('Wrote control structure to %s.', filename)

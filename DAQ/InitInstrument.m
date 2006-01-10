@@ -19,18 +19,20 @@ function [] = InitInstrument(name, type)
 %
 % See also INSTRUMENT_STRUCT
 %
-% $Id: InitInstrument.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: InitInstrument.m,v 1.2 2006/01/11 03:19:57 meliza Exp $
 global mpctrl
 
 name    = lower(name);
 
-default = instrument_header;
+default = instrument_struct;
 if nargin > 1
     default.type    = type;
 end
+default.name    = name;
 
 if isfield(mpctrl.instrument, name)
     DeleteInstrument(name)
 end
 
 mpctrl.instrument.(name)     = default;
+DebugPrint('Created instrument %s.', name);

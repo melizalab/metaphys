@@ -1,4 +1,4 @@
-function [] = AddInstrumentInput(instrument, daqname, hwchannel, outputname, varargin)
+function [] = AddInstrumentInput(instrument, daqname, hwchannel, inputname, varargin)
 %
 % ADDINSTRUMENTINPUT Adds an input to an instrument. 
 %
@@ -19,14 +19,7 @@ function [] = AddInstrumentInput(instrument, daqname, hwchannel, outputname, var
 %
 % See also INITINSTRUMENT, ADDINSTRUMENTOUTPUT
 %
-% $Id: AddInstrumentInput.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
-
-global mpctrl
-
-if ~isfield(mpctrl.instrument, instrument)
-    error('METAPHYS:daq:noSuchInstrument',...
-        'No such instrument %s has been defined.', instrument)
-end
+% $Id: AddInstrumentInput.m,v 1.2 2006/01/11 03:19:53 meliza Exp $
 
 daq = GetDAQ(daqname);
 
@@ -43,10 +36,10 @@ if any(hwchans==hwchannel)
     % virtual gain information.
     c   = chan(hwchans==hwchannel);
 else
-    c   = addchannel(daq, hwchannel, outputname);
+    c   = addchannel(daq, hwchannel, inputname);
 end
 
 set(c,varargin{:})
-mpctrl.instrument.(instrument).channels.(outputname)    = c;
+AddChannel(instrument, inputname, c)
 
     

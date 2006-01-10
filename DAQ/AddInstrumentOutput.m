@@ -17,21 +17,16 @@ function c = AddInstrumentOutput(instrument, daqname, hwchannel, outputname, var
 %
 % chan       - returns a pointer to the new channel
 %
-% See also INITINSTRUMENT, ADDINSTRUMENTINPUT
+% See also INITINSTRUMENT, ADDINSTRUMENTINPUT, ADDCHANNEL
 %
-% $Id: AddInstrumentOutput.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: AddInstrumentOutput.m,v 1.2 2006/01/11 03:19:53 meliza Exp $
 
-global mpctrl
-
-if ~isfield(mpctrl.instrument, instrument)
-    error('METAPHYS:daq:noSuchInstrument',...
-        'No such instrument %s has been defined.', instrument)
-end
 
 daq = GetDAQ(daqname);
 c   = addchannel(daq, hwchannel, outputname);
-set(c,varargin{:})
 
-mpctrl.instrument.(instrument).channels.(outputname)    = c;
+set(c,varargin{:})
+AddChannel(instrument, outputname, c)
+
 
     
