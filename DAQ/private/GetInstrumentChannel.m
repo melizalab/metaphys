@@ -1,4 +1,4 @@
-function [chan cname]   = GetInstrumentChannel(instrument, cname)
+function channel    = GetInstrumentChannel(instrument, cname)
 %
 % GETINSTRUMENTCHANNEL Returns the channel object associated with an
 % instrument channel. 
@@ -8,53 +8,15 @@ function [chan cname]   = GetInstrumentChannel(instrument, cname)
 % chan = GETINSTRUMENTCHANNEL(instrument, channel)
 %
 % CHANNEL can be a cell array, in which case multiple channels will be
-% retrieved as an array of objects.
+% retrieved as a cell array of objects.  Due to the way the DAQ toolkit
+% handles channel objects, they cannot be concatenated if they don't share
+% a parent, so a cell array is used.
 %
 % chan = GETINSTRUMENTCHANNEL(instrument) - returns all channels
 %
+% See Also: GETCHANNELSTRUCT
 %
-% $Id: GetInstrumentChannel.m,v 1.3 2006/01/11 23:04:01 meliza Exp $
+% $Id: GetInstrumentChannel.m,v 1.4 2006/01/12 02:02:04 meliza Exp $
 
-instr   = GetInstrument(instrument);
-
-switch nargin
-    case 1
-        if isstruct(instr.channels)
-            cname   = fieldnames(instr.channels);
-            chan    = getchannels(instr,cname);
-        else
-            cname   = [];
-            chan    = [];
-        end
-    otherwise
-        if iscell(cname)
-            chan    = getchannels(instr,cname);
-        else
-            chan    = getchannels(instr,{cname});
-        end
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function chan = getchannels(instr, cname)
-% building this array is a PAIN IN THE F-ING ASS because daqchild/subsref
-% is kind of broken, and cat has problems with objects, so we have to
-% generate the assignment string and eval it.
-refstr  = 'instr.channels.(''%s'')';
-arrstr  = '';
-for i = 1:length(cname)
-    checkchannel(instr, cname{i})
-    arrstr  = sprintf('%s %s', arrstr,...
-        sprintf(refstr, cname{i}));
-end
-sf      = sprintf('[%s]', arrstr);
-chan    = eval(sf);
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = checkchannel(instr, cname)
-% checks if the channel exists
-
-if ~isfield(instr.channels, cname)
-    error('METAPHYS:daq:noSuchChannel',...
-        'No such channel %s has been defined for instrument %s.',...
-        cname, instr)
-end 
+chanstruct  = GetChannelStruct(instrument, cname);
+channel     = {chanstruct.obj};

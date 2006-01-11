@@ -20,11 +20,16 @@ function props = GetInstrumentChannelProps(instrument, channame, varargin)
 %
 % See also INITINSTRUMENT, ADDINSTRUMENTINPUT, DAQCHILD/GET
 %
-% $Id: GetInstrumentChannelProps.m,v 1.1 2006/01/11 23:03:56 meliza Exp $
+% $Id: GetInstrumentChannelProps.m,v 1.2 2006/01/12 02:02:01 meliza Exp $
 
 chan    = GetInstrumentChannel(instrument, channame);
 
-props   = get(chan, varargin{:});
+if length(chan) > 1
+    error('METAPHYS:invalidArgument',...
+        '%s only returns properties from one channel', mfilename)
+end
+
+props   = get(chan{:}, varargin{:});
 
 
     

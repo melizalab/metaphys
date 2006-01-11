@@ -3,7 +3,8 @@ function [] = DeleteDAQ(daqnames)
 % DELETEDAQ Deletes one or more daq objects from the control structure.
 %
 % Also calls the delete method on the daq objects, which causes them to be
-% unloaded from active memory. Calls STOPDAQ.
+% unloaded from active memory. Calls STOPDAQ. Recurses the instrument tree
+% and deletes instruments that used this daq.
 %
 % DELETEDAQ(daqnames)
 %
@@ -11,19 +12,32 @@ function [] = DeleteDAQ(daqnames)
 %
 % See Also: INITDAQ, STOPDAQ
 %
-% $Id: DeleteDAQ.m,v 1.2 2006/01/11 03:19:55 meliza Exp $
+% $Id: DeleteDAQ.m,v 1.3 2006/01/12 02:02:00 meliza Exp $
 
 global mpctrl
 
+%% Stop the device
 StopDAQ(daqnames)
 daq     = GetDAQ(daqnames);
 
-if iscell(daqnames)
-    t   = sprintf(' %s', daqnames{:});
-    DebugPrint('Deactivating DAQ devices:%s.', t)
-else
-    DebugPrint('Deactivating DAQ device %s.', daqnames)
-end
+daqnames    = CellWrap(daqnames);
+t   = sprintf(' %s', daqnames{:});
+DebugPrint('Deactivating DAQ devices:%s.', t)
 
+%% Delete the associated instrument channels
+for i = 1:length(daqnames)
+    instruments = GetInstrumentNames;
+    for j = 1:length(instruments)
+        chanstr = GetChannelStruct(instruments{j});
+        parents = {chanstr.daq};
+        channms = {chanstr.name};
+        index   = strmatch(daqnames{i}, parents);
+        for k = 1:length(index)
+            DeleteChannel(instruments{j}, channms{k});
+        end
+    end
+end
+        
+%% Delete the DAQ and associated control structure
 delete(daq)
 mpctrl.daq = rmfield(mpctrl.daq, daqnames);

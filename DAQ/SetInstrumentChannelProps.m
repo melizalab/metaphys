@@ -19,15 +19,20 @@ function varargout = SetInstrumentChannelProps(instrument, channame, varargin)
 %
 % See also INITINSTRUMENT, ADDINSTRUMENTINPUT, DAQCHILD/SET
 %
-% $Id: SetInstrumentChannelProps.m,v 1.2 2006/01/11 23:03:59 meliza Exp $
+% $Id: SetInstrumentChannelProps.m,v 1.3 2006/01/12 02:02:02 meliza Exp $
 
 chan    = GetInstrumentChannel(instrument, channame);
 
+if length(chan) > 1
+    error('METAPHYS:invalidArgument',...
+        '%s only sets properties on one channel', mfilename)
+end
+
 if nargin < 3
-    varargout   = {set(chan)};
+    varargout   = {set(chan{:})};
 else
     varargout   = {};
-    set(chan, varargin{:});
+    set(chan{:}, varargin{:});
 end
 
 

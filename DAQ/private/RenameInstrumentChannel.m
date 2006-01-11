@@ -6,21 +6,24 @@ function [] = RenameInstrumentChannel(instrument, channelname, newname)
 % channel object itself, and is the fieldname of the object, so there is
 % some mpctrl tinkering.
 %
-% $Id: RenameInstrumentChannel.m,v 1.1 2006/01/11 23:04:01 meliza Exp $
+% $Id: RenameInstrumentChannel.m,v 1.2 2006/01/12 02:02:04 meliza Exp $
 
 global mpctrl
 
-chan    = GetInstrumentChannel(instrument, channelname);
-type    = get(chan,'Type')
+chan    = GetChannelStruct(instrument, channelname);
 
-switch lower(type)
+switch lower(chan.type)
     case 'channel'
-        set(chan, 'ChannelName', newname)
+        set(chan.obj, 'ChannelName', newname)
     case 'line'
-        set(chan, 'LineName', newname)
+        set(chan.obj, 'LineName', newname)
 end
-            
 
-mpctrl.instrument.(instrument).channels = rmfield(mpctrl.instrument.(instrument).channels,...
-                                                  channelname);
-mpctrl.instrument.(instrument).channels.(newname) = chan;                                              
+chan.name   = newname;
+
+mpctrl.instrument.(instrument).channels = ...
+    rmfield(mpctrl.instrument.(instrument).channels,channelname);
+
+mpctrl.instrument.(instrument).channels.(newname) = chan;
+
+DebugPrint('Renamed channel %s to %s.', channelname, newname)

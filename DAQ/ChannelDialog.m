@@ -18,7 +18,7 @@ function [] = ChannelDialog(instrumentname, channel)
 %
 % See Also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
 %
-% $Id: ChannelDialog.m,v 1.2 2006/01/11 23:03:55 meliza Exp $
+% $Id: ChannelDialog.m,v 1.3 2006/01/12 02:02:00 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -29,7 +29,7 @@ SetUIParam(mfilename,'instrument_name',instrumentname);
 switch lower(channel)
     case {'input' 'output'}
     otherwise
-        channel = GetInstrumentChannel(instrumentname, channel);
+        channel = GetChannelStruct(instrumentname, channel);
 end
 updateFigure(channel)
 
@@ -50,38 +50,39 @@ end
 function [] = updateFigure(channel)
 % Updates values in the figure based on channel data. This is a little
 % tricky because channel may be an object or a string
-if isobject(channel)
-    SetUIParam(mfilename,'type',GetChannelType(channel))
+if isstruct(channel)
+    SetUIParam(mfilename,'type', channel.type)
     updateDigitizers
-    SetUIParam(mfilename,'index', channel.Index)
-    parent  = channel.Parent;
-    SetUIParam(mfilename,'digitizer','Selected',parent.Name)
-    switch channel.Type
+    SetUIParam(mfilename,'index', channel.obj.Index)
+    SetUIParam(mfilename,'digitizer','Selected',channel.daq)
+    switch channel.obj.Type
         case 'Channel'
             % store the old channel name in UserData
-            SetUIParam(mfilename,'name','string',channel.ChannelName,...
-                'UserData',channel.ChannelName)
-            currentchan = channel.HwChannel;
-            SetUIParam(mfilename, mfilename, 'UserData',currentchan)
+            SetUIParam(mfilename,'name','string',channel.name,...
+                'UserData',channel.name)
+            currentchan = channel.obj.HwChannel;
+            SetUIParam(mfilename, mfilename, 'UserData', currentchan)
             updateChannels
             SetUIParam(mfilename,'hwchan','Selected',...
                        num2str(currentchan))
-            SetUIParam(mfilename,'units','String',channel.Units,...
+            SetUIParam(mfilename,'units','String',channel.obj.Units,...
                 'Enable','On')
-            gain    = GetChannelGain(channel);
+            gain    = GetChannelGain(channel.obj);
             SetUIParam(mfilename,'gain','String',...
                 num2str(gain),'Enable','On')
-        case 'Line'
-            % store the old channel name in UserData
-            SetUIParam(mfilename,'name','string',channel.LineName,...
-                'UserData',channel.LineName)
-            currentchan = channel.HwLine;
-            SetUIParam(mfilename, mfilename, 'UserData',currentchan)            
-            updateChannels
-            SetUIParam(mfilename,'hwchan','Selected',...
-                       num2str(currentchan))
-            SetUIParam(mfilename,'units','String',' ','Enable','Off')
-            SetUIParam(mfilename,'gain','String',' ','Enable','Off')
+%           NOTE: this code hasn't been tested yet because no one will call it            
+%         case 'Line'
+%             % store the old channel name in UserData
+%             SetUIParam(mfilename,'name','string',channel.LineName,...
+%                 'UserData',channel.LineName)
+%             currentchan = channel.HwLine;
+%             SetUIParam(mfilename, mfilename, 'UserData',currentchan)            
+%             updateChannels
+%             SetUIParam(mfilename,'hwchan','Selected',...
+%                        num2str(currentchan))
+%             SetUIParam(mfilename,'units','String',' ','Enable','Off')
+%             SetUIParam(mfilename,'gain','String',' ','Enable','Off')
+%             
         otherwise
             error('METAPHYS:noSuchChannelType',...
                 'Unable to deal with channel type %s!', channel.Type)
@@ -89,15 +90,7 @@ if isobject(channel)
 else
     % now we deal with the new channel situation
     SetUIParam(mfilename,'name','')
-    switch lower(channel)
-        case 'input'
-            SetUIParam(mfilename,'type','Analog Output')
-        case 'output'
-            SetUIParam(mfilename,'type','Analog Input')
-        otherwise
-            error('METAPHYS:noSuchChannelType',...
-                'Unable to deal with channel type %s!', channel)
-    end
+    SetUIParam(mfilename,'type',channel)
     updateDigitizers
     SetUIParam(mfilename,'index','')
     SetUIParam(mfilename,'units','String','','Enable','On')
@@ -111,8 +104,15 @@ end
 function [] = updateDigitizers()
 % Only certain kinds of channels, of course, are allowed to be inputs or
 % outputs.
-types       = GetUIParam(mfilename, 'type');
-daqnames    = GetDAQNames(types);
+type       = GetUIParam(mfilename, 'type');
+switch lower(type)
+    case 'input'
+        daqnames    = GetDAQNames('analogoutput');
+    case 'output'
+        daqnames    = GetDAQNames('analoginput');
+    case 'digital'
+        daqnames    = GetDAQNames('digitalio');
+end
 
 SetUIParam(mfilename,'digitizer','String', daqnames)
 
@@ -178,10 +178,10 @@ end
 function [] = makeNewChannel(chanstruct)
 % Create new channel
 switch lower(chanstruct.type)
-    case 'analog input'
+    case 'output'
         AddInstrumentOutput(chanstruct.instrument, chanstruct.daqname,...
             chanstruct.hwchan, chanstruct.name, 'Units', chanstruct.units);
-    case 'analog output'
+    case 'input'
         AddInstrumentInput(chanstruct.instrument, chanstruct.daqname,...
             chanstruct.hwchan, chanstruct.name, 'Units', chanstruct.units);
     otherwise
@@ -204,6 +204,9 @@ switch tag
         if isempty(chan.name)
             errordlg('The channel must have a name!')
             return
+        elseif isnumeric(chan.name(1))
+            errordlg('Channel names must begin with a letter!')
+            return
         end
         
         if isempty(chan.index)
@@ -221,11 +224,16 @@ switch tag
             if ~strcmpi(chan.daqname, olddaq.Name)
                 DeleteInstrumentChannel(chan.instrument, chan.name)
                 makeNewChannel(chan)
+                DebugPrint(['Transferred channel %s/%s from %s to %s.',...
+                    chan.name, chan.instrument, olddaq.Name,...
+                    chan.daqname);
             else
                 SetInstrumentChannelProps(chan.instrument, chan.name,...
                     'HwChannel', chan.hwchan, 'Units', chan.units);
             end
+            DebugPrint('Updated properties of channel %s/%s.',...
+                chan.instrument, chan.name)
         end
         DeleteModule(mfilename)
 end
-    
+

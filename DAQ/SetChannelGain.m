@@ -14,22 +14,24 @@ function [] = SetChannelGain(varargin)
 %
 % See Also: GETCHANNELGAIN
 %
-% $Id: SetChannelGain.m,v 1.1 2006/01/11 23:03:58 meliza Exp $
+% $Id: SetChannelGain.m,v 1.2 2006/01/12 02:02:02 meliza Exp $
 
 if ischar(varargin{1})
-    channel     = GetInstrumentChannel(varargin{1}, varargin{2});
+    chanstr     = GetChannelStruct(varargin{1}, varargin{2});
+    channel     = chanstr.obj;
+    chantype    = chanstr.type;
     gain        = varargin{3};
 else
     channel     = varargin{1};
+    chantype    = GetChannelType(channel);
     gain        = varargin{2};
 end
 
-chantype    = GetChannelType(channel);
 switch lower(chantype)
-    case 'analog input'
+    case 'output'
         sensor  = get(channel,'SensorRange');
         output  = sensor .* gain;
-    case 'analog output'
+    case 'input'
         voltage = get(channel,'OutputRange');
         output  = voltage .* gain;
     otherwise

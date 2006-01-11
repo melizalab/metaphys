@@ -5,9 +5,9 @@ function channelstruct = channel_struct()
 %           .obj    - the channel object
 %           .name   - the channel name
 %           .daq    - the name of the associated daq
-%           .type   - 'analoginput' or 'analogoutput'
+%           .type   - 'input' or 'output'
 %
-% $Id: channel_struct.m,v 1.1 2006/01/11 23:04:02 meliza Exp $
+% $Id: channel_struct.m,v 1.2 2006/01/12 02:02:04 meliza Exp $
 
 channelstruct   = struct('obj',[],...
                          'name','',...

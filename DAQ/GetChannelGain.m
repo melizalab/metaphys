@@ -9,22 +9,25 @@ function gain = GetChannelGain(varargin)
 % 
 % See Also: SETCHANNELGAIN
 %
-% $Id: GetChannelGain.m,v 1.1 2006/01/11 23:03:56 meliza Exp $
+% $Id: GetChannelGain.m,v 1.2 2006/01/12 02:02:01 meliza Exp $
 
 if ischar(varargin{1})
-    channel     = GetInstrumentChannel(varargin{1}, varargin{2});
+    chanstr     = GetChannelStruct(varargin{1}, varargin{2});
+    channel     = chanstr.obj;
+    chantype    = chanstr.type;
 else
     channel     = varargin{1};
+    chantype     = GetChannelType(channel);
 end
-chantype    = GetChannelType(channel);
+
 switch lower(chantype)
-    case 'analog input'
+    case 'output'
         gain    = channel.UnitsRange ./ channel.SensorRange;
         gain    = gain(1);
-    case 'analog output'
+    case 'input'
         gain    = channel.UnitsRange ./ channel.OutputRange;
         gain    = gain(1);
     otherwise
-        error('METAPHYS:invalidOperation',...
+        error('METAPHYS:channel:invalidOperation',...
             'Channel type %s does not have a gain setting.', chantype)
 end

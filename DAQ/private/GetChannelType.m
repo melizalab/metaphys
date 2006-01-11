@@ -2,15 +2,32 @@ function chantypes  = GetChannelType(channels)
 %
 % GETCHANNELTYPE Returns a channel's type.
 %
-% GETCHANNELTYPE(channels) returns the types ('analog input, 'analog
-% output') of the channels (which inherit from daqchild) supplied in the
-% first argument. <channels> must be a single or array of daqchild objects.
-% If multiple daqchildren are supplied, a cell array is returned.
+% GETCHANNELTYPE(channels) returns the types ('output', 'input') of the
+% channels (which inherit from daqchild) supplied in the first argument.
+% <channels> must be a single daqchild object. Should only be used when the
+% calling function does not have access to the name of the channel (as this
+% will give access to the .type field in the channel structure)
 %
-% $Id: GetChannelType.m,v 1.2 2006/01/11 23:04:00 meliza Exp $
+% $Id: GetChannelType.m,v 1.3 2006/01/12 02:02:03 meliza Exp $
 
+if ~isa(channels,'daqchild')
+    error('METAPHYS:invalidArgument',...
+        'Function operates on single daqchild objects.');
+end
 parents       = get(channels, 'Parent');
-if iscell(parents)
-    parents   = [parents{:}];
+
+if length(parents) > 1
+    error('METAPHYS:invalidArgument',...
+        'Function cannot operate on multiple channels.');
 end
 chantypes     = get(parents,'Type');
+
+%% Map to our channel types
+switch lower(chantypes)
+    case 'analog input'
+        chantypes   = 'output';
+    case 'analog output'
+        chantypes   = 'input';
+    case 'digital io'
+        chantypes   = 'digital';
+end

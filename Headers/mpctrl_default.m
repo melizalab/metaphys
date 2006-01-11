@@ -20,7 +20,7 @@ function [mpctrl] = mpctrl_default()
 %           .obj    - the channel object
 %           .name   - the channel name
 %           .daq    - the name of the associated daq
-%           .type   - 'analoginput' or 'analogoutput'
+%           .type   - 'input' or 'output'
 %       .telegraphs - named structure defining telegraphs
 %       .telegraphs.(telegraphname):
 %           .obj        - the input object (channel or matlab object)
@@ -32,7 +32,7 @@ function [mpctrl] = mpctrl_default()
 %
 %           
 %
-% $Id: mpctrl_default.m,v 1.2 2006/01/11 23:04:02 meliza Exp $
+% $Id: mpctrl_default.m,v 1.3 2006/01/12 02:02:05 meliza Exp $
 
 mpctrl = struct('daq',[],...
                 'instrument',[],...
