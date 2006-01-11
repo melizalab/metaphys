@@ -19,7 +19,7 @@ function [] = LoadControl(filename)
 %
 % See Also: INITCONTROL, SAVECONTROL
 %
-% $Id: LoadControl.m,v 1.2 2006/01/11 03:20:03 meliza Exp $
+% $Id: LoadControl.m,v 1.3 2006/01/11 23:04:03 meliza Exp $
 
 DEFAULT_FILE    = 'metaphys.mcf';
 
@@ -65,4 +65,4 @@ if isfield(z, 'defaults')
         end
     end
 end
-DebugPrint('Loaded control information from %s.\n', filename);
+DebugPrint('Loaded control information from %s.', filename);

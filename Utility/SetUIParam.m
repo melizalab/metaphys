@@ -8,7 +8,11 @@ function [] = SetUIParam(module, tag, varargin)
 %       SET)
 % 	
 % For example, to set the value displayed in an edit uicontrol, call
-% SETUIPARAM('mymodule', 'editcontroltag', 'String', '1234')
+% SETUIPARAM('mymodule', 'editcontroltag', 'String', '1234'). A special
+% property 'Selected' is provided, which attempts to find the index of the
+% value in the 'String' property, and sets the 'Value' property to that
+% index. If the string cannot be found, nothing is done. If this argument
+% is used, it must be the only property set.
 %
 % []  = SETUIPARAM(module, tag, value)
 %
@@ -16,7 +20,7 @@ function [] = SetUIParam(module, tag, varargin)
 % set the 'String' property. This form will also attempt to cast numeric
 % values to strings.
 %
-% $Id: SetUIParam.m,v 1.2 2006/01/11 03:20:04 meliza Exp $
+% $Id: SetUIParam.m,v 1.3 2006/01/11 23:04:04 meliza Exp $
 
 % retrieve the object handle
 handle  = GetUIHandle(module, tag);
@@ -28,7 +32,16 @@ if nargin < 4
         value   = num2str(value);
     end
     arguments   = {'String', value};
-else 
+elseif strcmpi(varargin{1},'selected')
+    options     = get(handle,'String');
+    index       = strmatch(varargin{2},options);
+    if ~isempty(index)
+        arguments   = {'Value', index};
+    else
+        val         = get(handle,'Value');
+        arguments   = {'Value', val};
+    end
+else
     arguments   = varargin;
 end
 

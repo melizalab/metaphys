@@ -17,15 +17,18 @@ function [] = AddInstrumentInput(instrument, daqname, hwchannel, inputname, vara
 % outputname - the name of the output
 % props      - channel properties to set on the new channel
 %
-% See also INITINSTRUMENT, ADDINSTRUMENTOUTPUT
+% See also INITINSTRUMENT, ADDINSTRUMENTOUTPUT, PRIVATE/ADDCHANNEL
 %
-% $Id: AddInstrumentInput.m,v 1.2 2006/01/11 03:19:53 meliza Exp $
+% $Id: AddInstrumentInput.m,v 1.3 2006/01/11 23:03:54 meliza Exp $
 
 daq = GetDAQ(daqname);
 
 % Check to see if an aochannel has already been defined for this DAQ:
 chan    = get(daq,'Channel');
 hwchans  = get(chan,'HwChannel');
+if iscell(hwchans)
+    hwchans = cell2mat(hwchans);
+end
 
 if any(hwchans==hwchannel)
     % If the channel already exists, a reference to the existing object is

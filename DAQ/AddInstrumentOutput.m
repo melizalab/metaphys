@@ -17,9 +17,9 @@ function c = AddInstrumentOutput(instrument, daqname, hwchannel, outputname, var
 %
 % chan       - returns a pointer to the new channel
 %
-% See also INITINSTRUMENT, ADDINSTRUMENTINPUT, ADDCHANNEL
+% See also INITINSTRUMENT, ADDINSTRUMENTINPUT, PRIVATE/ADDCHANNEL
 %
-% $Id: AddInstrumentOutput.m,v 1.2 2006/01/11 03:19:53 meliza Exp $
+% $Id: AddInstrumentOutput.m,v 1.3 2006/01/11 23:03:54 meliza Exp $
 
 
 daq = GetDAQ(daqname);

@@ -4,22 +4,21 @@ function [] = DeleteChannel(instrument, channelname)
 %
 % If the channel does not exist, a warning is thrown.
 %
-% $Id: DeleteChannel.m,v 1.1 2006/01/11 03:20:00 meliza Exp $
+% $Id: DeleteChannel.m,v 1.2 2006/01/11 23:04:00 meliza Exp $
 
 global mpctrl
 
 instr   = GetInstrument(instrument);
-if isfield(instr, channelname)
-    channames   = fieldnames(instr);
-    chanindex   = strmatch(channelname, channames);
-    chan        = instr.(channelname);
+if isfield(instr.channels, channelname)
+    chan        = instr.channels.(channelname);
     chantype    = GetChannelType(chan);
-    nodel       = setdiff(1:length(channames), chanindex);
     if strcmpi(chantype, 'Analog Input')
         delete(chan)
     end
-    z       = instr.channels(nodel);
-    mpctrl.instrument.(instrument).channels = z;
+    mpctrl.instrument.(instrument).channels = ...
+        rmfield(mpctrl.instrument.(instrument).channels, channelname);
+    DebugPrint('Deleted channel %s from instrument %s.', channelname,...
+        instrument);
 else
     warning('METAPHYS:deleteChannel:noSuchChannel',...
         'The channel %s has not been defined for instrument %s',...

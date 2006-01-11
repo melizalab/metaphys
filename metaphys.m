@@ -10,12 +10,13 @@ function [] = metaphys()
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.2 2006/01/11 03:19:52 meliza Exp $
+% $Id: metaphys.m,v 1.3 2006/01/11 23:03:52 meliza Exp $
 
 initPath;
 DebugSetOutput('console')
-DebugPrint('Starting METAPHYS, $Revision: 1.2 $')
+DebugPrint('Starting METAPHYS, $Revision: 1.3 $')
 DebugPrint('Initialized METAPHYS path.')
+% warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
 InitControl;
 LoadControl;
 
@@ -95,7 +96,7 @@ function [] = updateInstruments()
 instruments = GetInstrumentNames;
 if isempty(instruments)
     SetUIParam(mfilename,'instruments','String', ' ', 'Value', 1,...
-        'Enable','Inactive')
+        'Enable','Off')
 else
     SetUIParam(mfilename,'instruments','String',instruments,...
        'Enable', 'On')
@@ -167,13 +168,17 @@ switch tag
         updateInstruments;
     case 'instrument_edit'
         selected    = GetUIParam(mfilename,'instruments','Selected');
-        InstrumentDialog(selected)
-        updateInstruments
+        if ~strcmpi(selected, ' ')
+            InstrumentDialog(selected)
+            updateInstruments
+        end
     case 'instrument_delete'
         selected    = GetUIParam(mfilename,'instruments','Selected');
-        DeleteInstrument(selected)
-        updateInstruments
-%     case 'channel_add'
+        if ~strcmpi(selected, ' ')
+            DeleteInstrument(selected)
+            updateInstruments
+        end
+        %     case 'channel_add'
 %         ChannelDialog
 %         updateChannels
 %     case 'channel_edit'

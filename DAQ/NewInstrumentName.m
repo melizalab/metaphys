@@ -8,7 +8,7 @@ function name   = NewInstrumentName(base_name)
 %
 % The user can, of course, change this later
 %
-% $Id: NewInstrumentName.m,v 1.1 2006/01/11 03:19:59 meliza Exp $
+% $Id: NewInstrumentName.m,v 1.2 2006/01/11 23:03:58 meliza Exp $
 BASE_NAME = 'newinstrument';
 if nargin > 0
     BASE_NAME = base_name;
@@ -18,7 +18,7 @@ index     = 1;
 instruments = GetInstrumentNames;
 while 1
     name    = sprintf('%s_%d', BASE_NAME, index);
-    if isempty(instruments) | isempty(strmatch(name, instruments))
+    if isempty(instruments) || isempty(strmatch(name, instruments))
         return
     else
         index   = index+1;

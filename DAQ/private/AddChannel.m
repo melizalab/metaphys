@@ -7,7 +7,7 @@ function [] = AddChannel(instrument, channelname, channel)
 % exists with that name, it will be deleted and overwritten with the new
 % channel.
 %
-% $Id: AddChannel.m,v 1.1 2006/01/11 03:19:59 meliza Exp $
+% $Id: AddChannel.m,v 1.2 2006/01/11 23:04:00 meliza Exp $
 
 global mpctrl
 
@@ -19,4 +19,6 @@ if isfield(instr, channelname)
     end
 end
 
-mpctrl.instrument.(instrument).channels.(outputname)    = channel;
+mpctrl.instrument.(instrument).channels.(channelname)    = channel;
+
+DebugPrint('Added channel %s to instrument %s.', channelname, instrument);

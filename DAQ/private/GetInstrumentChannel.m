@@ -1,4 +1,4 @@
-function chan   = GetInstrumentChannel(instrument, channel)
+function [chan cname]   = GetInstrumentChannel(instrument, cname)
 %
 % GETINSTRUMENTCHANNEL Returns the channel object associated with an
 % instrument channel. 
@@ -10,25 +10,51 @@ function chan   = GetInstrumentChannel(instrument, channel)
 % CHANNEL can be a cell array, in which case multiple channels will be
 % retrieved as an array of objects.
 %
-% $Id: GetInstrumentChannel.m,v 1.2 2006/01/11 03:20:01 meliza Exp $
+% chan = GETINSTRUMENTCHANNEL(instrument) - returns all channels
+%
+%
+% $Id: GetInstrumentChannel.m,v 1.3 2006/01/11 23:04:01 meliza Exp $
 
 instr   = GetInstrument(instrument);
 
-if iscell(channel)
-    for i = 1:length(channel)
-        chan(i) = getchannel(instr, channel{i});
-    end
-else
-    chan    = getchannel(instr, channel);
+switch nargin
+    case 1
+        if isstruct(instr.channels)
+            cname   = fieldnames(instr.channels);
+            chan    = getchannels(instr,cname);
+        else
+            cname   = [];
+            chan    = [];
+        end
+    otherwise
+        if iscell(cname)
+            chan    = getchannels(instr,cname);
+        else
+            chan    = getchannels(instr,{cname});
+        end
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function chan = getchannels(instr, cname)
+% building this array is a PAIN IN THE F-ING ASS because daqchild/subsref
+% is kind of broken, and cat has problems with objects, so we have to
+% generate the assignment string and eval it.
+refstr  = 'instr.channels.(''%s'')';
+arrstr  = '';
+for i = 1:length(cname)
+    checkchannel(instr, cname{i})
+    arrstr  = sprintf('%s %s', arrstr,...
+        sprintf(refstr, cname{i}));
+end
+sf      = sprintf('[%s]', arrstr);
+chan    = eval(sf);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function chan = getchannel(mpstruct, channel)
+function [] = checkchannel(instr, cname)
+% checks if the channel exists
 
-if ~isfield(mpstruct, channel)
+if ~isfield(instr.channels, cname)
     error('METAPHYS:daq:noSuchChannel',...
-        'No such channel %s has been defined.',...
-        channel)
+        'No such channel %s has been defined for instrument %s.',...
+        cname, instr)
 end 
-
-chan = mpstruct.(channel);

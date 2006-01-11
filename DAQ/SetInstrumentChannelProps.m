@@ -1,4 +1,4 @@
-function props = SetInstrumentChannelProps(instrument, channame, varargin)
+function varargout = SetInstrumentChannelProps(instrument, channame, varargin)
 %
 % SETINSTRUMENTCHANNELPROPS Changes properties of an instrument channel. 
 %
@@ -19,14 +19,14 @@ function props = SetInstrumentChannelProps(instrument, channame, varargin)
 %
 % See also INITINSTRUMENT, ADDINSTRUMENTINPUT, DAQCHILD/SET
 %
-% $Id: SetInstrumentChannelProps.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: SetInstrumentChannelProps.m,v 1.2 2006/01/11 23:03:59 meliza Exp $
 
 chan    = GetInstrumentChannel(instrument, channame);
 
 if nargin < 3
-    props   = set(chan);
+    varargout   = {set(chan)};
 else
-    props   = [];
+    varargout   = {};
     set(chan, varargin{:});
 end
 
