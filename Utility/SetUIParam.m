@@ -20,7 +20,7 @@ function [] = SetUIParam(module, tag, varargin)
 % set the 'String' property. This form will also attempt to cast numeric
 % values to strings.
 %
-% $Id: SetUIParam.m,v 1.3 2006/01/11 23:04:04 meliza Exp $
+% $Id: SetUIParam.m,v 1.4 2006/01/14 00:48:16 meliza Exp $
 
 % retrieve the object handle
 handle  = GetUIHandle(module, tag);
@@ -34,7 +34,7 @@ if nargin < 4
     arguments   = {'String', value};
 elseif strcmpi(varargin{1},'selected')
     options     = get(handle,'String');
-    index       = strmatch(varargin{2},options);
+    index       = strmatch(varargin{2},options,'exact');
     if ~isempty(index)
         arguments   = {'Value', index};
     else

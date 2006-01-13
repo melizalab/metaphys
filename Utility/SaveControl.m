@@ -1,4 +1,4 @@
-function [] = SaveControl(filename)
+function [] = SaveControl(filename, subsystem)
 %
 % SAVECONTROL Writes fields from the control structure to a matfile for
 % later retrieval. 
@@ -11,16 +11,22 @@ function [] = SaveControl(filename)
 %
 % SAVECONTROL(filename): saves data in the file <filename>, which should
 %                        have the extention '.mcr'
+% SAVECONTROL(filename, subsystem): Only saves the subsystem specified by
+%                                   the <subsystem> argument. This can be
+%                                   'daq','instrument',or 'defaults'
 %
 % See Also: LOADCONTROL, INITCONTROL
 %
-% $Id: SaveControl.m,v 1.2 2006/01/11 03:20:03 meliza Exp $
+% $Id: SaveControl.m,v 1.3 2006/01/14 00:48:16 meliza Exp $
 
 global mpctrl
 
+if nargin == 1
+    subsystem = {'daq', 'instrument', 'defaults'};
+end
+
 %% Reduce structure to storable fields
-savestruct  = struct('daq', mpctrl.daq,...
-                     'instrument', mpctrl.instrument,...
-                     'defaults', mpctrl.defaults);
+savestruct  = GetFields(mpctrl, subsystem);
+
 WriteStructure(filename, savestruct)
 DebugPrint('Wrote control structure to %s.', filename)

@@ -72,7 +72,7 @@ function [] = AddInstrumentTelegraph(instrument, telegraph, varargin)
 %
 % See Also: UPDATETELEGRAPH, GETTELEGRAPH, DELETEINSTRUMENTTELEGRAPH
 %
-% $Id: AddInstrumentTelegraph.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: AddInstrumentTelegraph.m,v 1.2 2006/01/14 00:48:05 meliza Exp $
 
 % This function is just a wrapper for private/AddTelegraph. If you want to
 % add another "standard" telegraph, this is where to set up how the
@@ -90,12 +90,13 @@ else
             modechan    = varargin{3};
             gainchan    = varargin{4};
             output      = {varargin{5:end}};
-            object(1)   = initchannel(instrument, daqname,...
-                'modetelegraph',...
-                modechan);
-            object(2)   = initchannel(instrument, daqname,...
+            gainobj     = initchannel(instrument, daqname,...
                 'gaintelegraph',...
                 gainchan);
+            modeobj     = initchannel(instrument, daqname,...
+                'modetelegraph',...
+                modechan);
+            object      = [gainobj modeobj];
             checkfn     = @Check200XTelegraph;
             updfn       = @UpdScaledOutput;
         case '1x'
@@ -114,13 +115,18 @@ else
             error('METAPHYS:notSupported',...
                 'No support for %s telegraphs.', varargin{1})
     end
-    AddTelegraph(instrument, telegraph, object, checkfn, updfn, output)
+    AddTelegraph(instrument, telegraph, inst_type, object,...
+        checkfn, updfn, output)
 end
 
 function c  = initchannel(instrument, daqname, channelname, hwchannel)
 % telegraph channels need to use the full input range
-c = AddInstrumentOutput(instrument, daqname, hwchannel, channelname,...
-    'InputRange', [-10 10]);
+% they are NOT stored in the usual channel structure, so we don't use
+% ADDINSTRUMENTOUTPUT
+daq = GetDAQ(daqname);
+c   = addchannel(daq, hwchannel, channelname);
+set(c,'InputRange',[-10 10],'SensorRange',[-10 10],'UnitsRange',[-10 10],...
+    'Units', 'V');
 
         
 

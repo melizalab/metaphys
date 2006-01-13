@@ -18,7 +18,7 @@ function [] = ChannelDialog(instrumentname, channel)
 %
 % See Also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
 %
-% $Id: ChannelDialog.m,v 1.3 2006/01/12 02:02:00 meliza Exp $
+% $Id: ChannelDialog.m,v 1.4 2006/01/14 00:48:06 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -120,36 +120,7 @@ SetUIParam(mfilename,'digitizer','String', daqnames)
 function [] = updateChannels()
 % Populates the channel selection popup
 daqname     = GetUIParam(mfilename,'digitizer','Selected');
-daq         = GetDAQ(daqname);
-switch lower(daq.Type)
-    case 'analog input'
-        daqmode     = get(daq,'InputType');
-        switch lower(daqmode)
-            case {'singleended','nonreferencedsingleended'}
-                channels    = daqhwinfo(daq,'SingleEndedIDs');
-            otherwise
-                channels    = daqhwinfo(daq,'DifferentialIDs');
-        end
-    case 'analog output'
-        channels    = daqhwinfo(daq,'ChannelIDs');
-%         used        = daq.Channel.HwChannel;
-%         if iscell(used)
-%             used        = [used{:}];
-%         end
-%         if ~isempty(used)
-%             channels    = setdiff(channels, used);
-%         end
-    case 'digital io'
-        channels    = daqhwinfo(daq, 'TotalLines');
-        channels    = 0:channels-1;
-        used        = daq.Line.HwLine;
-        if iscell(used)
-            used    = [used{:}];
-        end
-        if ~isempty(used)
-            channels    = setdiff(channels, used);
-        end
-end
+channels    = GetDAQHwChannels(daqname);
 currentchannel  = GetUIParam(mfilename,mfilename,'UserData');
 if ~isempty(currentchannel)
     channels    = union(channels, currentchannel);
@@ -224,7 +195,7 @@ switch tag
             if ~strcmpi(chan.daqname, olddaq.Name)
                 DeleteInstrumentChannel(chan.instrument, chan.name)
                 makeNewChannel(chan)
-                DebugPrint(['Transferred channel %s/%s from %s to %s.',...
+                DebugPrint('Transferred channel %s/%s from %s to %s.',...
                     chan.name, chan.instrument, olddaq.Name,...
                     chan.daqname);
             else

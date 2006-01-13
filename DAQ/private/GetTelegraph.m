@@ -2,9 +2,9 @@ function telestruct = GetTelegraph(instrument, telegraph)
 %
 % GETTELEGRAPH Returns the telgraph control structure for an instrument.
 %
-% $Id: GetTelegraph.m,v 1.1 2006/01/11 03:20:01 meliza Exp $
+% $Id: GetTelegraph.m,v 1.2 2006/01/14 00:48:14 meliza Exp $
 
-instr   = GetInstrumnt(instrument);
+instr   = GetInstrument(instrument);
 
 if ~isfield(instr.telegraph, telegraph)
     error('METAPHYS:daq:noSuchTelegraph',...

@@ -11,9 +11,9 @@ function s  = instrument_struct()
 %   channels  - an array of channels connected to the device's input/output
 %   telegraph - a structure array defining the device's telegraphs
 %
-% $Id: instrument_struct.m,v 1.2 2006/01/11 03:20:02 meliza Exp $
+% $Id: instrument_struct.m,v 1.3 2006/01/14 00:48:14 meliza Exp $
 
 s   = struct('name','',...
              'type','',...
              'channels',[],...
-             'telegraph',struct([]));
+             'telegraph',[]);

@@ -1,5 +1,7 @@
 
 MAIN GUI
+- add telegraphs to instrumentdialog
+- add holding voltages to main window
 
 PROTOCOLS
 - SealTest

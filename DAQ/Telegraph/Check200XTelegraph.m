@@ -28,15 +28,15 @@ function results = Check200XTelegraph(instrument, object, varargin)
 % scaling is 1 pA/mV.
 % See Also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: Check200XTelegraph.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: Check200XTelegraph.m,v 1.2 2006/01/14 00:48:12 meliza Exp $
 
 %% Retrieve voltages
 voltages    = CheckAnalogTelegraph(instrument, object);
 
 %% Determine instrument state
-mode    = calcmode(voltages(1));
+mode    = calcmode(voltages(2));
 units   = calcunits(mode);
-gain    = calcgain(voltages(2));
+gain    = calcgain(voltages(1));
 
 results = struct('mode', mode,...
                  'units', units,...

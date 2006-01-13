@@ -1,4 +1,4 @@
-function [] = InitInstrument(name, type)
+function [] = InitInstrument(instrument, type)
 %
 % INITINSTRUMENT Initializes an instrument in the control structure.
 %
@@ -14,25 +14,36 @@ function [] = InitInstrument(name, type)
 %
 % INITINSTRUMENT(name, [type])
 %
+% INITINSTRUMENT(instrumentstruct)
+%
 % name - any MATLAB-legal string; this will identify the instrument
 % type - not implemented yet, used for supporting telegraphed instruments
+% instrumentstruct - if supplied, this structure will be installed instead
+%                    of the default empty structure. Also, in this case, if
+%                    there is an instrument with the same name it will not
+%                    actually be deleted (with DELETEINSTRUMENT), but
+%                    simply replaced in the control structure. This is to
+%                    avoid calling DELETE on any valid daqchild objects.
 %
 % See also INSTRUMENT_STRUCT
 %
-% $Id: InitInstrument.m,v 1.2 2006/01/11 03:19:57 meliza Exp $
+% $Id: InitInstrument.m,v 1.3 2006/01/14 00:48:07 meliza Exp $
 global mpctrl
 
-name    = lower(name);
+if isstruct(instrument)
+    default     = instrument;
+else
+    name    = lower(instrument);
+    default     = instrument_struct;
+    if nargin > 1
+        default.type    = type;
+    end
+    default.name    = instrument;
 
-default = instrument_struct;
-if nargin > 1
-    default.type    = type;
+    if isfield(mpctrl.instrument, default.name)
+        DeleteInstrument(default.name)
+    end
 end
-default.name    = name;
 
-if isfield(mpctrl.instrument, name)
-    DeleteInstrument(name)
-end
-
-mpctrl.instrument.(name)     = default;
-DebugPrint('Created instrument %s.', name);
+mpctrl.instrument.(default.name)     = default;
+DebugPrint('Created instrument %s.', default.name);

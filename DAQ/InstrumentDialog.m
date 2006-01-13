@@ -9,17 +9,16 @@ function [] = InstrumentDialog(instrumentname)
 %
 % See Also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
 %
-% $Id: InstrumentDialog.m,v 1.2 2006/01/11 23:03:57 meliza Exp $
+% $Id: InstrumentDialog.m,v 1.3 2006/01/14 00:48:08 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
 
 %% Populate the fields
 % The instrument name is stored here for future access
-SetUIParam(mfilename,'instrument_name',instrumentname);
-updateInputs
-updateOutputs
-updateTelegraphs
+SetUIParam(mfilename,'instrument_name','String',instrumentname,...
+    'UserData',instrumentname);
+updateFigure
 
 %% Set callbacks
 setCallbacks
@@ -27,13 +26,18 @@ setCallbacks
 set(fig,'WindowStyle','modal')
 uiwait(fig)
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = updateFigure()
+updateInputs
+updateOutputs
+updateTelegraphs
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = setCallbacks()
 objects = {'input_add','input_edit','input_delete',...
     'output_add','output_edit','output_delete',...
     'telegraph_add','telegraph_edit','telegraph_delete',...
-    'instrument_name','instrument_type','instrument_load',...
-    'instrument_save'};
+    'instrument_name','instrument_type'};
 for i = 1:length(objects)
     SetUIParam(mfilename,objects{i},'Callback',@buttonHandler);
 end
@@ -56,6 +60,11 @@ SetUIParam(mfilename,'outputs','String', pretty, 'UserData', outputs,...
     'Enable','On')
 if isempty(outputs)
     SetUIParam(mfilename,'outputs','Enable','Off')
+    SetUIParam(mfilename,'telegraph_add','Enable','Off')
+    SetUIParam(mfilename,'telegraph_edit','Enable','Off')
+else
+    SetUIParam(mfilename,'telegraph_add','Enable','On')
+    SetUIParam(mfilename,'telegraph_edit','Enable','On')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,6 +111,27 @@ switch tag
         if ~isempty(channels)
             DeleteInstrumentChannel(instrument, channels{selected})
             updateOutputs
+        end
+    case 'instrument_name'
+        newname     = GetUIParam(mfilename,'instrument_name');
+        oldname     = GetUIParam(mfilename,'instrument_name','UserData');
+        if ~isnan(str2double(newname(1)))
+            errordlg('Instrument names must begin with a letter.')
+        else
+            RenameInstrument(oldname, newname);
+            SetUIParam(mfilename,'instrument_name','UserData',newname);
+        end
+        updateFigure
+    case 'telegraph_add'
+        outputs     = GetUIParam(mfilename,'outputs','selected');
+        TelegraphDialog(instrument)
+        updateTelegraphs
+    case 'telegraph_delete'
+        telegrph    = GetUIParam(mfilename,'telegraphs','UserData');
+        selected    = GetUIParam(mfilename,'telegraphs','Value');
+        if ~isempty(telegraphs)
+            DeleteInstrumentTelegraph(instrument, telegrph{selected});
+            updateTelegraphs
         end
         
     otherwise

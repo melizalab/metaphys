@@ -8,24 +8,33 @@ function handle = GetUIHandle(module, tag)
 %   tag    - the tag for the GUI object. If this is not supplied, all the
 %            handles will be returned
 %
-%   $Id: GetUIHandle.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+%   $Id: GetUIHandle.m,v 1.2 2006/01/14 00:48:15 meliza Exp $
 
 global mpctrl
 
 %% Find out if the module exists
 module  = lower(module);
+tag     = lower(tag);
+
 if ~isfield(mpctrl,module)
     error('METAPHYS:moduleNotFound', 'No such module %s.', module);
 end
 
 %% Retrieve the handle(s)
 if nargin < 2
-    handle  = struct2array(mpctrl.(module).handles);
-else
-    tag     = lower(tag);
-    if ~isfield(mpctrl.(module).handles, tag)
-        error('METAPHYS:tagNotFound', 'No such tag %s in module %s.',...
-            tag, module);
-    end
-    handle   = mpctrl.(module).handles.(tag);
+    tag     = fieldnames(mpctrl.(module).handles);
 end
+
+str     = GetFields(mpctrl.(module).handles, tag);
+handle  = StructFlatten(str);
+
+% if nargin < 2
+%     handle  = struct2array(mpctrl.(module).handles);
+% else
+%     tag     = lower(tag);
+%     if ~isfield(mpctrl.(module).handles, tag)
+%         error('METAPHYS:tagNotFound', 'No such tag %s in module %s.',...
+%             tag, module);
+%     end
+%     handle   = mpctrl.(module).handles.(tag);
+% end

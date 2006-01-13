@@ -12,7 +12,7 @@ function [] = DeleteDAQ(daqnames)
 %
 % See Also: INITDAQ, STOPDAQ
 %
-% $Id: DeleteDAQ.m,v 1.3 2006/01/12 02:02:00 meliza Exp $
+% $Id: DeleteDAQ.m,v 1.4 2006/01/14 00:48:06 meliza Exp $
 
 global mpctrl
 
@@ -29,11 +29,13 @@ for i = 1:length(daqnames)
     instruments = GetInstrumentNames;
     for j = 1:length(instruments)
         chanstr = GetChannelStruct(instruments{j});
-        parents = {chanstr.daq};
-        channms = {chanstr.name};
-        index   = strmatch(daqnames{i}, parents);
-        for k = 1:length(index)
-            DeleteChannel(instruments{j}, channms{k});
+        if ~isempty(chanstr)
+            parents = {chanstr.daq};
+            channms = {chanstr.name};
+            index   = strmatch(daqnames{i}, parents);
+            for k = 1:length(index)
+                DeleteChannel(instruments{j}, channms{k});
+            end
         end
     end
 end

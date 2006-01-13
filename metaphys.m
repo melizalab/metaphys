@@ -10,11 +10,11 @@ function [] = metaphys()
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.3 2006/01/11 23:03:52 meliza Exp $
+% $Id: metaphys.m,v 1.4 2006/01/14 00:48:04 meliza Exp $
 
 initPath;
 DebugSetOutput('console')
-DebugPrint('Starting METAPHYS, $Revision: 1.3 $')
+DebugPrint('Starting METAPHYS, $Revision: 1.4 $')
 DebugPrint('Initialized METAPHYS path.')
 % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
 InitControl;
@@ -55,6 +55,10 @@ cb      = @menu;
 file    = uimenu(fig, 'label', '&File');
 uimenu(file, 'label', '&Load Prefs...', 'tag', 'm_load_prefs', 'callback', cb)
 uimenu(file, 'label', '&Save Prefs...', 'tag', 'm_save_prefs', 'callback', cb)
+uimenu(file, 'label', 'Load &Instrument...', 'tag', 'm_load_instr',...
+    'callback', cb, 'separator', 'on')
+uimenu(file, 'label', 'Save Selected I&nstrument...', 'tag', 'm_save_instr',...
+    'callback', cb)
 uimenu(file, 'label', 'Data File &Prefix...', 'tag', 'm_set_prefix',...
     'callback', cb, 'separator', 'on')
 uimenu(file, 'label', 'E&xit', 'tag', 'm_exit', 'callback', cb,...
@@ -101,25 +105,6 @@ else
     SetUIParam(mfilename,'instruments','String',instruments,...
        'Enable', 'On')
 end
-% updateChannels
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% function [] = updateChannels()
-% % Updates channel list
-% CLEARARGS   = {mfilename, 'channels', 'String', ' ', 'Value', 1,...
-%         'Enable', 'Inactive'};
-% instrument  = GetUIParam(mfilename, 'instruments', 'Selected');
-% if strcmpi(instrument, ' ')
-%     SetUIParam(CLEARARGS{:})
-% else
-%     channels    = GetInstrumentChannelNames(instrument);
-%     if isempty(channels)
-%         SetUIParam(CLEARARGS{:})
-%     else
-%         SetUIParam(mfilename,'channels','String',channels,...
-%             'Enable', 'On')
-%     end
-% end 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = close_metaphys(obj, event)
@@ -178,17 +163,6 @@ switch tag
             DeleteInstrument(selected)
             updateInstruments
         end
-        %     case 'channel_add'
-%         ChannelDialog
-%         updateChannels
-%     case 'channel_edit'
-%         selected    = GetUIParam(mfilename,'channels','Selected');
-%         ChannelDialog(selected)
-%         updateChannels
-%     case 'instrument_delete'
-%         selected    = GetUIParam(mfilename,'channels','Selected');
-%         DeleteInstrumentChannel(selected)
-%         updateChannels
         
     otherwise
         DebugPrint('No action has been described for the callback on %s.',...
@@ -206,12 +180,37 @@ switch tag
             'Select METAPHYS control file...');
         if ~isnumeric(fn)
             LoadControl(fullfile(pn, fn))
+            updateFigure
         end
     case 'm_save_prefs'
         [fn pn] = uiputfile({'*.mcf', 'METAPHYS control (*.mcf)';...
             '*.*',  'All Files (*.*)'},...
             'Save METAPHYS control information...');
         SaveControl(fullfile(pn, fn))
+    case 'm_save_instr'
+        % instruments are stored in files with the same structure as used
+        % by LOADCONTROL, but only use the instrument field.
+        instrument  = GetUIParam(mfilename, 'instruments','Selected');
+        if strcmpi(instrument, ' ')
+            return
+        end
+        [fn pn] = uiputfile({'*.mcf', 'METAPHYS control file (*.mcf)';...
+            '*.*',  'All Files (*.*)'},...
+            'Save instrument to control file...');
+        if ~isnumeric(fn)
+            SaveInstrument(instrument, fullfile(pn, fn));
+        end
+    case 'm_load_instr'
+        % instruments are stored in files with the same structure as used
+        % by LOADCONTROL, but only use the instrument field. Only loads the
+        % first instrument.
+        [fn pn] = uigetfile({'*.mcf', 'METAPHYS control file (*.mcf)';...
+            '*.*',  'All Files (*.*)'},...
+            'Select instrument control file...');
+        if ~isnumeric(fn)
+            LoadInstrument(fullfile(pn, fn))
+        end
+        updateInstruments
     case 'm_set_prefix'
         % We are sort of fudging the use of GETDEFAULTS here, since it's
         % normally used to store structures.

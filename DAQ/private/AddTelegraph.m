@@ -1,8 +1,8 @@
-function [] = AddTelegraph(instrument, telegraph, object, checkfn, updfn, output)
+function [] = AddTelegraph(instrument, telegraph, type, object, checkfn, updfn, output)
 %
 % ADDTELEGRAPH Adds a telegraph to an instrument.
 %
-% $Id: AddTelegraph.m,v 1.2 2006/01/11 03:20:00 meliza Exp $
+% $Id: AddTelegraph.m,v 1.3 2006/01/14 00:48:13 meliza Exp $
 global mpctrl
 
 instr   = GetInstrument(instrument);
@@ -12,9 +12,12 @@ if isfield(instr.telegraph, telegraph)
     DeleteTelegraph(instrument, telegraph)
 end
 
-mystruct    = struct('object', object,...
+mystruct    = struct('name',telegraph,...
+                     'type',type,...
+                     'object', object,...
                      'checkfn', checkfn,...
                      'updfn', updfn,...
                      'output', output);
                  
 mpctrl.instrument.(instrument).telegraph.(telegraph)    = mystruct;
+DebugPrint('Added telegraph %s/%s.', instrument, telegraph)
