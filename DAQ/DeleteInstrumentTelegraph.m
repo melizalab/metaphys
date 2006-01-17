@@ -7,9 +7,21 @@ function [] = DeleteInstrumentTelegraph(instrument, telegraph)
 % control tree. This will prevent UPDATELEGRAPH from trying to read these
 % channels.
 %
+% DELETEINSTRUMENTTELEGRAPH(instrument, telegraph) - removes the named
+%                                                    telegraph(s)
+% DELETEINSTRUMENTTELEGRAPH(instrument, 'all') - removes all telegraphs
+%
 % See Also: UPDATETELEGRAPH
 %
-% $Id: DeleteInstrumentTelegraph.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: DeleteInstrumentTelegraph.m,v 1.2 2006/01/17 18:07:53 meliza Exp $
 
-% just a wrapper for DeleteTelegraph
-DeleteTelegraph(instrument, telegraph);
+if ischar(telegraph)
+    if strcmpi(telegraph, 'all')
+        telegraph   = GetInstrumentTelegraphNames(instrument);
+    else
+        telegraph   = {telegraph};
+    end
+end
+for i = 1:length(telegraph)
+    DeleteTelegraph(instrument, telegraph{i});
+end

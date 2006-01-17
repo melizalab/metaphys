@@ -13,7 +13,7 @@ function [] = DeleteInstrument(name)
 %
 % See Also: DELETEINSTRUMENTCHANNEL
 %
-% $Id: DeleteInstrument.m,v 1.2 2006/01/11 03:19:55 meliza Exp $
+% $Id: DeleteInstrument.m,v 1.3 2006/01/17 18:07:53 meliza Exp $
 
 global mpctrl
 
@@ -21,10 +21,12 @@ name = lower(name);
 
 if isfield(mpctrl.instrument, name)
     DeleteInstrumentChannel(name, 'all')
+    DeleteInstrumentTelegraph(name, 'all')
     mpctrl.instrument   = rmfield(mpctrl.instrument, name);
 else
     warning('METAPHYS:daq:noSuchInstrument',...
         'No such instrument %s has been defined.', name)
 end
+
 
 DebugPrint('Deleted instrument %s.', name);

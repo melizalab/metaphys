@@ -14,7 +14,7 @@ function [] = TelegraphDialog(instrumentname, telegraph)
 %
 % See Also: ADDINSTRUMENTTELEGRAPH
 %
-% $Id: TelegraphDialog.m,v 1.1 2006/01/14 00:48:11 meliza Exp $
+% $Id: TelegraphDialog.m,v 1.2 2006/01/17 18:07:57 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -91,22 +91,30 @@ function [] = updateFigure(tele)
 if isempty(tele)
     return
 end
+switch lower(tele.type)
+    case '200x'
+        SetUIParam(mfilename, 'type', 'selected', 'Axon 200x')
+    case '1x'
+        SetUIParam(mfilename, 'type', 'selected', 'Axon 1x')
+    case '700x'
+        SetUIParam(mfilename, 'type', 'selected', 'Axon 700x')
+    otherwise
+        SetUIParam(mfilename, 'type', 'Value', 1)
+end
 if ~isempty(tele.obj)
     if isvalid(tele.obj(1))
         daqn    = get(tele.obj(1).Parent,'Name');
         SetUIParam(mfilename,'tele_daq','selected',daqn)
-        hwchan  = GetDAQHwChannel(daqn);
+        pickAI
         gainc   = tele.obj(1).HwChannel;
-        SetUIParam(mfilename,'tele_gain','String',hwchan)
         SetUIParam(mfilename,'tele_gain','selected',num2str(gainc))
     else
         warning('METAPHYS:telegraphdialog:invalidChannel',...
             'The first channel object in the telegraph was invalid.')
     end
-    if length(tele.obj > 1)
+    if length(tele.obj) > 1
         if isvalid(tele.obj(2))
             modec   = tele.obj(2).HwChannel;
-            SetUIParam(mfilename,'tele_mode','String',hwchan)
             SetUIParam(mfilename,'tele_mode','selected',num2str(modec));
         else
             warning('METAPHYS:telegraphdialog:invalidChannel',...

@@ -4,7 +4,7 @@ function [] = DeleteChannel(instrument, channelname)
 %
 % If the channel does not exist, a warning is thrown.
 %
-% $Id: DeleteChannel.m,v 1.4 2006/01/14 00:48:13 meliza Exp $
+% $Id: DeleteChannel.m,v 1.5 2006/01/17 18:07:58 meliza Exp $
 
 global mpctrl
 
@@ -15,7 +15,7 @@ if isfield(instr.channels, channelname)
     if strcmpi(chan_struct.type, 'output')
         if isvalid(chan_struct.obj)
             DebugPrint('Destroying daqchild %s/%d', chan_struct.daq,...
-                chan_struct.obj.Index);
+                chan_struct.obj.ChannelName);
             delete(chan_struct.obj)
         end
     end

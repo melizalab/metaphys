@@ -15,13 +15,16 @@ function [] = LoadInstrument(filename, newname)
 % DELETE, for example, on one of them, will result in the other
 % instrument's channel being deleted as well.
 %
-% $Id: LoadInstrument.m,v 1.1 2006/01/14 00:48:09 meliza Exp $
+% $Id: LoadInstrument.m,v 1.2 2006/01/17 18:07:55 meliza Exp $
 
 z   = load('-mat', filename);
 if isfield(z, 'instrument')
     if isstruct(z.instrument)
         fieldn  = fieldnames(z.instrument);
         instrument  = z.instrument.(fieldn{1});
+        if nargin > 1
+            instrument.name = newname;
+        end
         InitInstrument(instrument);
     else
         error('METAPHYS:invalidFile:',...

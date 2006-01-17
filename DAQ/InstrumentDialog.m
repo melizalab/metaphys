@@ -9,7 +9,7 @@ function [] = InstrumentDialog(instrumentname)
 %
 % See Also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
 %
-% $Id: InstrumentDialog.m,v 1.3 2006/01/14 00:48:08 meliza Exp $
+% $Id: InstrumentDialog.m,v 1.4 2006/01/17 18:07:54 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -123,14 +123,19 @@ switch tag
         end
         updateFigure
     case 'telegraph_add'
-        outputs     = GetUIParam(mfilename,'outputs','selected');
         TelegraphDialog(instrument)
         updateTelegraphs
+    case 'telegraph_edit'
+%        telegrph    = GetUIParam(mfilename,'telegraphs','String');
+        selected    = GetUIParam(mfilename,'telegraphs','Selected');
+        if ~isempty(selected)
+            TelegraphDialog(instrument, selected);
+        end
     case 'telegraph_delete'
-        telegrph    = GetUIParam(mfilename,'telegraphs','UserData');
-        selected    = GetUIParam(mfilename,'telegraphs','Value');
-        if ~isempty(telegraphs)
-            DeleteInstrumentTelegraph(instrument, telegrph{selected});
+%        telegrph    = GetUIParam(mfilename,'telegraphs','UserData');
+        selected    = GetUIParam(mfilename,'telegraphs','Selected');
+        if ~isempty(selected)
+            DeleteInstrumentTelegraph(instrument, selected);
             updateTelegraphs
         end
         
