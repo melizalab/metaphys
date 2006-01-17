@@ -10,19 +10,23 @@ function out = GetSelected(handle)
 %
 % handle - graphics object handle for the list or uicontrol
 %
-% $Id: GetSelected.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: GetSelected.m,v 1.2 2006/01/17 20:22:12 meliza Exp $
 
 type    = get(handle,'type');
 switch type
     case 'uicontrol'
         i = get(handle,'Value');
         s = get(handle,'String');
-        if iscell(s)
-            out = char({s{i}});
-        elseif i <= length(s)
-            out = s(i,:);
+        if i == 0 | isempty(s)
+            out = '';
         else
-            out = s;
+            if iscell(s)
+                out = char({s{i}});
+            elseif i <= length(s)
+                out = s(i,:);
+            else
+                out = s;
+            end
         end
     case 'uipanel'
         % uibuttongroup is actually type 'uipanel', so we have to check if

@@ -14,17 +14,19 @@ function [] = SetChannelGain(varargin)
 %
 % See Also: GETCHANNELGAIN
 %
-% $Id: SetChannelGain.m,v 1.2 2006/01/12 02:02:02 meliza Exp $
+% $Id: SetChannelGain.m,v 1.3 2006/01/17 20:22:10 meliza Exp $
 
 if ischar(varargin{1})
     chanstr     = GetChannelStruct(varargin{1}, varargin{2});
     channel     = chanstr.obj;
     chantype    = chanstr.type;
     gain        = varargin{3};
+    parent      = chanstr.daq;
 else
     channel     = varargin{1};
     chantype    = GetChannelType(channel);
     gain        = varargin{2};
+    parent      = get(channel.Parent,'Name');
 end
 
 switch lower(chantype)
@@ -40,3 +42,7 @@ switch lower(chantype)
 end
 
 set(channel,'UnitsRange', output)
+% defaultchannelvalue no longer applies so we have to call resetdaqoutput
+if strcmpi(chantype, 'input')
+    ResetDAQOutput(parent)
+end

@@ -10,11 +10,11 @@ function [] = metaphys()
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.4 2006/01/14 00:48:04 meliza Exp $
+% $Id: metaphys.m,v 1.5 2006/01/17 20:22:07 meliza Exp $
 
 initPath;
 DebugSetOutput('console')
-DebugPrint('Starting METAPHYS, $Revision: 1.4 $')
+DebugPrint('Starting METAPHYS, $Revision: 1.5 $')
 DebugPrint('Initialized METAPHYS path.')
 % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
 InitControl;
@@ -50,6 +50,8 @@ set(fig,'CloseRequestFcn',@close_metaphys);
 %% Set callbacks on buttons
 btns    = findobj(fig, 'style', 'pushbutton');
 set(btns,'Callback',@button_push);
+%% Set callback on instrument selection
+SetUIParam(mfilename, 'instruments', 'Callback', @selectInstrument)
 %% Init menus
 cb      = @menu;
 file    = uimenu(fig, 'label', '&File');
@@ -80,9 +82,91 @@ uimenu(help, 'label', 'MATLAB &Help', 'tag', 'm_help_matlabl',...
 uimenu(help, 'label', '&About METAPHYS', 'tag', 'm_about_metaphys',...
     'callback', cb, 'separator', 'on')
 
+%% Make the input panel
+makeInputPanel
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = makeInputPanel()
+%% Generates the hold input panel, which is where the user can set default
+%% values for an instrument's inputs
+N_INPUTS    = 5;
+pnlh        = GetUIHandle(mfilename,'inputs_pnl');
+x           = 0.024;    % start x
+y           = 0.832;    % start y
+h           = 0.11;     % control height
+hh          = 0.06;     % gap
+shim        = 0.01;
+w_chk       = 0.55;
+w_edt       = 0.28;
+w_unt       = 0.11;
+ww          = 0.01;
+c           = get(0,'defaultUicontrolBackgroundColor');
+% IMPORTANT: these objects need to be disabled when a protocol is running
+for i = 1:N_INPUTS
+    InitUIControl(pnlh, mfilename, sprintf('input%d_name', i),...
+        'style', 'text', 'String', sprintf('input%d', i),...
+        'BackgroundColor', c, 'HorizontalAlignment', 'left',...
+        'Units','normalized',...
+        'Position', [x y w_chk h]);
+    InitUIControl(pnlh, mfilename, sprintf('input%d_value', i),...
+        'style', 'edit', 'String', '',...
+        'Units','normalized',...
+        'Position', [x+w_chk+ww y+shim w_edt h], 'Callback', @updateHoldVal);
+    InitUIControl(pnlh, mfilename, sprintf('input%d_units', i),...
+        'style', 'text', 'String', '', 'BackgroundColor', c,...
+        'Units','normalized',...
+        'Position', [x+w_chk+ww+w_edt+ww y w_unt h]);
+    y   = y - h - hh;
+end
+hndl      = get(pnlh,'Children');
+set(hndl, 'Visible', 'off')
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = selectInstrument(varargin)
+%% handles instrument selection event
+instrument  = GetUIParam(mfilename, 'instruments', 'selected');
+%% start with all inputs invisible
+pnlh        = GetUIParam(mfilename,'inputs_pnl','Children');
+set(pnlh, 'Visible', 'Off');
+%% display up to N inputs and their current hold values
+N_INPUTS    = 5;
+if ~isempty(instrument)
+    inputs  = GetInstrumentChannelNames(instrument, 'input');
+    if length(inputs) < N_INPUTS
+        N_INPUTS    = length(inputs);
+    end
+    for i = 1:N_INPUTS
+        chan    = inputs{i};      
+        hold    = GetInstrumentChannelProps(instrument, chan,...
+            'DefaultChannelValue');
+        units   = GetInstrumentChannelProps(instrument, chan, 'Units');
+        SetUIParam(mfilename, sprintf('input%d_name', i),...
+            'String', chan, 'Visible', 'On');
+        SetUIParam(mfilename, sprintf('input%d_value',i),...
+            'String', num2str(hold), 'UserData', chan,...
+            'Visible', 'On');
+        SetUIParam(mfilename, sprintf('input%d_units',i),...
+            'String', units, 'Visible', 'On');
+    end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = updateHoldVal(obj, event)
+%% called when the user updates the hold value: finds the relevant
+%% instrument input and sets its default value to that value
+tag = get(obj, 'tag');
+instr   = GetUIParam(mfilename, 'instruments', 'Selected');
+channel = GetUIParam(mfilename, tag, 'UserData');
+value   = GetUIParam(mfilename, tag, 'StringVal');
+if ~isempty(value)
+    SetInstrumentChannelProps(instr, channel, 'DefaultChannelValue', value)
+    ResetDAQOutput
+end
+selectInstrument
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = updateFigure()
-% Updates the uicontrols with the most current information.
+%% Updates the uicontrols with the most current information.
 
 %% Easy stuff:
 data_dir        = GetDefaults('data_dir');
@@ -98,13 +182,15 @@ updateInstruments
 function [] = updateInstruments()
 % Updates the instrument list
 instruments = GetInstrumentNames;
-if isempty(instruments)
-    SetUIParam(mfilename,'instruments','String', ' ', 'Value', 1,...
-        'Enable','Off')
-else
-    SetUIParam(mfilename,'instruments','String',instruments,...
-       'Enable', 'On')
-end
+SetUIParam(mfilename,'instruments','String',instruments)
+selectInstrument
+% if isempty(instruments)
+%     SetUIParam(mfilename,'instruments','String', ' ', 'Value', 1,...
+%         'Enable','Off')
+% else
+%     SetUIParam(mfilename,'instruments','String',instruments,...
+%        'Enable', 'On')
+% end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = close_metaphys(obj, event)
@@ -235,3 +321,4 @@ switch tag
             'The GUI object with tag %s made an unsupported callback.',...
             tag)
 end
+

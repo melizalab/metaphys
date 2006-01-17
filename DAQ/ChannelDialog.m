@@ -18,7 +18,7 @@ function [] = ChannelDialog(instrumentname, channel)
 %
 % See Also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
 %
-% $Id: ChannelDialog.m,v 1.4 2006/01/14 00:48:06 meliza Exp $
+% $Id: ChannelDialog.m,v 1.5 2006/01/17 20:22:08 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -201,6 +201,7 @@ switch tag
             else
                 SetInstrumentChannelProps(chan.instrument, chan.name,...
                     'HwChannel', chan.hwchan, 'Units', chan.units);
+                SetChannelGain(chan.instrument, chan.name, chan.gain)
             end
             DebugPrint('Updated properties of channel %s/%s.',...
                 chan.instrument, chan.name)

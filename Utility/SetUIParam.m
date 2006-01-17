@@ -20,7 +20,7 @@ function [] = SetUIParam(module, tag, varargin)
 % set the 'String' property. This form will also attempt to cast numeric
 % values to strings.
 %
-% $Id: SetUIParam.m,v 1.4 2006/01/14 00:48:16 meliza Exp $
+% $Id: SetUIParam.m,v 1.5 2006/01/17 20:22:13 meliza Exp $
 
 % retrieve the object handle
 handle  = GetUIHandle(module, tag);
@@ -54,22 +54,46 @@ set(handle, arguments{:});
 if isprop(handle, 'style')
     style   = get(handle,'style');
     switch style
-        case {'listbox','popupmenu'}
+        case 'listbox'
             v   = get(handle,'Value');
             s   = get(handle,'String');
-            if iscell(s)
-                if v > length(s)
-                    v = length(s);
-                elseif v < 1
-                    v = 1;
-                end
+            if isempty(s)
+                % if string = {}, the value doesn't matter
+                s   = {};
             elseif strcmpi(s,' ')
-                v   = 1;
-            elseif isempty(s)
-                v   = 1;
-                set(handle,'String', ' ')
+                s   = {};
+            else
+                % character arrays are too much trouble
+                if ischar(s)
+                    s  = cellstr(s);
+                end
+                % check for valid selections
+                if isempty(v)
+                    v   = 1;
+                end
+                v(v > length(s))    = length(s);
+                v(v < 1)            = 1;
+                
             end
-
+            set(handle,'String', s, 'Value', v)
+        case 'popupmenu'
+            % unlike listboxes, popupmenus can only have one item selected,
+            % and the string property can't be empty
+            v   = get(handle,'Value');
+            s   = get(handle,'String');
+            if isempty(s)
+                s   = ' ';
+            end
+            if ischar(s)
+                s   = cellstr(s);
+            end
+            if isempty(v)
+                v   = 1;
+            end
+            v(v > length(s))    = length(s);
+            v(v < 1)            = 1;
+            v                   = v(1);
+            set(handle,'String', s)
             set(handle, 'Value', v)
     end
 end
