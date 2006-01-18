@@ -1,76 +1,70 @@
-function [] = StartSweep(length, daqnames)
+function [] = StartSweep(length, interval, daqnames)
 %
 % STARTSWEEP Initiates data acquisition for a fixed length of time.
 %
 % STARTSWEEP(length) - All known DAQ devices are started, and if
 % applicable, triggered. <length> is in seconds, not samples
 %
-% STARTSWEEP(length, daqnames) - Only the DAQ devices specified by
+% This function should be used for acquiring sweeps of data with a fixed
+% length. In practice, this length of time should be > 50 ms, as most
+% hardware has trouble dealing with intervals shorter than that. The
+% hardware will be set to acquire <length> seconds of data, at which point
+% the device will stop logging and call DATAHANDLER.  If DATAHANDLER needs
+% to be called more frequently, use the alternate form:
+%
+% STARTSWEEP(length, interval) - Acquires <length> seconds of data, but
+% retrieves the data every <interval> seconds.
+%
+% STARTSWEEP(..., daqnames) - Only the DAQ devices specified by
 % <daqnames> are started.
 %
 % Throws an error if any of the daq devices is running.
 %
-% See Also: STOPDAQ
+% See Also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.1 2006/01/18 19:01:07 meliza Exp $
+% $Id: StartSweep.m,v 1.2 2006/01/19 03:14:58 meliza Exp $
 
 % Get DAQ objects
-if nargin < 2
+if nargin < 3
     daqs    = GetDAQ(GetDAQNames);
 else
     daqs    = GetDAQ(daqnames);
 end
-
-% check for running objects
-isrun   = daqs.Running;
-if ~isempty(strmatch('On',isrun))
-    error('METAPHYS:startsweep:deviceAlreadyRunning',...
-        'One or more DAQ devices is currently running.')
+if nargin < 2
+    interval    = [];
 end
 
-% some properties are type-dependent
-types   = CellWrap(daqs.Type);
-ai      = daqs(strmatch('analog input', lower(types)));
-ao      = daqs(strmatch('analog output', lower(types)));
-
-for i = 1:size(ai,2)
-    srate   = ai(i).SampleRate;
-    % determine which devices to trigger
-    ai_trig(i) = strcmpi(ai(i).TriggerType, 'manual');
-    samp    = length .* srate;
-    set(ai(i), 'SamplesPerTrigger', samp)
+% set acquisition times
+types   = lower(daqs.Type);
+for i = 1:size(types,1)
+    switch types{i}
+        case 'analog input'
+            srate   = get(daqs(i), 'SampleRate');
+            samp    = length .* srate;
+            set(daqs(i),...
+                        'SamplesPerTrigger', samp,...
+                        'SamplesAcquiredFcn', []);
+            if ~isempty(interval)
+                set(daqs(i),...
+                     'SamplesAcquiredFcnCount', samp,...
+                     'SamplesAcquiredFcn', @DataHandler);
+            end
+        case 'analog output'
+            set(daqs(i),'RepeatOutput',0);
+    end
 end
+% ai      = strmatch('analog input', lower(daqs.Type));
+% for i = 1:size(ai,1)
+%     srate   = get(daqs(ai(i)), 'SampleRate');
+%     samp    = length .* srate;
+%     set(daqs(ai(i)), 'SamplesPerTrigger', samp,...
+%                      'SamplesAcquiredFcn', []);
+%     if ~isempty(interval)
+%         set(daqs(ai(i)),... 
+%                      'SamplesAcquiredFcnCount', samp,...
+%                      'SamplesAcquiredFcn', @DataHandler);
+%     end
+% end
 
-% Check AO devices for samples to be output and whether they need to be
-% triggered
-for i = 1:size(ao,2)
-    ao_use(i)   = ao(i).SamplesAvailable > 0;
-    ao_trig(i)  = strcmpi(ao(i).TriggerType, 'manual');
-end
-
-% set callbacks
-data_cb  = @DataHandler;
-msg_cb   = @daqcallback;
-
-set(ai, 'SamplesAcquiredFcn', [],...
-        'StartFcn', [],...
-        'TimerFcn', [],...
-        'TriggerFcn', msg_cb,...
-        'DataMissedFcn', data_cb,...
-        'RuntimeErrorFcn', data_cb,...
-        'StopFcn', data_cb)
-set(ao, 'SamplesOutputFcn', [],...
-        'StartFcn', msg_cb,...
-        'TimerFcn', [],...
-        'TriggerFcn', msg_cb,...
-        'RuntimeErrorFcn', msg_cb,...
-        'StopFcn', msg_cb)
-        
-if size([ai ao(ao_use)],2) < 1
-    DebugPrint('No DAQ devices to start!');
-else
-    start([ai ao(ao_use)])
-end
-if size([ai(ai_trig) ao(ao_use & ao_trig)],2) > 0
-    trigger([ai(ai_trig) ao(ao_use & ao_trig)])
-end
+StartDAQ(daqs);    
+    

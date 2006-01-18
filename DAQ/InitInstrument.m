@@ -27,18 +27,17 @@ function [] = InitInstrument(instrument, type)
 %
 % See also INSTRUMENT_STRUCT
 %
-% $Id: InitInstrument.m,v 1.3 2006/01/14 00:48:07 meliza Exp $
+% $Id: InitInstrument.m,v 1.4 2006/01/19 03:14:55 meliza Exp $
 global mpctrl
 
 if isstruct(instrument)
     default     = instrument;
 else
-    name    = lower(instrument);
     default     = instrument_struct;
     if nargin > 1
         default.type    = type;
     end
-    default.name    = instrument;
+    default.name    = lower(instrument);
 
     if isfield(mpctrl.instrument, default.name)
         DeleteInstrument(default.name)

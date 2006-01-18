@@ -14,7 +14,7 @@ function [] = TelegraphDialog(instrumentname, telegraph)
 %
 % See Also: ADDINSTRUMENTTELEGRAPH
 %
-% $Id: TelegraphDialog.m,v 1.2 2006/01/17 18:07:57 meliza Exp $
+% $Id: TelegraphDialog.m,v 1.3 2006/01/19 03:14:58 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -134,7 +134,7 @@ h           = GetUIHandle(mfilename,'pnl_settings');
 % get some data we might need
 instr       = GetUIParam(mfilename,'instrument_name');
 daqs        = GetDAQNames('analoginput');
-[out out_pretty]     = GetInstrumentChannelNames(instr, 'output');
+[out]       = GetInstrumentChannelNames(instr, 'output');
 c           = get(0,'defaultUicontrolBackgroundColor');
 % this should NOT happen but bad things happen if we don't check
 if isempty(out)
@@ -211,7 +211,7 @@ switch tag
         DeleteModule(mfilename)
     case 'btn_ok'
         tele    = getData;
-        if isempty(tele.name) | isempty(tele.type)
+        if isempty(tele.name) || isempty(tele.type)
             errordlg('The telegraph must have a name and type.')
         elseif ~isnan(str2double(tele.name(1)))
             errordlg('Telegraph names must begin with a letter.')

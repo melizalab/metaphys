@@ -7,7 +7,7 @@ function [] = DigitizerDialog()
 %
 % See Also: INITDAQ, RESETDAQ, DELETEDAQ
 %
-% $Id: DigitizerDialog.m,v 1.3 2006/01/18 19:01:04 meliza Exp $
+% $Id: DigitizerDialog.m,v 1.4 2006/01/19 03:14:53 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -51,17 +51,22 @@ if ~isempty(daqnames)
     SetUIParam(mfilename, 'systems', 'String', daqnames,...
         'Value',1,...
         'Enable', 'On', 'UIContextMenu', m, 'Callback', @updateProperties)
+    SetUIParam(mfilename, 'triggertype', 'Callback', @updateTrigger);
+    SetUIParam(mfilename, 'triggerdio', 'Callback', @updateTrigger);
+    SetUIParam(mfilename, 'triggerline', 'Callback', @updateTrigger);
 else
     SetUIParam(mfilename, 'systems', 'String', ' ', 'Enable', 'Inactive',...
         'Value',1,...
         'UIContextMenu', [], 'Callback', [])
 end
+
 updateProperties
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = updateProperties(obj, event)
 % Retrieves properties from the current object and displays them
 myproperties    = {'Type','SampleRate', 'InputType'};
+currentDAQs = GetUIParam(mfilename,'systems');
 currentDAQ  = GetUIParam(mfilename,'systems','Selected');
 if ~isempty(currentDAQ)
     for i = 1:length(myproperties)
@@ -89,12 +94,83 @@ if ~isempty(currentDAQ)
                 'Enable','Off');
         end
     end
+
+    % the trigger properties are synthetic so we have to do them by hand
+    AI_TRIGGER_TYPES   = {'immediate','manual', 'linked', 'hardware'};
+    AO_TRIGGER_TYPES   = {'immediate','manual', 'hardware'};
+    DIGITAL_TYPE       = 'digital';
+
+    % the daq type determines what options are available
+    dtype   = GetDAQProperty(currentDAQ, 'Type');
+%    if strcmpi(dtype,'digital io')
+        
+%    else
+        % we also have to check for digital daqs
+        dtypes  = GetDAQProperty(currentDAQs, 'Type');
+        dios    = strmatch('digital io', lower(dtypes));
+        if ~isempty(dios)
+            AI_TRIGGER_TYPES    = {AI_TRIGGER_TYPES{:} DIGITAL_TYPE};
+            AO_TRIGGER_TYPES    = {AO_TRIGGER_TYPES{:} DIGITAL_TYPE};
+            SetUIParam(mfilename,'triggerdio',currentDAQs{dios})
+        else
+            SetUIParam(mfilename,'triggerdio',{})
+            ttype   = GetUIParam(mfilename,'triggertype','selected');
+            % fix any triggers that don't work if the digital object is
+            % gone
+            if strcmpi(ttype,'digital')
+                SetUIParam(mfilename,'triggertype','selected','hardware');
+                updateTrigger
+            end
+        end
+
+        switch lower(dtype)
+            case 'analog input'
+                SetUIParam(mfilename,'triggertype','String',AI_TRIGGER_TYPES,...
+                    'Enable','On')
+            case 'analog output'
+                SetUIParam(mfilename,'triggertype','String',AO_TRIGGER_TYPES,...
+                    'Enable','On')
+            case 'digital io'
+                SetUIParam(mfilename,'triggertype','Enable','Off')
+        end
+        % now try to figure out the trigger type
+        [ttype dio dioline]   = GetDAQTrigger(currentDAQ);
+        SetUIParam(mfilename,'triggertype','selected',ttype)
+        if strcmpi(ttype,'digital')
+            SetUIParam(mfilename,'triggerdio','enable','on')
+            SetUIParam(mfilename,'triggerdio','selected',dio)
+            SetUIParam(mfilename,'triggerline','String',num2str(dioline),...
+                'Enable','On')
+        else
+            SetUIParam(mfilename,'triggerdio','Enable','Off')
+            SetUIParam(mfilename,'triggerline',...
+                'Enable','Off')
+        end
+%    end
 else
     for i = 1:length(myproperties)
         SetUIParam(mfilename, lower(myproperties{i}),...
             'Enable','Off');
     end
+    SetUIParam(mfilename,'triggertype','Enable','Off')
+    SetUIParam(mfilename,'triggerdio','Enable','Off')
+    SetUIParam(mfilename,'triggerline',...
+        'Enable','Off')
 end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = updateTrigger(obj, event)
+daqn    = GetUIParam(mfilename,'systems','selected');
+ttype   = GetUIParam(mfilename,'triggertype','selected');
+tdio    = GetUIParam(mfilename,'triggerdio','selected');
+tline   = GetUIParam(mfilename,'triggerline','stringval');
+switch ttype
+    case {'immediate','manual','linked','hardware'}
+        SetDAQTrigger(ttype, daqn)
+    case 'digital'
+        SetDAQTrigger('digital',daqn,[],tdio,tline)
+end
+updateProperties(obj, event)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = menu(obj, event)
@@ -107,7 +183,7 @@ switch tag
         hwselected  = GetUIParam(mfilename,'hardware','Value');
         hwinfo      = GetUIParam(mfilename,'hardware','UserData');
         z           = daqhwinfo(hwinfo(hwselected).hwname);
-        openvar('z')
+        openvar z
     case 'm_daq_deactivate'
         hwselected  = GetUIParam(mfilename,'systems','Selected');
         DeleteDAQ(hwselected)
@@ -158,7 +234,9 @@ if ~strcmpi(daqname, ' ')
     end
     % set the properties
     SetDAQProperty(daqname,'SampleRate',samplerate)
-    SetDAQProperty(daqname,'InputType',inputtype)
+    if strcmpi(GetUIParam(mfilename,'inputtype','Enable'),'On')
+        SetDAQProperty(daqname,'InputType',inputtype)
+    end
     % update the display
     updateProperties
 end

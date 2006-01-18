@@ -1,5 +1,8 @@
 % UTILITY
 %
+% Utility functions that integrate MATLAB's figure and uiobjects into the
+% METAPHYS control structure.
+%
 % Files
 %   ClearDefaults       - Clear default values for an object
 %   DebugPrint          - Outputs debugging messages. 
@@ -33,3 +36,9 @@
 %   SetParamStructValue - Sets the value field in a parameter structure based
 %   SetUIParam          - Sets a parameter of an object stored in the control
 %   WriteStructure      - Writes a structure to a mat file. 
+%   CellWrap            - Ensures that a variable is either a cell array or is wrapped in
+%   DeleteUIParam       - Removes an uiparam from control and deletes its handle
+%   GetFields           - Returns one or more fields from a structure in a new structure
+%   StructFlatten       - attempts to remove the fieldnames from a structure.
+%
+% $Id: Contents.m,v 1.2 2006/01/19 03:15:04 meliza Exp $

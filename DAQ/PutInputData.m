@@ -12,7 +12,7 @@ function [] = PutInputData(instrument, data)
 %
 % See Also: DAQDEVICE/PUTDATA
 %
-% $Id: PutInputData.m,v 1.1 2006/01/18 19:01:06 meliza Exp $
+% $Id: PutInputData.m,v 1.2 2006/01/19 03:14:56 meliza Exp $
 
 % we have to map to hardware indices here
 instr   = GetInstrument(instrument);
@@ -46,10 +46,7 @@ for i = 1:length(daqs)
     
     daq     = GetDAQ(daqs{i});
     % send the default values by, um, default
-    defs    = daq.Channel.DefaultChannelValue;
-    if iscell(defs)
-        defs    = cell2mat(defs)';
-    end
+    defs    = GetDefaultValues(daq);
     daqdata = repmat(defs, size(data,1), 1);
     
     % replace defaults with actual values

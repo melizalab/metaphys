@@ -28,7 +28,7 @@ function [daq, daqname] = InitDAQ(hwname, hwnumber, constructor, varargin)
 %
 % See Also: RESETDAQ
 % 
-% $Id: InitDAQ.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: InitDAQ.m,v 1.2 2006/01/19 03:14:55 meliza Exp $
 
 global mpctrl
 
@@ -98,6 +98,7 @@ readonlyprops           = setdiff(fieldnames(props),writeableprops);
 props                   = rmfield(props, readonlyprops);
 daqstruct               = struct('obj',daq,...
                                  'name',daqname,...
+                                 'type',daqtype,...
                                  'constructor',const,...
                                  'initial_props',props);
 mpctrl.daq.(daqname)    = daqstruct;

@@ -6,9 +6,12 @@ function []= AddSubscriber(name, instrument, fhandle, varargin)
 % <instrument> to the acquisition system. When data is returned by the DAQ,
 % fhandle will be called (with arguments <fargs>, if supplied)
 %
+% If a previous subscription exists with the same name it will be
+% overwritten.
+%
 % See Also: SUBSCRIBER_STRUCT
 %
-% $Id: AddSubscriber.m,v 1.1 2006/01/18 19:01:02 meliza Exp $
+% $Id: AddSubscriber.m,v 1.2 2006/01/19 03:14:51 meliza Exp $
 
 global mpctrl
 
@@ -17,7 +20,10 @@ if ~isnan(str2double(name(1)))
     error('METAPHYS:invalidArgument',...
         'Subscriber names must begin with a letter.')
 end
-if ~isnan(str2double(instrument(1)))
+% instrument can be empty
+if isempty(instrument)
+    instrument  = [];
+elseif ~isnan(str2double(instrument(1)))
     error('METAPHYS:invalidArgument',...
         'The instrument name %s is invalid.', instrument)
 end

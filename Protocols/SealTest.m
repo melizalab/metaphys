@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See Also:  PROTOCOLTEMPLATE
 %
-% $Id: SealTest.m,v 1.2 2006/01/18 19:01:10 meliza Exp $
+% $Id: SealTest.m,v 1.3 2006/01/19 03:15:03 meliza Exp $
 
 
 % Parse action
@@ -44,10 +44,80 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = startProtocol()
 % Start the protocol running.
+SetUIParam(me,'startbutton','String','Stop');
+SetUIParam(me,'pulse_len','Enable','Off');
+SetUIParam(me,'pulse_amp','Enable','Off');
+SetUIParam(me,'pulse_base','Enable','Off');
+StopDAQ
+instrument  = GetUIParam(me,'instrument','selected');
+AddSubscriber('sealtest', instrument, @plotData);
+mystartSweep
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = mystartSweep(varargin)
+% Starts the sweep (called by DataHandler and startProtocol)
+%% Generate data pulse
+instr                   = GetUIParam(me,'instrument','selected');
+[pulse pulse_len]       = generatePulse(instr);
+PutInputData(instr, pulse)
+SetUIParam(me,'axes','XLim',[0 pulse_len*1000]);
+StartContinuous(pulse_len)
+% StartSweep(pulse_len)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = stopProtocol()
 % Stop the protocol from running.
+DeleteSubscriber('sealtest')
+StopDAQ
+SetUIParam(me,'startbutton','String','Start');
+SetUIParam(me,'pulse_len','Enable','On');
+SetUIParam(me,'pulse_amp','Enable','On');
+SetUIParam(me,'pulse_base','Enable','On');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = plotData(packet)
+% Called by DataHandler
+output  = GetUIParam(me,'output','selected');
+scaling = GetUIParam(me,'scaling','selected');
+chan    = strmatch(output, packet.channels, 'exact');
+if ~isempty(chan)
+    ax  = GetUIHandle(me,'axes');
+    switch scaling
+        case 'auto'
+            % matlab's auto feature is too tight, generally
+            set(ax,'YLimMode','auto');
+        case 'manual'
+            set(ax,'YLimMode','manual');
+        case '15'
+            set(ax,'YLim',[-1 5]);
+        case '11'
+            set(ax,'YLim',[-1 1]);
+    end
+    plot(packet.time, packet.data(:,chan));
+    ylabel(ax, sprintf('%s (%s)', packet.channels{chan}, packet.units{chan}))
+    calculateResist(packet.data(:,chan));
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [pulse pulse_len] = generatePulse(instr)
+% Generates the command pulse
+len     = GetUIParam(me,'pulse_len','StringVal') / 1000 ;   % s
+amp     = GetUIParam(me,'pulse_amp','StringVal');   % units
+base    = GetUIParam(me,'pulse_base','StringVal');  % units
+chans   = GetUIParam(me,'command');
+chan    = GetUIParam(me,'command','Value');
+Fs      = GetChannelSampleRate(instr, chans{chan});
+
+% the actual data is twice as long as the pulse
+len_s       = fix(len * Fs);
+pulse_len_s = len_s * 2;
+pulse_len   = len * 2;
+% and the offset is 30%
+off_s   = fix(pulse_len_s * 0.15);
+
+pulse   = zeros(pulse_len_s, size(chans,1));
+pulse(:,chan)   = base;
+pulse(off_s:off_s+len_s,chan)  = base+amp;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = setupFigure()
@@ -96,19 +166,22 @@ instrument  = GetUIParam(me, 'instrument', 'selected');
 if isempty(instrument)
     inputs  = {};
     outputs = {};
+    btn_en  = 'Off';
 else
     inputs  = GetInstrumentChannelNames(instrument, 'input');
-    outputs  = GetInstrumentChannelNames(instrument, 'output');
+    outputs = GetInstrumentChannelNames(instrument, 'output');
+    btn_en  = 'On';
 end
 SetUIParam(me, 'output', outputs);
 SetUIParam(me, 'command', inputs);
+SetUIParam(me,'startbutton','Enable', btn_en);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = pickCommand(varargin)
 % looks up the current units and holding value of the commandchannel
 instrument  = GetUIParam(me, 'instrument', 'selected');
 command     = GetUIParam(me, 'command', 'selected');
-if ~isempty(instrument) & ~isempty(command)
+if ~isempty(instrument) && ~isempty(command)
     holding     = GetInstrumentChannelProps(instrument, command,...
         'DefaultChannelValue');
     units       = GetInstrumentChannelProps(instrument, command,...
@@ -254,7 +327,7 @@ h(2) = InitUIControl(me, 'closebutton', 'style', 'pushbutton',...
 set(h,'BackgroundColor',get(0,'defaultUicontrolBackgroundColor'))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = run_callback(handle)
+function [] = run_callback(obj, event)
 % Handles the callback for the start/stop button
 button_state    = GetUIParam(me, 'startbutton', 'Value');
 if button_state==1
@@ -272,6 +345,7 @@ defaults    = struct('pulse_amp', GetUIParam(me, 'pulse_amp','stringval'),...
     'output', GetUIParam(me, 'output', 'selected'),...
     'command', GetUIParam(me, 'command', 'selected'));
 SetDefaults(me, 'control', defaults);
+stopProtocol
 DeleteModule(me)
 
 % InitUIControl(ph, me, 'pulse_len', 'style', 'edit',...
@@ -481,8 +555,18 @@ DeleteModule(me)
 %     SetUIParam(me,'gain','String',num2str(get(wc.control.amplifier,'UnitsRange')));
 %     
 % end
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+function [] = calculateResist(data)
+% calculates the resistance of the electrode based on response to a voltage
+% or current pulse.
+
+% for a simple calculate we have to figure out three values: a baseline, a
+% transient, and a steady state. thus we need to find the time of the
+% transient.
+% keyboard
+
 % function [Rt, Rs, Ri] = calculateResistance(data, Vpulse)
 % % calculates the input and series resistance from the first column of data
 % % the transient should occur at the maximum.

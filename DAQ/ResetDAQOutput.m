@@ -1,4 +1,4 @@
-function [] = ResetDAQOutput(daqname)
+function [] = ResetDAQOutput(daq, event)
 %
 % RESETDAQOUTPUT Returns the output values of a DAQ analogoutput to their
 % default values.
@@ -17,37 +17,28 @@ function [] = ResetDAQOutput(daqname)
 % are ever changed, this function should be called immediately afterward if
 % the actual holding voltage needs to change.
 %
+% * Even worse, sometimes behavior (3) fails to happen, which is a serious
+% problem if this feature is being used to hold a command voltage.
+% Therefore, this function should be called whenever an analog output
+% device is stopped. It has the correct function signature to be used as a
+% callback for the StopFcn on an analogout device.
+%
 % RESETDAQOUTPUT(daqname) - resets the daq outputs on named daqdevice(s)
 %
 % RESETDAQOUTPUT()        - resets the outputs on all output devices
 %
-% $Id: ResetDAQOutput.m,v 1.1 2006/01/17 20:22:09 meliza Exp $
+% $Id: ResetDAQOutput.m,v 1.2 2006/01/19 03:14:56 meliza Exp $
 
 if nargin == 0
     daqname = GetDAQNames('analogoutput');
-else
-    daqname = CellWrap(daqname);
+    daq     = GetDAQ(daqname);
+elseif ischar(daq)
+    daq     = GetDAQ(daq);
 end
 
-for i = 1:length(daqname)
-    setdaqtodefault(daqname{i})
-end
-
-function [] = setdaqtodefault(name)
-daq     = GetDAQ(name);
-if strcmpi(daq.Type, 'analog output')
-    if strcmpi(daq.Running, 'Off')
-        defaults    = get(daq.Channel, 'DefaultChannelValue')';
-        if iscell(defaults)
-            defaults    = cell2mat(defaults);
-        end
-        putsample(daq, defaults);
-    else
-        warning('METAPHYS:resetdaqoutput:deviceRunning',...
-            'ResetDAQOutput should only be called on stopped devices.')
+for i = 1:size(daq,2)
+    defaults    = GetDefaultValues(daq);
+    if ~isempty(defaults)
+        putsample(daq, defaults)
     end
-else
-    warning('METAPHYS:resetdaqoutput:',...
-        '%s is not an analog output device.', name)
 end
-        

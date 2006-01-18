@@ -14,10 +14,11 @@ function chan   = GetChannelStruct(instrument, cname)
 %
 % See Also: GETINSTRUMENTCHANNEL
 %
-% $Id: GetChannelStruct.m,v 1.2 2006/01/14 00:48:13 meliza Exp $
+% $Id: GetChannelStruct.m,v 1.3 2006/01/19 03:15:00 meliza Exp $
 
 %% Check instrument
 instr   = GetInstrument(instrument);
+
 %% Retrieve structure
 if isstruct(instr.channels)
     if nargin < 2

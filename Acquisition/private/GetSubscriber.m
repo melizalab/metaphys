@@ -5,24 +5,9 @@ function subscriber = GetSubscriber(subscribernames)
 % GETSUBSCRIBER(subscribername) - Returns the subscriber structure(s) named
 %                                 <subscribername>
 %
-% $Id: GetSubscriber.m,v 1.1 2006/01/18 19:01:03 meliza Exp $
+% $Id: GetSubscriber.m,v 1.2 2006/01/19 03:14:52 meliza Exp $
 
-if iscell(subscribernames)
-    for i = 1:length(subscribernames)
-        subscriber(i)  = getstructure(subscribernames{i});
-    end
-else
-    subscriber     = getstructure(subscribernames);
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function subscriber  = getstructure(subscribername)
 global mpctrl
-subscribername  = lower(subscribername);
 
-if ~isfield(mpctrl.subscriber, subscribername)
-    error('METAPHYS:daq:subscriberNotFound',...
-        'No subscriber %s exists.',subscribername)
-end
-
-subscriber = mpctrl.subscriber.(subscribername);
+subscriber  = GetFields(mpctrl.subscriber, subscribernames);
+subscriber  = StructFlatten(subscriber);

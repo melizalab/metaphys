@@ -9,6 +9,7 @@ function [mpctrl] = mpctrl_default()
 %   .daq.(daqname):
 %       .obj           - DAQ object
 %       .name          - DAQ name
+%       .type          - 'analog input', 'analog output', or 'digital io'
 %       .constructor   - constructor for DAQ object
 %       .initial_props - initial properties of daq object
 %   .instrument - contains structures with fieldnames of instruments
@@ -36,7 +37,7 @@ function [mpctrl] = mpctrl_default()
 %  TELEGRAPH_STRUCT
 %           
 %
-% $Id: mpctrl_default.m,v 1.4 2006/01/18 19:01:09 meliza Exp $
+% $Id: mpctrl_default.m,v 1.5 2006/01/19 03:15:02 meliza Exp $
 
 mpctrl = struct('daq',[],...
                 'instrument',[],...

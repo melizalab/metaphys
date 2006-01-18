@@ -6,15 +6,27 @@ function [] = DataHandler(obj, event)
 % processed.  It runs through the list of subscribers, figures out who
 % wants what data, and passes data packets to the subscribing functions.
 %
-% $Id: DataHandler.m,v 1.1 2006/01/18 19:01:02 meliza Exp $
+% $Id: DataHandler.m,v 1.2 2006/01/19 03:14:51 meliza Exp $
 
 global mpctrl
 
 
 % get the subscribers (direct through mpctrl for speed)
 if isstruct(mpctrl.subscriber)
-    % retrieve the data
-    [data, time, abstime, events]   = getdata(obj);
+    % retrieve the data, if there is any. This behavior is going to change
+    % according to the type of event
+    switch event.Type
+        case 'SamplesAcquired'
+            avail            = get(obj,'SamplesAcquiredFcnCount');
+            [data, time, abstime]   = getdata(obj, avail);
+        otherwise
+            avail            = get(obj,'SamplesAvailable');
+            if avail > 0
+                [data, time, abstime]   = getdata(obj, avail);
+            else
+                [data, time, abstime]   = deal([]);
+            end
+    end
     daqname     = obj.Name;
 
     clients = fieldnames(mpctrl.subscriber);
@@ -25,15 +37,17 @@ if isstruct(mpctrl.subscriber)
         client              = mpctrl.subscriber.(clients{i});
         packet.name         = client.name;
         packet.instrument   = client.instrument;
-        [ind chan]          = GetChannelIndices(client.instrument, daqname);
-        if isempty(ind)
-            packet.message = 'No data from subscribed channels';
-        else
-            packet.channels = CellWrap(chan);
-            packet.data     = data(:,ind);
-            packet.time     = time;
-            packet.timestamp= datenum(abstime);
-            % TODO: parse the event
+        packet.message      = event;
+        % if the instrument or data is empty we send an empty packet
+        if ~isempty(client.instrument) && ~isempty(data)
+            [ind chan]          = GetChannelIndices(client.instrument, daqname);
+            if ~isempty(ind)
+                packet.channels = CellWrap(chan);
+                packet.units    = CellWrap(obj.Channel(ind).Units);
+                packet.data     = data(:,ind);
+                packet.time     = (time - time(1)) * 1000;  % convert to ms
+                packet.timestamp= datenum(abstime);
+            end
         end
         % send the packet
         try

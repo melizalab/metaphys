@@ -72,7 +72,7 @@ function [] = AddInstrumentTelegraph(instrument, telegraph, varargin)
 %
 % See Also: UPDATETELEGRAPH, GETTELEGRAPH, DELETEINSTRUMENTTELEGRAPH
 %
-% $Id: AddInstrumentTelegraph.m,v 1.2 2006/01/14 00:48:05 meliza Exp $
+% $Id: AddInstrumentTelegraph.m,v 1.3 2006/01/19 03:14:52 meliza Exp $
 
 % This function is just a wrapper for private/AddTelegraph. If you want to
 % add another "standard" telegraph, this is where to set up how the
@@ -127,7 +127,3 @@ daq = GetDAQ(daqname);
 c   = addchannel(daq, hwchannel, channelname);
 set(c,'InputRange',[-10 10],'SensorRange',[-10 10],'UnitsRange',[-10 10],...
     'Units', 'V');
-
-        
-
-

@@ -29,5 +29,8 @@
 % Files
 %
 %   GetSubscriberNames - Returns a list of the current subscribers
+%   AddSubscriber      - Adds a subscriber to the acquisition system.
+%   DataHandler        - Handles dispersing data to subscribers
+%   DeleteSubscriber   - Unregisters a subscriber from the acquisition system.
 %
-% $Id: Contents.m,v 1.1 2006/01/18 19:01:02 meliza Exp $
+% $Id: Contents.m,v 1.2 2006/01/19 03:14:51 meliza Exp $
