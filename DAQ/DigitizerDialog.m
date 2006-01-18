@@ -7,7 +7,7 @@ function [] = DigitizerDialog()
 %
 % See Also: INITDAQ, RESETDAQ, DELETEDAQ
 %
-% $Id: DigitizerDialog.m,v 1.2 2006/01/11 03:19:56 meliza Exp $
+% $Id: DigitizerDialog.m,v 1.3 2006/01/18 19:01:04 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -63,7 +63,7 @@ function [] = updateProperties(obj, event)
 % Retrieves properties from the current object and displays them
 myproperties    = {'Type','SampleRate', 'InputType'};
 currentDAQ  = GetUIParam(mfilename,'systems','Selected');
-if ~strcmpi(currentDAQ, ' ')
+if ~isempty(currentDAQ)
     for i = 1:length(myproperties)
         if IsDAQProperty(currentDAQ, myproperties{i})
             info    = GetDAQPropInfo(currentDAQ, myproperties{i});

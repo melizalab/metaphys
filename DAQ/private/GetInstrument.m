@@ -12,10 +12,12 @@ function instrument = GetInstrument(instrumentnames)
 %
 % instrument = GETINSTRUMENT(instrumentnames)
 %
-% $Id: GetInstrument.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: GetInstrument.m,v 1.2 2006/01/18 19:01:08 meliza Exp $
 
 if iscell(instrumentnames)
-    instrument(i)  = getstructure(instrumentnames{i});
+    for i = 1:length(instrumentnames)
+        instrument(i)  = getstructure(instrumentnames{i});
+    end
 else
     instrument     = getstructure(instrumentnames);
 end

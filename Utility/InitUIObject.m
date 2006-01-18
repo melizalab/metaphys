@@ -19,14 +19,14 @@ function handle = InitUIObject(module, tag, creation_string, varargin)
 %   properties      - optional comma-delim used to the properties of 
 %                     the object
 %
-%   $Id: InitUIObject.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+%   $Id: InitUIObject.m,v 1.2 2006/01/18 19:01:12 meliza Exp $
 
 if nargin < 3
     error('METAPHYS:InitUIObject:argumentError','Not enough arguments');
 end
 
 %% Generate the object
-h = evalin('caller',creation_string, []);
+h = evalin('caller',creation_string);
 
 if ~ishandle(h)
     error('METAPHYS:InitUIObject:objectInitializationError',...

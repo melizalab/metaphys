@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See Also:  PROTOCOLTEMPLATE
 %
-% $Id: SealTest.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: SealTest.m,v 1.2 2006/01/18 19:01:10 meliza Exp $
 
 
 % Parse action
@@ -40,6 +40,7 @@ switch lower(action)
             action, mfilename)
 end
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = startProtocol()
 % Start the protocol running.
@@ -52,6 +53,71 @@ function [] = stopProtocol()
 function [] = setupFigure()
 % Populate the fields of the figure with the right options
 
+%% instruments and related options
+instruments = GetInstrumentNames;
+SetUIParam(me, 'instrument', instruments);
+
+%% populate with default values
+defaults    = GetDefaults(me);  % this should NOT be empty
+
+if isfield(defaults, 'pulse_amp')
+    SetUIParam(me, 'pulse_amp', defaults.pulse_amp)
+end
+if isfield(defaults, 'pulse_len')
+    SetUIParam(me, 'pulse_len', defaults.pulse_len)
+end
+%% instrument is the last one selected, otherwise defaults to currently
+%% selected in metaphys
+if isfield(defaults, 'instrument')
+    instr   = defaults.instrument;
+else
+    instr   = '';
+end
+if isempty(strmatch(instr, instruments, 'exact'))
+    instr   = GetUIParam('metaphys','instruments','selected');
+end
+SetUIParam(me, 'instrument', 'selected', instr)
+pickInstrument
+
+%% likewise with input and command; if no default use first channel (do
+%% nothing)
+if isfield(defaults, 'output')
+    SetUIParam(me, 'output', 'selected', defaults.output);
+end
+if isfield(defaults, 'command')
+    SetUIParam(me, 'command', 'selected', defaults.command);
+end
+pickCommand
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = pickInstrument(varargin)
+% populates selection popups for output and command
+instrument  = GetUIParam(me, 'instrument', 'selected');
+if isempty(instrument)
+    inputs  = {};
+    outputs = {};
+else
+    inputs  = GetInstrumentChannelNames(instrument, 'input');
+    outputs  = GetInstrumentChannelNames(instrument, 'output');
+end
+SetUIParam(me, 'output', outputs);
+SetUIParam(me, 'command', inputs);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = pickCommand(varargin)
+% looks up the current units and holding value of the commandchannel
+instrument  = GetUIParam(me, 'instrument', 'selected');
+command     = GetUIParam(me, 'command', 'selected');
+if ~isempty(instrument) & ~isempty(command)
+    holding     = GetInstrumentChannelProps(instrument, command,...
+        'DefaultChannelValue');
+    units       = GetInstrumentChannelProps(instrument, command,...
+        'Units');
+    SetUIParam(me, 'pulse_base', num2str(holding))
+    SetUIParam(me, 'pulse_base_units', units)
+    SetUIParam(me, 'pulse_amp_units', units)
+end
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function m = me()
 % Returns the module name (lowercase of mfilename)
@@ -61,9 +127,15 @@ m   = lower(mfilename);
 function [] = createFigure()
 % Creates the SealTest figure. Note that we are using normalized units.
 
+fig = FindFigure(me);
+if ~isempty(fig)
+    return
+end
+
 fig = OpenFigure(me,'CloseRequestFcn',@close_callback);
 SetObjectDefaults(fig, 'figure')
 ResizeFigure(fig,[560 420],'pixels')
+bkgnd   = get(0,'defaultUicontrolBackgroundColor');
 
 %% Axes
 InitUIObject(me,'axes','axes','position',[0.09 0.25 0.5 0.7],...
@@ -77,19 +149,19 @@ w   = w-20;
 hw  = w/3;
 h   = h-50;
 InitUIControl(ph, me, 'instrument', 'style', 'popupmenu',...
-    'position',[10 h w 20], 'String', ' ', 'HorizontalAlignment','right');
+    'position',[10 h w 20], 'String', ' ', 'Callback', @pickInstrument);
 
 h   = h-30;
 uicontrol(ph, 'style', 'text','String', 'Output:',...
     'position',[10 h hw 20],'HorizontalAlignment','left');
 InitUIControl(ph, me, 'output', 'style', 'popupmenu',...
-    'position', [10+hw h w-hw 20],'String', ' ', 'HorizontalAlignment','right');
+    'position', [10+hw h w-hw 20],'String', ' ');
 
 h   = h-30;
 uicontrol(ph, 'style', 'text', 'String', 'Command:',...
     'position', [10 h hw 20], 'HorizontalAlignment','left');
 InitUIControl(ph, me, 'command', 'style', 'popupmenu',...
-    'position', [10+hw h w-hw 20],'String',' ', 'HorizontalAlignment','right');
+    'position', [10+hw h w-hw 20],'String',' ', 'Callback', @pickCommand);
 
 %% Resistance display
 ph  = uipanel('position',[0.62 0.42 0.35 0.25],...
@@ -113,39 +185,52 @@ set(h([2 5]),'ForegroundColor',[0 0 1],'BackgroundColor',...
     get(0,'defaultUicontrolBackgroundColor'));
 
 %% Pulse Control
-ph = uipanel('position',[0.62 0.22 0.35 0.2],'title','Pulse');
+ph = uipanel('position',[0.62 0.20 0.35 0.22],'title','Pulse');
 [w h] = GetUIObjectSize(ph, 'pixels');
 w   = w-20;
 labelw  = w/2;
 boxw    = w/3;
 unitw   = w/6;
 % Pulse Size
-h   = h-40;
+h   = h-37;
 uicontrol(ph, 'style', 'text','String', 'Amplitude:',...
     'position',[10 h-2 labelw 20],'HorizontalAlignment','left');
 InitUIControl(ph, me, 'pulse_amp', 'style', 'edit',...
     'position', [10+labelw h boxw 20],'String', ' ',...
     'HorizontalAlignment','right');
-InitUIControl(ph, me, 'pulse_units', 'style', 'text',...
+InitUIControl(ph, me, 'pulse_amp_units', 'style', 'text',...
     'position',[10+labelw+boxw h-2 unitw 20],...
     'String','mV','HorizontalAlignment','right',...
-    'BackgroundColor',get(0,'defaultUicontrolBackgroundColor'));    
+    'BackgroundColor',bkgnd);    
 % Pulse width
-h   = h-30;
+h   = h-22;
 uicontrol(ph, 'style', 'text','String', 'Length:',...
     'position',[10 h-2 labelw 20],'HorizontalAlignment','left');
 InitUIControl(ph, me, 'pulse_len', 'style', 'edit',...
     'position', [10+labelw h boxw 20],'String', ' ',...
     'HorizontalAlignment','right');
-uicontrol(ph, 'style', 'text',...
+InitUIControl(ph, me, 'pulse_len_units', 'style', 'text',...
     'position',[10+labelw+boxw h-2 unitw 20],...
-    'String','ms','HorizontalAlignment','right');
+    'String','ms','HorizontalAlignment','right',...
+    'BackgroundColor',bkgnd);
+% Hold value
+h   = h-22;
+uicontrol(ph, 'style', 'text','String', 'Holding:',...
+    'position',[10 h-2 labelw 20],'HorizontalAlignment','left');
+InitUIControl(ph, me, 'pulse_base', 'style', 'edit',...
+    'position', [10+labelw h boxw 20],'String', ' ',...
+    'HorizontalAlignment','right');
+InitUIControl(ph, me, 'pulse_base_units', 'style', 'text',...
+    'position',[10+labelw+boxw h-2 unitw 20],...
+    'String','mV','HorizontalAlignment','right',...
+    'BackgroundColor',bkgnd);
+
 
 %% Scaling
 %h   = h-20;
 % uicontrol(ph, 'style', 'text','String', 'Scaling:',...
 %     'position',[10 h-2 labelw 20],'HorizontalAlignment','left');
-bgh = uibuttongroup('position',[.62 .05 0.35 0.17],...
+bgh = uibuttongroup('position',[.62 .02 0.35 0.17],...
     'Title','Scaling');
 InitUIParam(me, 'scaling', bgh)
 % four buttons: Auto, Manual, [-1 5] and [-1 1]
@@ -181,6 +266,12 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = close_callback(varargin)
 % Handles the callback for the close actions
+defaults    = struct('pulse_amp', GetUIParam(me, 'pulse_amp','stringval'),...
+    'pulse_len', GetUIParam(me, 'pulse_len', 'stringval'),...
+    'instrument', GetUIParam(me, 'instrument', 'selected'),...
+    'output', GetUIParam(me, 'output', 'selected'),...
+    'command', GetUIParam(me, 'command', 'selected'));
+SetDefaults(me, 'control', defaults);
 DeleteModule(me)
 
 % InitUIControl(ph, me, 'pulse_len', 'style', 'edit',...

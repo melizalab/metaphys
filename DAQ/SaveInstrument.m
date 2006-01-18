@@ -6,8 +6,11 @@ function [] = SaveInstrument(instrument, filename)
 % <instrument> to the file <filename>
 %
 %
-% $Id: SaveInstrument.m,v 1.2 2006/01/17 18:07:56 meliza Exp $
+% $Id: SaveInstrument.m,v 1.3 2006/01/18 19:01:06 meliza Exp $
 
-z.instrument.(instrument) = GetInstrument(instrument);
-WriteStructure(filename, z)
-DebugPrint('Saved instrument %s to file.', instrument)
+error('METAPHYS:deprecatedFunction',...
+    '%s is deprecated.' mfilename)
+% 
+% z.instrument.(instrument) = GetInstrument(instrument);
+% WriteStructure(filename, z)
+% DebugPrint('Saved instrument %s to file.', instrument)

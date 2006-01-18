@@ -15,22 +15,25 @@ function [] = LoadInstrument(filename, newname)
 % DELETE, for example, on one of them, will result in the other
 % instrument's channel being deleted as well.
 %
-% $Id: LoadInstrument.m,v 1.2 2006/01/17 18:07:55 meliza Exp $
+% $Id: LoadInstrument.m,v 1.3 2006/01/18 19:01:06 meliza Exp $
 
-z   = load('-mat', filename);
-if isfield(z, 'instrument')
-    if isstruct(z.instrument)
-        fieldn  = fieldnames(z.instrument);
-        instrument  = z.instrument.(fieldn{1});
-        if nargin > 1
-            instrument.name = newname;
-        end
-        InitInstrument(instrument);
-    else
-        error('METAPHYS:invalidFile:',...
-            'MCF file does not contain any instruments.')
-    end
-else
-    error('METAPHYS:invalidFile:',...
-        'MCF file does not contain any instruments.')
-end
+error('METAPHYS:deprecatedFunction',...
+    '%s is deprecated.', mfilename)
+
+% z   = load('-mat', filename);
+% if isfield(z, 'instrument')
+%     if isstruct(z.instrument)
+%         fieldn  = fieldnames(z.instrument);
+%         instrument  = z.instrument.(fieldn{1});
+%         if nargin > 1
+%             instrument.name = newname;
+%         end
+%         InitInstrument(instrument);
+%     else
+%         error('METAPHYS:invalidFile:',...
+%             'MCF file does not contain any instruments.')
+%     end
+% else
+%     error('METAPHYS:invalidFile:',...
+%         'MCF file does not contain any instruments.')
+% end

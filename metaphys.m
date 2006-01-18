@@ -10,11 +10,11 @@ function [] = metaphys()
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.5 2006/01/17 20:22:07 meliza Exp $
+% $Id: metaphys.m,v 1.6 2006/01/18 19:01:01 meliza Exp $
 
 initPath;
 DebugSetOutput('console')
-DebugPrint('Starting METAPHYS, $Revision: 1.5 $')
+DebugPrint('Starting METAPHYS, $Revision: 1.6 $')
 DebugPrint('Initialized METAPHYS path.')
 % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
 InitControl;
@@ -57,10 +57,10 @@ cb      = @menu;
 file    = uimenu(fig, 'label', '&File');
 uimenu(file, 'label', '&Load Prefs...', 'tag', 'm_load_prefs', 'callback', cb)
 uimenu(file, 'label', '&Save Prefs...', 'tag', 'm_save_prefs', 'callback', cb)
-uimenu(file, 'label', 'Load &Instrument...', 'tag', 'm_load_instr',...
-    'callback', cb, 'separator', 'on')
-uimenu(file, 'label', 'Save Selected I&nstrument...', 'tag', 'm_save_instr',...
-    'callback', cb)
+% uimenu(file, 'label', 'Load &Instrument...', 'tag', 'm_load_instr',...
+%     'callback', cb, 'separator', 'on')
+% uimenu(file, 'label', 'Save Selected I&nstrument...', 'tag', 'm_save_instr',...
+%     'callback', cb)
 uimenu(file, 'label', 'Data File &Prefix...', 'tag', 'm_set_prefix',...
     'callback', cb, 'separator', 'on')
 uimenu(file, 'label', 'E&xit', 'tag', 'm_exit', 'callback', cb,...
@@ -249,7 +249,8 @@ switch tag
             DeleteInstrument(selected)
             updateInstruments
         end
-        
+    case 'seal_test'
+        SealTest('init')
     otherwise
         DebugPrint('No action has been described for the callback on %s.',...
             tag)

@@ -17,7 +17,7 @@ function [props] = GetDefaults(class, defloc)
 %
 % See Also: CLEARDEFAULTS, SETDEFAULTS, SETOBJECTDEFAULTS
 %
-% $Id: GetDefaults.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: GetDefaults.m,v 1.2 2006/01/18 19:01:12 meliza Exp $
 
 if nargin > 1
     switch lower(defloc)
@@ -33,10 +33,10 @@ if nargin > 1
 else
     props   = fromControl(class);
     if isempty(props)
-        props   = fromFile(class);
+        props   = fromPrefs(class);
     end
     if isempty(props)
-        props   = fromPrefs(class);
+        props   = fromFile(class);
     end
 end
     
