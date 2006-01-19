@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See Also:  PROTOCOLTEMPLATE
 %
-% $Id: SealTest.m,v 1.5 2006/01/20 00:04:43 meliza Exp $
+% $Id: SealTest.m,v 1.6 2006/01/20 02:03:16 meliza Exp $
 
 
 % Parse action
@@ -30,10 +30,6 @@ switch lower(action)
     case 'init'
         createFigure
         setupFigure
-    case 'start'
-        startProtocol
-    case 'stop'
-        stopProtocol
     otherwise
         error('METAPHYS:protocol:noSuchAction',...
             'No such action %s supported by protocol %s',...

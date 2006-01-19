@@ -1,4 +1,4 @@
-function out = packet_struct()
+function out = packet_struct(varargin)
 %
 % PACKET_STRUCT Returns the header for the data packet structure.
 %
@@ -14,13 +14,11 @@ function out = packet_struct()
 %   .message    - diagnostic information. generally empty if the packet was
 %                 returned under normal conditions
 %
-% $Id: packet_struct.m,v 1.2 2006/01/19 03:15:02 meliza Exp $
+% $Id: packet_struct.m,v 1.3 2006/01/20 02:03:13 meliza Exp $
 
-out = struct('name','',...
-             'instrument','',...
-             'channels',{{}},...
-             'units',{{}},...
-             'data',[],...
-             'time',[],...
-             'timestamp',[],...
-             'message','');
+fields  = {'name', 'instrument', 'channels', 'units', 'data', 'time',...
+           'timestamp', 'message'};
+C       = {'', '', {}, {}, [], [], [], ''};
+req     = size(fields,2);
+
+out     = StructConstruct(fields, C, req, varargin);

@@ -1,11 +1,14 @@
-function [s, fields] = param_struct()
+function [S] = param_struct(varargin)
 %
 % PARAM_STRUCT Header for the parameter structure. 
 %
-% Defines the param structure (by returning a structure with the proper
-% fields) The parameter structure is used to define an experimental
-% parameter that can be manipulated with the PARAMFIGURE figure or the
-% GETPARAM and GETPARAM functions.
+% Defines the param structure. The parameter structure is used to define an
+% experimental parameter that can be manipulated with the PARAMFIGURE
+% figure or the GETPARAM and GETPARAM functions.
+%
+% S = PARAM_STRUCT  - returns an empty structure
+% S = PARAM_STRUCT(description, fieldtype, [value], [choices], [units],...
+%                  [callback)
 %
 % Required fields:
 %
@@ -30,8 +33,9 @@ function [s, fields] = param_struct()
 %
 % See Also: PARAMFIGURE, GETPARAM
 %
-% $Id: param_struct.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: param_struct.m,v 1.2 2006/01/20 02:03:14 meliza Exp $
 
 fields = {'description','fieldtype','value','choices','units','callback'};
 C      = {'','',[],{},'',[]};
-s      = cell2struct(C, fields, 2);
+
+S      = StructConstruct(fields, C, 2, varargin);

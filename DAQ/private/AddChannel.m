@@ -9,7 +9,7 @@ function [] = AddChannel(instrument, channelname, channel)
 %
 % See Also: CHANNEL_STRUCT
 %
-% $Id: AddChannel.m,v 1.3 2006/01/12 02:02:02 meliza Exp $
+% $Id: AddChannel.m,v 1.4 2006/01/20 02:03:12 meliza Exp $
 
 global mpctrl
 PROTECTED_NAMES = {'input','output','all'};
@@ -48,10 +48,7 @@ switch lower(parent.Type)
         'The channel type %s cannot be added to instruments.', channel.Type)
 end
 
-chan_struct = struct('obj', channel,...
-                     'name', channelname,...
-                     'daq', parent.Name,...
-                     'type', type);
+chan_struct = channel_struct(channel, channelname, parent.Name, type);
                      
 
 mpctrl.instrument.(instrument).channels.(channelname)    = chan_struct;

@@ -1,4 +1,4 @@
-function telestruct = telegraph_struct()
+function telestruct = telegraph_struct(varargin)
 %
 % TELEGRAPH_STRUCT Header for the telegraph structure
 %
@@ -11,11 +11,10 @@ function telestruct = telegraph_struct()
 %           .updfn      - function handle that updates the instrument
 %           .output     - arguments that define the output of the telegraph
 %
-% $Id: telegraph_struct.m,v 1.2 2006/01/14 00:48:14 meliza Exp $
+% $Id: telegraph_struct.m,v 1.3 2006/01/20 02:03:14 meliza Exp $
 
-telestruct  = struct('name','',...
-                     'type','',...
-                     'obj', [],...
-                     'checkfn', [],...
-                     'updfn', [],...
-                     'output', []);
+fields  = {'name', 'type', 'obj', 'checkfn', 'updfn', 'output'};
+C       = {'','',[],[],[],[]};
+req     = size(fields,2);
+
+telestruct  = StructConstruct(fields, C, req, varargin);

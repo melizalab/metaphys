@@ -1,4 +1,4 @@
-function s  = instrument_struct()
+function s  = instrument_struct(varargin)
 %
 % INSTRUMENT_STRUCT Header for the instrument structure.
 
@@ -11,9 +11,10 @@ function s  = instrument_struct()
 %   channels  - an array of channels connected to the device's input/output
 %   telegraph - a structure array defining the device's telegraphs
 %
-% $Id: instrument_struct.m,v 1.3 2006/01/14 00:48:14 meliza Exp $
+% $Id: instrument_struct.m,v 1.4 2006/01/20 02:03:13 meliza Exp $
 
-s   = struct('name','',...
-             'type','',...
-             'channels',[],...
-             'telegraph',[]);
+fields  = {'name', 'type', 'channels', 'telegraph'};
+C       = {'', '', [], []};
+req     = 1;
+
+s   = StructConstruct(fields, C, req, varargin);

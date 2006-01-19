@@ -1,4 +1,4 @@
-function out = subscriber_struct()
+function out = subscriber_struct(varargin)
 %
 % SUBSCRIBER_STRUCT Returns the header for the subscriber structure
 %
@@ -16,9 +16,10 @@ function out = subscriber_struct()
 %
 %  See Also: PACKET_STRUCT
 %
-% $Id: subscriber_struct.m,v 1.1 2006/01/18 19:01:09 meliza Exp $
+% $Id: subscriber_struct.m,v 1.2 2006/01/20 02:03:14 meliza Exp $
 
-out = struct('name','',...
-             'instrument',{},...
-             'fhandle',[],...
-             'fargs',{});
+fields  = {'name', 'instrument', 'fhandle', 'fargs'};
+C       = {'', {}, [], {}};
+req     = size(fields, 2);
+
+out     = StructConstruct(fields, C, req, varargin);
