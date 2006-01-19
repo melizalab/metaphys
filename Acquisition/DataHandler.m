@@ -6,7 +6,7 @@ function [] = DataHandler(obj, event)
 % processed.  It runs through the list of subscribers, figures out who
 % wants what data, and passes data packets to the subscribing functions.
 %
-% $Id: DataHandler.m,v 1.2 2006/01/19 03:14:51 meliza Exp $
+% $Id: DataHandler.m,v 1.3 2006/01/19 21:36:04 meliza Exp $
 
 global mpctrl
 
@@ -28,6 +28,8 @@ if isstruct(mpctrl.subscriber)
             end
     end
     daqname     = obj.Name;
+    % noise simulator
+     data    = data + randn(size(data))/5;
 
     clients = fieldnames(mpctrl.subscriber);
     for i = 1:length(clients);
