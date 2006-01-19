@@ -22,7 +22,7 @@ function [] = StartSweep(length, interval, daqnames)
 %
 % See Also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.2 2006/01/19 03:14:58 meliza Exp $
+% $Id: StartSweep.m,v 1.3 2006/01/20 00:04:38 meliza Exp $
 
 % Get DAQ objects
 if nargin < 3
@@ -53,18 +53,6 @@ for i = 1:size(types,1)
             set(daqs(i),'RepeatOutput',0);
     end
 end
-% ai      = strmatch('analog input', lower(daqs.Type));
-% for i = 1:size(ai,1)
-%     srate   = get(daqs(ai(i)), 'SampleRate');
-%     samp    = length .* srate;
-%     set(daqs(ai(i)), 'SamplesPerTrigger', samp,...
-%                      'SamplesAcquiredFcn', []);
-%     if ~isempty(interval)
-%         set(daqs(ai(i)),... 
-%                      'SamplesAcquiredFcnCount', samp,...
-%                      'SamplesAcquiredFcn', @DataHandler);
-%     end
-% end
 
 StartDAQ(daqs);    
     

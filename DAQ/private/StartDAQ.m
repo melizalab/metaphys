@@ -10,7 +10,7 @@ function [] = StartDAQ(daqs)
 %
 % See Also: STOPDAQ
 %
-% $Id: StartDAQ.m,v 1.1 2006/01/19 03:15:00 meliza Exp $
+% $Id: StartDAQ.m,v 1.2 2006/01/20 00:04:42 meliza Exp $
 
 
 % check for running objects
@@ -67,6 +67,7 @@ end
 if ~any(do_start)
     DebugPrint('No DAQ devices to start!');
 else
+    UpdateTelegraph;
     start(daqs(find(do_start)))
     if any(do_start & do_trigger)
         trigger(daqs(find(do_start & do_trigger)))

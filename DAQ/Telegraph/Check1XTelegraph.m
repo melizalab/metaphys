@@ -29,7 +29,7 @@ function results = Check1XTelegraph(instrument, object, scaled_out)
 %
 % See Also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: Check1XTelegraph.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: Check1XTelegraph.m,v 1.2 2006/01/20 00:04:40 meliza Exp $
 
 % Retrieve voltages
 voltages    = CheckAnalogTelegraph(instrument, object);
@@ -38,19 +38,16 @@ voltages    = CheckAnalogTelegraph(instrument, object);
 % don't have access to that, so we have to use the units that the user set
 % on the scaled output.
 chan        = GetInstrumentChannel(instrument, scaled_out);
-units       = get(chan,'Units');        % this might be a cell array
 
-% Determine instrument state
-if iscell(units)
-    gain    = ones(size(units));
-    for i = 1:length(units)
-        gain(i)        = calcgain(voltages(1), units{i});
-    end
-else
-    gain               = calcgain(voltages(1), units);
+% Determine instrument state for each scaled out
+for i = 1:length(chan)
+    units{i,:}    = get(chan{i},'Units');
+    gain{i,:}     = calcgain(voltages(1), units{i});
 end
 
-results = struct('units', units,...
+results = struct('instrument',instrument,...
+                 'channel', scaled_out,...
+                 'units', units,...
                  'gain', gain);
              
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

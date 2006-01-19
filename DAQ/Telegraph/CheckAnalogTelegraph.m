@@ -14,10 +14,14 @@ function results = CheckAnalogTelegraph(instrument, object, varargin)
 %
 % See Also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: CheckAnalogTelegraph.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: CheckAnalogTelegraph.m,v 1.2 2006/01/20 00:04:41 meliza Exp $
 
 ai      = object(1).Parent;
-chan    = object.Channel;
+chan    = object.Index;
 % read a single sample from the daq; change this if values are too unstable
 val     = getsample(ai);
-results = val([chan{:}]);
+if iscell(chan)
+    results = val([chan{:}]);
+else
+    results = val(chan);
+end

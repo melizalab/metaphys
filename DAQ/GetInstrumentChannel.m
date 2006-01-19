@@ -16,7 +16,7 @@ function channel    = GetInstrumentChannel(instrument, cname)
 %
 % See Also: GETCHANNELSTRUCT
 %
-% $Id: GetInstrumentChannel.m,v 1.1 2006/01/19 21:57:09 meliza Exp $
+% $Id: GetInstrumentChannel.m,v 1.2 2006/01/20 00:04:37 meliza Exp $
 
 chanstruct  = GetChannelStruct(instrument, cname);
-channel     = {chanstruct.obj};
+channel     = CellWrap(chanstruct.obj);

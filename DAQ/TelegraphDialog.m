@@ -14,7 +14,7 @@ function [] = TelegraphDialog(instrumentname, telegraph)
 %
 % See Also: ADDINSTRUMENTTELEGRAPH
 %
-% $Id: TelegraphDialog.m,v 1.3 2006/01/19 03:14:58 meliza Exp $
+% $Id: TelegraphDialog.m,v 1.4 2006/01/20 00:04:39 meliza Exp $
 
 %% Open the figure
 fig     = OpenGuideFigure(mfilename);
@@ -44,8 +44,8 @@ updatePanel
 %% Set callbacks
 setCallbacks
 
-set(fig,'WindowStyle','modal')
-uiwait(fig)
+% set(fig,'WindowStyle','modal')
+% uiwait(fig)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = setCallbacks()
@@ -199,7 +199,7 @@ s   = struct('instrument',GetUIParam(mfilename,'instrument_name'),...
     'daq',GetUIParam(mfilename,'tele_daq','Selected'),...
     'mode',str2double(GetUIParam(mfilename,'tele_mode','Selected')),...
     'gain',str2double(GetUIParam(mfilename,'tele_gain','Selected')),...
-    'out',GetUIParam(mfilename,'tele_out','Selected'));
+    'out',{cellstr(GetUIParam(mfilename,'tele_out','Selected'))});
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = buttonHandler(obj, event)

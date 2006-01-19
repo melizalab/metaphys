@@ -10,14 +10,14 @@ function out = GetSelected(handle)
 %
 % handle - graphics object handle for the list or uicontrol
 %
-% $Id: GetSelected.m,v 1.4 2006/01/19 03:15:05 meliza Exp $
+% $Id: GetSelected.m,v 1.5 2006/01/20 00:04:45 meliza Exp $
 
 type    = get(handle,'type');
 switch type
     case 'uicontrol'
         i = get(handle,'Value');
         s = get(handle,'String');
-        if i == 0 || isempty(s)
+        if any(i == 0) || isempty(s)
             out = '';
         else
             if iscell(s)

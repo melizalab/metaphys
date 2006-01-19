@@ -14,7 +14,7 @@ function [] = UpdScaledOutput(instrument, results, scaled_out)
 %
 % See Also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: UpdScaledOutput.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: UpdScaledOutput.m,v 1.2 2006/01/20 00:04:42 meliza Exp $
 
 % Get the channels
 chan        = GetInstrumentChannel(instrument, scaled_out);
@@ -29,7 +29,10 @@ if length(results) < length(chan)
 end
 
 for i = 1:length(chan)
-    sensrange   = get(chan(i),'SensorRange');
-    set(chan(i), 'Units', results(i).units,...
-        'UnitsRange', sensrange .* results(i).gain);
+    ch          = chan{i};
+    sensrange   = get(ch,'SensorRange');
+    if strcmpi(get(ch.Parent, 'Running'), 'Off')
+        set(ch, 'Units', results(i).units)
+    end
+    set(ch, 'UnitsRange', sensrange .* results(i).gain);
 end

@@ -1,4 +1,4 @@
-function [] = UpdateTelegraph(instrument, telegraph)
+function [results] = UpdateTelegraph(instrument, telegraph)
 %
 % UPDATETELEGRAPH Reads values from instrument telegraphs and updates the
 % instrument control structures accordingly (e.g. by changing gain or
@@ -19,9 +19,10 @@ function [] = UpdateTelegraph(instrument, telegraph)
 %       results   = checkfn(instrument, object, fnargs...)
 %       updfn(instrument, results, fnargs...)
 %
-% $Id: UpdateTelegraph.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: UpdateTelegraph.m,v 1.2 2006/01/20 00:04:40 meliza Exp $
 global mpctrl
 
+results = [];
 if nargin > 1
     if ~isfield(mpctrl.instrument, instrument)
         error('METAPHYS:daq:noSuchInstrument',...
@@ -39,40 +40,44 @@ end
 switch nargin
     case 2
         tele_struct = mpctrl.instrument.(instrument).telegraph.(telegraph);
-        myupdatetele(instrument, tele_struct)
+        results.(instrument) = myupdatetele(instrument, tele_struct)
     case 1
         inst_struct = mpctrl.instrument.(instrument);
-        updateinstrumenttelegraphs(instrument, inst_struct);
+        results.(instrument) = updateinstrumenttelegraphs(instrument, inst_struct);
     case 0
         instruments = GetInstrumentNames();
         warning('off','METAPHYS:daq:noTelegraphsDefined');
         for i = 1:length(instruments)
-            updateinstrumenttelegraphs(instruments{i},...
-                mpctrl.instrument.(instruments{i}));
+            r   = updateinstrumenttelegraphs(instruments{i},...
+                        mpctrl.instrument.(instruments{i}));
+            if ~isempty(r)
+                results.(instruments{i}) = r;
+            end
         end
         warning('on','METAPHYS:daq:noTelegraphsDefined');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = updateinstrumenttelegraphs(instrument, inst_struct)
+function [results] = updateinstrumenttelegraphs(instrument, inst_struct)
 % we just throw a warning if there aren't any telegraphs
-if ~isfield(inst_struct, telegraph)
+results = [];
+if isempty(inst_struct.telegraph)
     warning('METAPHYS:daq:noTelegraphsDefined',...
         'No telegraphs have been defined on this instrument.')
 else
     telenames   = fieldnames(inst_struct.telegraph);
     for i = 1:length(telenames)
-        myupdatetele(instrument, inst_struct.telegraph.(telenames{i}));
+        results = cat(1, results,...
+            myupdatetele(instrument, inst_struct.telegraph.(telenames{i})));
     end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = myupdatetele(instrument, tele_struct)
+function [results] = myupdatetele(instrument, tele_struct)
 % Actually updates a single telegraph on a single instrument.
 
 results = feval(tele_struct.checkfn, instrument,...
-    tele_struct.object, tele_struct.fnargs);
-
-feval(tele_struct.updfn, instrument, results, tele_struct.fnargs);
+    tele_struct.obj, tele_struct.output);
+feval(tele_struct.updfn, instrument, results, tele_struct.output);
 
 

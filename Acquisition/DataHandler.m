@@ -6,13 +6,21 @@ function [] = DataHandler(obj, event)
 % processed.  It runs through the list of subscribers, figures out who
 % wants what data, and passes data packets to the subscribing functions.
 %
-% $Id: DataHandler.m,v 1.3 2006/01/19 21:36:04 meliza Exp $
+% DATAHANDLER also handles calling telegraph handling functions; if scaling
+% on channels is set correctly before calling getdata, the data will have
+% that scaling. However, because the 'Units' property is read-only during
+% acquisition, we have to set that value in the data packet by hand, which
+% means UpdateTelegraph needs to return its results in a parseable form.
+%
+% $Id: DataHandler.m,v 1.4 2006/01/20 00:04:36 meliza Exp $
 
 global mpctrl
 
 
 % get the subscribers (direct through mpctrl for speed)
 if isstruct(mpctrl.subscriber)
+    % handle telegraph data
+    telegraph_results = UpdateTelegraph;
     % retrieve the data, if there is any. This behavior is going to change
     % according to the type of event
     switch event.Type
@@ -29,9 +37,9 @@ if isstruct(mpctrl.subscriber)
     end
     daqname     = obj.Name;
     % noise simulator
-     data    = data + randn(size(data))/5;
+%      data    = data + randn(size(data))/5;
 
-    clients = fieldnames(mpctrl.subscriber);
+    clients = GetSubscriberNames;
     for i = 1:length(clients);
         % start with the default packet
         packet  = packet_struct;
@@ -49,6 +57,18 @@ if isstruct(mpctrl.subscriber)
                 packet.data     = data(:,ind);
                 packet.time     = (time - time(1)) * 1000;  % convert to ms
                 packet.timestamp= datenum(abstime);
+            end
+        end
+        % change the units according to telegraph data
+        if ~isempty(telegraph_results) && ...
+            isfield(telegraph_results, packet.instrument)
+            channels    = {telegraph_results.(packet.instrument).channel};
+            for j = 1:length(channels)
+                ind = strmatch(channels{j}, packet.channels);
+                if ~isempty(ind)
+                    packet.units{ind(1)} =...
+                        telegraph_results.(packet.instrument)(j).units;
+                end
             end
         end
         % send the packet

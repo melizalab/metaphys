@@ -1,4 +1,4 @@
-function results = Check200XTelegraph(instrument, object, varargin)
+function results = Check200XTelegraph(instrument, object, scaled_out)
 %
 % CHECK200XTELEGRAPH Checks the telegraph values on a 200-series Axon
 % amplifier. 
@@ -28,7 +28,7 @@ function results = Check200XTelegraph(instrument, object, varargin)
 % scaling is 1 pA/mV.
 % See Also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: Check200XTelegraph.m,v 1.2 2006/01/14 00:48:12 meliza Exp $
+% $Id: Check200XTelegraph.m,v 1.3 2006/01/20 00:04:41 meliza Exp $
 
 %% Retrieve voltages
 voltages    = CheckAnalogTelegraph(instrument, object);
@@ -38,7 +38,9 @@ mode    = calcmode(voltages(2));
 units   = calcunits(mode);
 gain    = calcgain(voltages(1));
 
-results = struct('mode', mode,...
+results = struct('instrument',instrument,...
+                 'channel',scaled_out,...
+                 'mode', mode,...
                  'units', units,...
                  'gain', gain);
 
