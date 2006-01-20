@@ -7,7 +7,7 @@ function [] = DeleteModule(module)
 %
 % module (String) - module name
 %
-% $Id: DeleteModule.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: DeleteModule.m,v 1.2 2006/01/20 22:02:34 meliza Exp $
 
 global mpctrl
 
@@ -15,6 +15,11 @@ module  = lower(module);
 
 if ~isfield(mpctrl,module)
     error('METAPHYS:moduleNotFound', 'No such module %s.', module);
+end
+
+% Call the object's destructor
+if exist(module,'file') > 0
+    feval(module, 'destroy')
 end
 
 % Delete the figure

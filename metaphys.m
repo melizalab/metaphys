@@ -10,11 +10,11 @@ function [] = metaphys()
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.6 2006/01/18 19:01:01 meliza Exp $
+% $Id: metaphys.m,v 1.7 2006/01/20 22:02:27 meliza Exp $
 
 initPath;
 DebugSetOutput('console')
-DebugPrint('Starting METAPHYS, $Revision: 1.6 $')
+DebugPrint('Starting METAPHYS, $Revision: 1.7 $')
 DebugPrint('Initialized METAPHYS path.')
 % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
 InitControl;
@@ -46,7 +46,7 @@ function [] = createFigure()
 DebugPrint('Opening main METAPHYS window.')
 fig = OpenGuideFigure(mfilename);
 movegui(fig,'northwest');
-set(fig,'CloseRequestFcn',@close_metaphys);
+set(fig,'units','normalized','CloseRequestFcn',@close_metaphys);
 %% Set callbacks on buttons
 btns    = findobj(fig, 'style', 'pushbutton');
 set(btns,'Callback',@button_push);

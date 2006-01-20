@@ -1,15 +1,15 @@
 
 MAIN GUI
-- add telegraphs to instrumentdialog
-- add holding voltages to main window
+- add telegraphs to instrumentdialog -DONE
+- add holding voltages to main window -DONE
 
 PROTOCOLS
-- SealTest
+- SealTest  -DONE (test with real amp)
 - Episode
 
 BACKEND
 - telegraphs for 700X series
-- triggers
+- triggers -DONE (test digital and hardware)
 
 EPISODEANALYSIS
 - >2 time points for parameters

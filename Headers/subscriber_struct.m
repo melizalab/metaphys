@@ -16,10 +16,10 @@ function out = subscriber_struct(varargin)
 %
 %  See Also: PACKET_STRUCT
 %
-% $Id: subscriber_struct.m,v 1.2 2006/01/20 02:03:14 meliza Exp $
+% $Id: subscriber_struct.m,v 1.3 2006/01/20 22:02:34 meliza Exp $
 
 fields  = {'name', 'instrument', 'fhandle', 'fargs'};
 C       = {'', {}, [], {}};
-req     = size(fields, 2);
+req     = 3;
 
 out     = StructConstruct(fields, C, req, varargin);

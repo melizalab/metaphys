@@ -6,37 +6,47 @@ function []= AddSubscriber(name, instrument, fhandle, varargin)
 % <instrument> to the acquisition system. When data is returned by the DAQ,
 % fhandle will be called (with arguments <fargs>, if supplied)
 %
+% ADDSUBSCRIBER(subscriber) - adds the subscriber structure defined by
+% <subscriber> to control.
+%
 % If a previous subscription exists with the same name it will be
 % overwritten.
 %
 % See Also: SUBSCRIBER_STRUCT
 %
-% $Id: AddSubscriber.m,v 1.2 2006/01/19 03:14:51 meliza Exp $
+% $Id: AddSubscriber.m,v 1.3 2006/01/20 22:02:28 meliza Exp $
 
 global mpctrl
 
+if ischar(name)
+    S  = subscriber_struct(name, instrument, fhandle, varargin);
+else
+    S  = name;
+end
+S.name  = lower(S.name);
+
 %% Check the arguments
-if ~isnan(str2double(name(1)))
+if ~isnan(str2double(S.name(1)))
     error('METAPHYS:invalidArgument',...
         'Subscriber names must begin with a letter.')
 end
 % instrument can be empty
-if isempty(instrument)
-    instrument  = [];
-elseif ~isnan(str2double(instrument(1)))
+if isempty(S.instrument)
+    S.instrument  = [];
+elseif ~isnan(str2double(S.instrument(1)))
     error('METAPHYS:invalidArgument',...
-        'The instrument name %s is invalid.', instrument)
+        'The instrument name %s is invalid.', S.instrument)
 end
-% instruments are checked at runtime
-if ~isa(fhandle, 'function_handle')
+if ~isa(S.fhandle, 'function_handle')
     error('METAPHYS:invalidArgument',...
         'Invalid function handle.')
 end
 
-subscriber  = struct('name', name,...
-                     'instrument',instrument,...
-                     'fhandle', fhandle,...
-                     'fargs',{varargin});
+
+% subscriber  = struct('name', name,...
+%                      'instrument',instrument,...
+%                      'fhandle', fhandle,...
+%                      'fargs',{varargin});
                  
-mpctrl.subscriber.(name)    = subscriber;
-DebugPrint('Added subscriber %s.', name);
+mpctrl.subscriber.(S.name)    = S;
+DebugPrint('Added subscriber %s.', S.name);

@@ -19,7 +19,7 @@ function [results] = UpdateTelegraph(instrument, telegraph)
 %       results   = checkfn(instrument, object, fnargs...)
 %       updfn(instrument, results, fnargs...)
 %
-% $Id: UpdateTelegraph.m,v 1.2 2006/01/20 00:04:40 meliza Exp $
+% $Id: UpdateTelegraph.m,v 1.3 2006/01/20 22:02:31 meliza Exp $
 global mpctrl
 
 results = [];
@@ -76,8 +76,8 @@ end
 function [results] = myupdatetele(instrument, tele_struct)
 % Actually updates a single telegraph on a single instrument.
 
-results = feval(tele_struct.checkfn, instrument,...
+results = tele_struct.checkfn(instrument,...
     tele_struct.obj, tele_struct.output);
-feval(tele_struct.updfn, instrument, results, tele_struct.output);
+tele_struct.updfn(instrument, results, tele_struct.output);
 
 

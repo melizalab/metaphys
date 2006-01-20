@@ -13,7 +13,7 @@ function [S] = StructConstruct(fields, defaults, required, arguments)
 % values and the structure returned. If no arguments are supplied, then the
 % constructor returns an empty structure.
 %
-% $Id: StructConstruct.m,v 1.1 2006/01/20 02:03:18 meliza Exp $
+% $Id: StructConstruct.m,v 1.2 2006/01/20 22:02:37 meliza Exp $
 
 nargs   = size(arguments,2);
 if nargs > 0
@@ -24,10 +24,10 @@ if nargs > 0
         error('METPHYS:invalidConstructor',...
             'Structure only has %d fields.', size(fields,2));
     end
-    if any(cellfun('isempty',arguments(1:required)))
-        error('METPHYS:invalidConstructor',...
-            'A required argument was empty.');
-    end
+%     if any(cellfun('isempty',arguments(1:required)))
+%         error('METPHYS:invalidConstructor',...
+%             'A required argument was empty.');
+%     end
 end
 
 

@@ -12,7 +12,7 @@ function [] = DataHandler(obj, event)
 % acquisition, we have to set that value in the data packet by hand, which
 % means UpdateTelegraph needs to return its results in a parseable form.
 %
-% $Id: DataHandler.m,v 1.4 2006/01/20 00:04:36 meliza Exp $
+% $Id: DataHandler.m,v 1.5 2006/01/20 22:02:28 meliza Exp $
 
 global mpctrl
 
@@ -36,8 +36,6 @@ if isstruct(mpctrl.subscriber)
             end
     end
     daqname     = obj.Name;
-    % noise simulator
-%      data    = data + randn(size(data))/5;
 
     clients = GetSubscriberNames;
     for i = 1:length(clients);
@@ -73,7 +71,7 @@ if isstruct(mpctrl.subscriber)
         end
         % send the packet
         try
-            feval(client.fhandle, packet, client.fargs{:})
+            client.fhandle(packet, client.fargs{:})
         catch
             le  = lasterror;
             DebugPrint('Error calling subscriber %s function:\n%s',...

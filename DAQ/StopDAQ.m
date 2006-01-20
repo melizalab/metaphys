@@ -9,7 +9,7 @@ function [] = StopDAQ(daqnames)
 %
 % See Also: INITDAQ, RESETDAQ, STARTDAQ
 %
-% $Id: StopDAQ.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: StopDAQ.m,v 1.2 2006/01/20 22:02:30 meliza Exp $
 
 
 if nargin == 0
@@ -21,3 +21,5 @@ end
 
 daqs    = GetDAQ(daqnames);
 stop(daqs(isvalid(daqs)));
+
+MatWriter('flush');
