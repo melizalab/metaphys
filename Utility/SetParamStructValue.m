@@ -12,7 +12,7 @@ function paramstruct = SetParamStructValue(paramstruct, value)
 %
 % See Also: GETPARAMSTRUCTVALUE, SETPARAM, PARAM_STRUCT
 %
-% $Id: SetParamStructValue.m,v 1.1 2006/01/10 20:59:53 meliza Exp $
+% $Id: SetParamStructValue.m,v 1.2 2006/01/21 01:22:34 meliza Exp $
 
 NUMERIC_TYPES   = {'int8', 'int16', 'int32', 'int64',...
                    'uint8', 'uint16', 'uint32', 'uint64',...
@@ -114,7 +114,7 @@ function out    = cell_string(value)
 out = char(value);
 
 function out    = string_list(value, choices)
-index   = strmatch(choices, value);
+index   = strmatch(value, choices);
 if isempty(index)
     error('METAPHYS:setparamstructvalue:valueOutOfRange',...
         'The option %s does not exist for this parameter.', value)

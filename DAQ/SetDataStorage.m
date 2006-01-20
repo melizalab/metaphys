@@ -31,27 +31,37 @@ function [] = SetDataStorage(mode, varargin)
 %                             stores data to disk using the DATAHANDLER
 %                       `     function and the MATWRITER subscriber
 %
-% $Id: SetDataStorage.m,v 1.1 2006/01/20 22:02:30 meliza Exp $
+% $Id: SetDataStorage.m,v 1.2 2006/01/21 01:22:27 meliza Exp $
 
 MATWRITER   = 'MatWriter';
+mwfunc      = str2func(MATWRITER);
 
 ainm = GetDAQNames('analoginput');
+if isempty(ainm)
+    return
+end
 ai   = GetDAQ(ainm);
 data_dir    = GetUIParam('metaphys','data_dir');
 data_prefix = GetDefaults('data_prefix');
 newdir      = NextDataFile(data_dir, data_prefix);
+mwfunc('flush');
 switch lower(mode)
     case 'memory'
-        set(ai, 'LoggingMode', 'Memory');
+        set(ai, 'LoggingMode', 'Memory','LogFileName','0000.daq');
         DeleteSubscriber(MATWRITER)
     case 'daqfile'
         % daqfiles are collected in directories, one file per sweep and one
         % directory per start. This function gets called when a protocol is
         % started, so we need to figure out what the next directory is
         DeleteSubscriber(MATWRITER)
-        set(ai, 'LogFileName', fullfile(data_dir, newdir, '0000.daq'),...
+        if ~exist(fullfile(data_dir, newdir),'dir')
+            mkdir(data_dir, newdir);
+        end
+        newfile = fullfile(data_dir, newdir, '0000.daq');
+        set(ai, 'LogFileName', newfile,...
                 'LogToDiskMode', 'Index',...
                 'LoggingMode', 'Disk&Memory');
+        SetUIParam('metaphys', 'data_file', fullfile(data_dir,newdir))
     case 'matfile'
         if nargin < 2
             error('METAPHYS:setdatastorage:insufficientArguments',...
@@ -61,12 +71,17 @@ switch lower(mode)
         set(ai, 'LoggingMode', 'Memory');
         instrument  = varargin{1};
         sub         = GetSubscriber(MATWRITER);
+        newfile     = fullfile(data_dir, newdir);
         if isempty(sub)
             sub     = subscriber_struct(MATWRITER, instrument,...
-                str2func(MATWRITER), {fullfile(data_dir, newdir)});
+                mwfunc, {newfile});
         elseif isempty(strmatch(instrument, sub.instrument))
             sub.instrument  = {sub.instrument{:}, instrument};
         end
         AddSubscriber(sub)
+        if ~exist(fullfile(data_dir, newdir),'dir')
+            mkdir(data_dir, newdir);
+        end
+        SetUIParam('metaphys', 'data_file', newfile);
 end
 

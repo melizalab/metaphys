@@ -18,26 +18,30 @@ function [] = ChannelDialog(instrumentname, channel)
 %
 % See Also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
 %
-% $Id: ChannelDialog.m,v 1.5 2006/01/17 20:22:08 meliza Exp $
+% $Id: ChannelDialog.m,v 1.6 2006/01/21 01:22:22 meliza Exp $
 
-%% Open the figure
-fig     = OpenGuideFigure(mfilename);
+if strcmpi(instrumentname,'destroy')
+    % do nothing
+else
+    %% Open the figure
+    fig     = OpenGuideFigure(mfilename);
 
-%% Populate the fields
-        
-SetUIParam(mfilename,'instrument_name',instrumentname);
-switch lower(channel)
-    case {'input' 'output'}
-    otherwise
-        channel = GetChannelStruct(instrumentname, channel);
+    %% Populate the fields
+
+    SetUIParam(mfilename,'instrument_name',instrumentname);
+    switch lower(channel)
+        case {'input' 'output'}
+        otherwise
+            channel = GetChannelStruct(instrumentname, channel);
+    end
+    updateFigure(channel)
+
+    %% Set callbacks
+    setCallbacks
+
+    % set(fig,'WindowStyle','modal')
+    % uiwait(fig)
 end
-updateFigure(channel)
-
-%% Set callbacks
-setCallbacks
-
-set(fig,'WindowStyle','modal')
-uiwait(fig)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = setCallbacks()

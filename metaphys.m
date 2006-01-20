@@ -1,4 +1,4 @@
-function [] = metaphys()
+function [] = metaphys(action)
 %METAPHYS The front end for the METAPHYS package
 %
 % The GUI does the following tasks before returning control the user.
@@ -10,18 +10,22 @@ function [] = metaphys()
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.7 2006/01/20 22:02:27 meliza Exp $
+% $Id: metaphys.m,v 1.8 2006/01/21 01:22:21 meliza Exp $
 
-initPath;
-DebugSetOutput('console')
-DebugPrint('Starting METAPHYS, $Revision: 1.7 $')
-DebugPrint('Initialized METAPHYS path.')
-% warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
-InitControl;
-LoadControl;
+if nargin > 0 && strcmpi(action,'destroy')
+    %
+else
+    initPath;
+    DebugSetOutput('console')
+    DebugPrint('Starting METAPHYS, $Revision: 1.8 $')
+    DebugPrint('Initialized METAPHYS path.')
+    % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
+    InitControl;
+    LoadControl;
 
-createFigure;
-updateFigure;
+    createFigure;
+    updateFigure;
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -219,8 +223,10 @@ switch tag
         if ~isnumeric(pn)
             SetUIParam(mfilename,'data_dir', pn);
             SetDefaults('data_dir','control', pn);
+        else
+            SetUIParam(mfilename,'data_dir','')
         end
-    case 'data_prefix_select'
+    case 'protocol_select'
         protocol    = GetUIParam(mfilename, 'protocol');
         [pn fn ext] = fileparts(protocol);
         if isempty(pn)
@@ -230,7 +236,9 @@ switch tag
             '*.*', 'All Files (*.*)'},...
             'Select Protocol...');
         if ~isnumeric(fn)
-            SetUIParam(mfilename,'protocol', fn);
+            SetUIParam(mfilename,'protocol', fn)
+        else
+            SetUIParam(mfilename,'protocol','')
         end
     case 'instrument_add'
         nn  =   NewInstrumentName;
@@ -251,6 +259,34 @@ switch tag
         end
     case 'seal_test'
         SealTest('init')
+    case 'protocol_init'
+        protocol    = GetUIParam(mfilename, 'protocol');
+        if ~isempty(protocol)
+            [pn fn ext] = fileparts(protocol);
+            pfunc       = str2func(fn);
+            pfunc('init')
+        end
+    case 'protocol_start'
+        protocol    = GetUIParam(mfilename, 'protocol');
+        if ~isempty(protocol)
+            [pn fn ext] = fileparts(protocol);
+            pfunc       = str2func(fn);
+            pfunc('start')
+        end
+    case 'protocol_stop'
+        protocol    = GetUIParam(mfilename, 'protocol');
+        if ~isempty(protocol)
+            [pn fn ext] = fileparts(protocol);
+            pfunc       = str2func(fn);
+            pfunc('stop')
+        end
+    case 'protocol_record'
+        protocol    = GetUIParam(mfilename, 'protocol');
+        if ~isempty(protocol)
+            [pn fn ext] = fileparts(protocol);
+            pfunc       = str2func(fn);
+            pfunc('record')
+        end
     otherwise
         DebugPrint('No action has been described for the callback on %s.',...
             tag)

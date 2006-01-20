@@ -11,7 +11,7 @@ function out = NextDataFile(path, prefix)
 % the filename returned will look like
 % <prefix>_year_month_day-<serial>
 %
-% $Id: NextDataFile.m,v 1.1 2006/01/20 22:02:35 meliza Exp $
+% $Id: NextDataFile.m,v 1.2 2006/01/21 01:22:33 meliza Exp $
 
 d = datevec(now);
 files = dir(path);
@@ -24,10 +24,10 @@ else
     files = sort(n(files));
     lastfile = files{length(files)};
     % extract the number at the end
-    serial      = sscanf(lastfile, [basename '%3d']);
-    if ~isempty(serial)
+    serial      = sscanf(lastfile, [basename '%d']);
+    if isempty(serial)
         serial  = -1;
     end
-    out     = sprintf('%s%03.0f.daq', basename, serial+1);
+    out     = sprintf('%s%03.0f', basename, serial+1);
 end
     

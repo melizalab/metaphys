@@ -1,4 +1,4 @@
-function fig = ParamFigure(module, params, close_callback)
+function fig = ParamFigure(module, varargin)
 %
 % PARAMFIGURE Opens or updates a parameter figure window. 
 %
@@ -27,44 +27,42 @@ function fig = ParamFigure(module, params, close_callback)
 %
 %              the call GETPARAM(module, 'test', 'value') will return 'test')
 %
-% close_callback  - this callback is attached to the CloseRequestFcn callback of the Param
+% close_callback  - this callback is attached to the DeleteFcn callback of the Param
 %                   window, allowing the user/programmer to specify some action to take
 %                   when the parameter window is closed
 %
 % If PARAMFIGURE is called without the properties argument, the properties
 % already in the control structure are used to update/open the figure. If
-% the figure is already open, it will be updated, but only with the fields
-% that were present when the figure was first opened.
+% properties are supplied, the parameter figure will be destroyed and
+% reinitialized. Note that if there is an action associated with closing
+% the parameter window, that will be executed.
 %
 % See Also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.1 2006/01/10 20:59:53 meliza Exp $ 
+% $Id: ParamFigure.m,v 1.2 2006/01/21 01:22:33 meliza Exp $ 
 
 module  = lower(module);
 
-% load params from control if needed
-if nargin == 1
-    params = GetParam(module);
-end
-% set the close callback if not supplied
-if nargin < 3
-    close_callback = @closeFigure;
-end
-% check for existence of figure
-name = [module '.param'];
-fig = findobj('tag',name);
-if ishandle(fig)
-    setParams(module, params)
+if nargin > 1
+    f   = FindFigure([module '.param']);
+    delete(f(ishandle(f)));
+    InitModule(module)
+    newFigure(module, varargin{:})
 else
-    newFigure(module,params, close_callback)
+    params  = GetParam(module);
+    setParams(module, params);
 end
-
-
+        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = newFigure(module, params, close_callback)
 % Opens a new parameter figure window and sets up the fields for each 
 % of the parameters. Each editable uicontrol is given a tag 'module.param',
 % so it can be located easily later.
+
+% set the close callback if not supplied
+if nargin < 3
+    close_callback = [];
+end
 
 tag = [module '.param'];
 % units are in pixels for my sanity
@@ -76,11 +74,15 @@ x_pad = 5;
 y_pad = 5;
 
 %% Open figure
-fig = figure('name',tag,'tag',tag,'closerequestfcn',close_callback);
+fig = figure('name',tag,'tag',tag,'deletefcn',close_callback);
 SetObjectDefaults(fig, 'paramfigure');
+
+%% Init params
+InitParam(module, params);
 
 %% Init fig
 paramNames = fieldnames(params);
+paramNames = flipud(paramNames);
 paramCount = length(paramNames);
 h_fig = h * (paramCount + 3);  % 4 extra spots for buttons and menu
 w_fig = w_fn + w_f + w_units + 10;
@@ -90,19 +92,19 @@ set(fig,'units','pixels','position',[1040 502 w_fig h_fig])
 m = uimenu(fig,'Label','&File');
 uimenu(m,'Label','&Load Protocol...','Callback', {@readParams, module});
 uimenu(m,'Label','&Save Protocol...','Callback', {@writeParams, module});
-uimenu(m,'Label','&Close','Callback',{close_callback, fig});
+uimenu(m,'Label','&Close','Callback','closereq');
 
 %% Generate controls
 uicontrol(fig,'style','pushbutton','String','Close',...
           'position',[(w_fig - w_fn) / 2, x_pad, w_fn, h],...
-          'Callback', {close_callback, fig})
+          'Callback', 'closereq')
 
 fn_ui = @paramChanged;
 for i = 1:paramCount
     y       = y_pad + h * (i + 0.5);
     name    = paramNames{i};
     s       = params.(name);
-    InitParam(module, name, s);
+%     InitParam(module, name, s);
     if ~strcmpi(s.fieldtype,'hidden')
         % The label for the parameter
         uicontrol(fig,'style','edit','String',s.description,...
@@ -158,8 +160,8 @@ function [] = setParams(module, struct)
 % updated.
 
 % Find the figure
-name    = [module '.param'];
-fig     = findobj('tag',name);
+fig     = FindFigure([module '.param']);
+
 
 n = fieldnames(struct);
 for i = 1:length(n)
@@ -253,8 +255,8 @@ v = getUIValue(obj, paramstruct.fieldtype);
 SetParam(module, param, v)
 % Call field-specific callback. Note that this never gets called for
 % file_in and fixed types, since the uicontrols are uneditable.
-if isfield(paramstruct,'callback')
-    feval(paramstruct.callback, module, param, paramstruct);
+if isa(paramstruct.callback,'function_handle')
+    paramstruct.callback(module, param, paramstruct);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -284,9 +286,3 @@ pnfn = fullfile(pn,fn);
 s = GetParam(module);
 WriteStructure(pnfn,s);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = closeFigure(obj, event)
-% Closes the parameter figure. When the figure is closed, the parameters 
-% are not deleted. This allows the figure to be reopened by calling 
-% PARAMFIGURE again.
-delete(gcbf);

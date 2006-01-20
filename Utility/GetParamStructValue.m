@@ -7,7 +7,7 @@ function out = GetParamStructValue(paramstruct, value_format)
 % USAGE: out = GETPARAMSTRUCTVALUE(paramstruct, [value_format])
 %
 % paramstruct   - the parameter structure
-% value_format  - for lists, value_format can be 'String' or {'Value'},
+% value_format  - for lists, value_format can be {'String'} or 'Value',
 %                 which returns either the selected item or the numerical
 %                 index of the selected item in the .choices field. For
 %                 non-lists, this argument has no effect; values are cast
@@ -18,9 +18,9 @@ function out = GetParamStructValue(paramstruct, value_format)
 % See Also:
 %   PARAM_STRUCT, GETPARAM
 %
-% $Id: GetParamStructValue.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: GetParamStructValue.m,v 1.2 2006/01/21 01:22:32 meliza Exp $
 %
-VALUE_FORMAT    = 'Value';
+VALUE_FORMAT    = 'String';
 if nargin < 2
     value_format    = VALUE_FORMAT;
 end
@@ -28,7 +28,7 @@ end
 out = paramstruct.value;
 if strcmpi(paramstruct.fieldtype, 'list')
     % Choices are normatively stored as values
-    if ~strcmpi(value_format, VALUE_FORMAT)
+    if strcmpi(value_format, VALUE_FORMAT)
         out = paramstruct.choices{out};
     end
 end            

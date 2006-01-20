@@ -12,7 +12,7 @@ function [] = DataHandler(obj, event)
 % acquisition, we have to set that value in the data packet by hand, which
 % means UpdateTelegraph needs to return its results in a parseable form.
 %
-% $Id: DataHandler.m,v 1.5 2006/01/20 22:02:28 meliza Exp $
+% $Id: DataHandler.m,v 1.6 2006/01/21 01:22:22 meliza Exp $
 
 global mpctrl
 
@@ -36,6 +36,10 @@ if isstruct(mpctrl.subscriber)
             end
     end
     daqname     = obj.Name;
+    daqfile     = obj.LogFileName;
+%     if ~strcmpi(obj.LoggingMode, 'memory')
+        SetUIParam('metaphys','data_file',daqfile)
+%     end
 
     clients = GetSubscriberNames;
     for i = 1:length(clients);

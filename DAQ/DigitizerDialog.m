@@ -1,4 +1,4 @@
-function [] = DigitizerDialog()
+function [] = DigitizerDialog(action)
 %
 % DIGITIZERDIALOG Dialogue box for setting up digitization hardware. 
 %
@@ -7,31 +7,37 @@ function [] = DigitizerDialog()
 %
 % See Also: INITDAQ, RESETDAQ, DELETEDAQ
 %
-% $Id: DigitizerDialog.m,v 1.4 2006/01/19 03:14:53 meliza Exp $
-
-%% Open the figure
-fig     = OpenGuideFigure(mfilename);
-
-%% Hardware context menu
-m   = uicontextmenu;
-uimenu(m, 'label', 'Activate', 'tag', 'm_daq_activate', 'callback', @menu)
-uimenu(m, 'label', 'Properties...', 'tag', 'm_daq_props', 'callback', @menu)
-
-%% Populate the hardware field
-hwstruct    = getHWStruct;
-if ~isempty(hwstruct)
-    SetUIParam(mfilename, 'hardware', 'String', {hwstruct.name},...
-               'UserData', hwstruct, 'Enable', 'On',...
-               'UIContextMenu', m, 'Callback', @hardware_click)
-else
-    SetUIParam(mfilename, 'hardware', 'String', 'No valid hardware!',...
-        'Enable', 'Inactive', 'UIContextMenu', [],...
-        'Callback', [])
+% $Id: DigitizerDialog.m,v 1.5 2006/01/21 01:22:24 meliza Exp $
+if nargin < 1
+    action  = 'init'
 end
+switch lower('action')
+    case 'init'
+        %% Open the figure
+        fig     = OpenGuideFigure(mfilename);
 
-%% Populate the systems field
-updateSystems
-SetUIParam(mfilename,'btn_close','Callback','closereq')
+        %% Hardware context menu
+        m   = uicontextmenu;
+        uimenu(m, 'label', 'Activate', 'tag', 'm_daq_activate', 'callback', @menu)
+        uimenu(m, 'label', 'Properties...', 'tag', 'm_daq_props', 'callback', @menu)
+
+        %% Populate the hardware field
+        hwstruct    = getHWStruct;
+        if ~isempty(hwstruct)
+            SetUIParam(mfilename, 'hardware', 'String', {hwstruct.name},...
+                'UserData', hwstruct, 'Enable', 'On',...
+                'UIContextMenu', m, 'Callback', @hardware_click)
+        else
+            SetUIParam(mfilename, 'hardware', 'String', 'No valid hardware!',...
+                'Enable', 'Inactive', 'UIContextMenu', [],...
+                'Callback', [])
+        end
+
+        %% Populate the systems field
+        updateSystems
+        SetUIParam(mfilename,'btn_close','Callback','closereq')
+    case 'destroy'
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = updateSystems()

@@ -9,23 +9,27 @@ function [] = InstrumentDialog(instrumentname)
 %
 % See Also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
 %
-% $Id: InstrumentDialog.m,v 1.4 2006/01/17 18:07:54 meliza Exp $
+% $Id: InstrumentDialog.m,v 1.5 2006/01/21 01:22:25 meliza Exp $
 
-%% Open the figure
-fig     = OpenGuideFigure(mfilename);
+% handle the destroy callback
+if strcmpi(instrumentname, 'destroy')
+    % do nothing
+else
+    %% Open the figure
+    fig     = OpenGuideFigure(mfilename);
 
-%% Populate the fields
-% The instrument name is stored here for future access
-SetUIParam(mfilename,'instrument_name','String',instrumentname,...
-    'UserData',instrumentname);
-updateFigure
+    %% Populate the fields
+    % The instrument name is stored here for future access
+    SetUIParam(mfilename,'instrument_name','String',instrumentname,...
+        'UserData',instrumentname);
+    updateFigure
 
-%% Set callbacks
-setCallbacks
+    %% Set callbacks
+    setCallbacks
 
-set(fig,'WindowStyle','modal')
-uiwait(fig)
-
+%     set(fig,'WindowStyle','modal')
+%     uiwait(fig)
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = updateFigure()
 updateInputs

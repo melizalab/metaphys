@@ -1,5 +1,4 @@
-function [] = InitParam(module, param, pstruct)
-%
+function [] = InitParam(module, varargin)
 % INITPARAM Initializes a parameter in the control structure. 
 %
 % In contrast to UIParams (see INITUICONTROL, GETUIPARAM, etc), Parameters
@@ -7,9 +6,9 @@ function [] = InitParam(module, param, pstruct)
 % through a PARAMFIGURE, in which case the data needs to conform to the
 % structure defined in PARAM_STRUCT.
 % 
-% [] = INITPARAM(module, paramname, [paramtype])
-
-% [] = INITPARAM(module, paramname, [paramstruct])
+% [] = INITPARAM(module, paramname, paramtype)
+% [] = INITPARAM(module, paramname, paramstruct)
+% [] = INITPARAM(module, namedparamstruct)
 %
 % module      - the module to which this parameter pertains
 % paramname   - the name of the parameter
@@ -17,15 +16,16 @@ function [] = InitParam(module, param, pstruct)
 % paramstruct - the initial parameter structure. If not supplied, 
 %               the parameter will be set to an empty structure 
 %               (see PARAM_STRUCT)
+% namedparamstruct - a structure of paramstructs, with the names of the
+%                    parameters set by the fieldnames. 
 %
 %
 % See Also: PARAM_STRUCT
 %
 %
-% $Id: InitParam.m,v 1.2 2006/01/19 21:36:08 meliza Exp $
+% $Id: InitParam.m,v 1.3 2006/01/21 01:22:32 meliza Exp $
 global mpctrl
 
-param = lower(param);
 module = lower(module);
 
 % Check that the module has been initialized
@@ -33,15 +33,19 @@ if ~isfield(mpctrl, module)
     error('METAPHYS:moduleNotFound', 'No such module %s.', module);
 end
 
-if nargin > 2
-    if ischar(pstruct)
+if ischar(varargin{1})
+    if ischar(varargin{2})
         paramstruct = param_struct;
-        paramstruct.fieldtype   = pstruct;
+        paramstruct.fieldtype   = varargin{2};
     else
-        paramstruct = pstruct;
+        paramstruct = varargin{2};
     end
+    mpctrl.(module).params.(varargin{1})  = paramstruct;
 else
-    paramstruct    = param_struct;
+    pnames  = fieldnames(varargin{1});
+    for i = 1:length(pnames)
+        mpctrl.(module).params.(pnames{i})  = varargin{1}.(pnames{i});
+    end
 end
 
-mpctrl.(module).params.(param)  = paramstruct;
+

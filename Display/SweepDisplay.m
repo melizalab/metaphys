@@ -10,7 +10,7 @@ function [] = SweepDisplay(action, varargin)
 % SWEEPDISPLAY('clear')
 % SWEEPDISPLAY('destroy')
 %
-% $Id: SweepDisplay.m,v 1.1 2006/01/20 22:02:32 meliza Exp $
+% $Id: SweepDisplay.m,v 1.2 2006/01/21 01:22:29 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -18,7 +18,12 @@ switch lower(action)
         initFigure(instrument)
         AddSubscriber(mfilename, instrument, @plotData)
     case 'clear'
-        cla(getAxes)
+        ax      = getAxes;
+        kids    = get(ax,'children');
+        if iscell(kids)
+            kids    = cell2mat(kids);
+        end
+        delete(findobj(kids,'HandleVisibility','on'));
     case 'destroy'
         destroyModule
     otherwise
@@ -32,8 +37,6 @@ function [ax tag] = getAxes()
 figure  = GetUIHandle(mfilename, mfilename);
 ax      = findobj(figure, 'type', 'axes');
 tag     = get(ax, 'tag');
-
-
 
 function [] = plotData(packet)
 % Plots data in a packet
@@ -83,3 +86,7 @@ linkaxes(ax, 'x');
 
 function [] = destroyModule(varargin)
 DeleteSubscriber(mfilename);
+f   = FindFigure(mfilename);
+if ~isempty(f)
+    delete(f);
+end

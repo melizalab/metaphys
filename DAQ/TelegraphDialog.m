@@ -14,38 +14,41 @@ function [] = TelegraphDialog(instrumentname, telegraph)
 %
 % See Also: ADDINSTRUMENTTELEGRAPH
 %
-% $Id: TelegraphDialog.m,v 1.4 2006/01/20 00:04:39 meliza Exp $
+% $Id: TelegraphDialog.m,v 1.5 2006/01/21 01:22:27 meliza Exp $
 
-%% Open the figure
-fig     = OpenGuideFigure(mfilename);
-
-%% Populate the fields
-TELEGRAPH_TYPES = {'','Axon 200x','Axon 1x','Axon 700x'};
-SetUIParam(mfilename,'instrument_name',instrumentname);
-SetUIParam(mfilename,'type','String',TELEGRAPH_TYPES,'Value',1);
-
-if nargin > 1
-    tele  = GetTelegraph(instrumentname, telegraph);
+if strmcpi(instrumentname, 'destroy')
 else
-    tele  = telegraph_struct;
+    %% Open the figure
+    fig     = OpenGuideFigure(mfilename);
+
+    %% Populate the fields
+    TELEGRAPH_TYPES = {'','Axon 200x','Axon 1x','Axon 700x'};
+    SetUIParam(mfilename,'instrument_name',instrumentname);
+    SetUIParam(mfilename,'type','String',TELEGRAPH_TYPES,'Value',1);
+
+    if nargin > 1
+        tele  = GetTelegraph(instrumentname, telegraph);
+    else
+        tele  = telegraph_struct;
+    end
+    SetUIParam(mfilename,'name',tele.name)
+    SetUIParam(mfilename,mfilename,'UserData',tele)
+
+    makePanel
+    % set the channel options
+    pickAI
+    % update the values
+    updateFigure(tele)
+    % make the right stuff visible
+    updatePanel
+
+
+    %% Set callbacks
+    setCallbacks
+
+    set(fig,'WindowStyle','modal')
+    uiwait(fig)
 end
-SetUIParam(mfilename,'name',tele.name)
-SetUIParam(mfilename,mfilename,'UserData',tele)
-
-makePanel
-% set the channel options
-pickAI
-% update the values
-updateFigure(tele)
-% make the right stuff visible
-updatePanel
-
-
-%% Set callbacks
-setCallbacks
-
-% set(fig,'WindowStyle','modal')
-% uiwait(fig)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = setCallbacks()
