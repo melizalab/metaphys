@@ -27,7 +27,7 @@ function varargout = Episode(action)
 % the DIGITIZERDIALOG.
 %
 %
-% $Id: Episode.m,v 1.1 2006/01/21 01:22:30 meliza Exp $
+% $Id: Episode.m,v 1.2 2006/01/23 19:27:40 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -100,7 +100,6 @@ out = mfilename;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = loopControl(packet)
-% no loop for now
 ep_interval = GetParam(me,'ep_interval','value');
 pause(ep_interval/1000);
 sweepControl
@@ -135,6 +134,14 @@ setStatus('protocol stopped')
 function [] = setStatus(output)
 SetUIParam('metaphys','protocol_status',output);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = selectInstrument(varargin)
+% handles when the user chooses a new instrument
+DeleteSubscriber('loop')
+StopDAQ
+instr   = GetParam(me, 'instrument');
+setStatus('instrument changed: protocol stopped')
+SweepDisplay('init',instr);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = destroyModule(varargin)

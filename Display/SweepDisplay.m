@@ -4,13 +4,13 @@ function [] = SweepDisplay(action, varargin)
 %
 % SWEEPDISPLAY is used for plotting sweep data. It controls a figure with
 % axes - one for each output from an instrument. It creates and manages a
-% subscription that allows it to get this data
+% subscription that allows it to get this data.
 %
 % SWEEPDISPLAY('init', instrument)
 % SWEEPDISPLAY('clear')
 % SWEEPDISPLAY('destroy')
 %
-% $Id: SweepDisplay.m,v 1.2 2006/01/21 01:22:29 meliza Exp $
+% $Id: SweepDisplay.m,v 1.3 2006/01/23 19:27:39 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -32,7 +32,7 @@ switch lower(action)
             action, mfilename)
 end
 
-function [ax tag] = getAxes()
+function [ax tag figure] = getAxes()
 % Returns the current axes and their tags
 figure  = GetUIHandle(mfilename, mfilename);
 ax      = findobj(figure, 'type', 'axes');
@@ -40,12 +40,22 @@ tag     = get(ax, 'tag');
 
 function [] = plotData(packet)
 % Plots data in a packet
-[ax tag]    = getAxes;
+[ax tag fig]    = getAxes;
+selmode         = get(fig, 'Pointer');
 for i = 1:length(packet.channels)
     ind     = strmatch(packet.channels{i}, tag);
     if ~isempty(ind)
-        plot(ax(ind), packet.time, packet.data(:,i));
-        set(ax(ind), 'xlim', [packet.time(1) packet.time(end)])
+        % axis limits depend on if the user has a tool selected
+        if strcmpi(selmode, 'arrow')
+            plot(ax(ind), packet.time, packet.data(:,i));
+            set(ax(ind), 'xlim', [packet.time(1) packet.time(end)],...
+                'ylimmode','auto')
+        else
+            xlim    = get(ax(ind), 'XLim');
+            ylim    = get(ax(ind), 'YLim');
+            plot(ax(ind), packet.time, packet.data(:,i));
+            set(ax(ind), 'xlim', xlim, 'ylim', ylim)
+        end
         ylabel(ax(ind),...
             sprintf('%s (%s)', packet.channels{i}, packet.units{i}));
     end
@@ -76,7 +86,7 @@ for i = 1:nplots
     set(ax(i),'position',[0.1, y-height, 0.89 height],...
         'XGrid','On','YGrid','On','Box','On',...
         'nextplot','replacechildren',...
-        'tag',c{i})
+        'tag',c{i},'xlim',[0 1000])
     ylabel(s{i})
     y   = y-height-gap;
 end

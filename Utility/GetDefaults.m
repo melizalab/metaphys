@@ -17,7 +17,7 @@ function [props] = GetDefaults(class, defloc)
 %
 % See Also: CLEARDEFAULTS, SETDEFAULTS, SETOBJECTDEFAULTS
 %
-% $Id: GetDefaults.m,v 1.2 2006/01/18 19:01:12 meliza Exp $
+% $Id: GetDefaults.m,v 1.3 2006/01/23 19:27:44 meliza Exp $
 
 if nargin > 1
     switch lower(defloc)
@@ -43,7 +43,7 @@ end
 
 function props = fromFile(class)
 % Returns properties from a file, if it exists
-filename = sprintf('%s_%s', class, 'default');
+filename = lower(sprintf('%s_%s', class, 'default'));
 if exist(filename,'file')>0
     props     = feval(filename);
 else

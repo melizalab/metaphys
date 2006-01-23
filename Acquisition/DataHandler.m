@@ -12,7 +12,7 @@ function [] = DataHandler(obj, event)
 % acquisition, we have to set that value in the data packet by hand, which
 % means UpdateTelegraph needs to return its results in a parseable form.
 %
-% $Id: DataHandler.m,v 1.6 2006/01/21 01:22:22 meliza Exp $
+% $Id: DataHandler.m,v 1.7 2006/01/23 19:27:38 meliza Exp $
 
 global mpctrl
 
@@ -57,7 +57,11 @@ if isstruct(mpctrl.subscriber)
                 packet.channels = CellWrap(chan);
                 packet.units    = CellWrap(obj.Channel(ind).Units);
                 packet.data     = data(:,ind);
-                packet.time     = (time - time(1)) * 1000;  % convert to ms
+                % the subscribing function needs to determine what to do
+                % with the time function; for complete sweeps this will
+                % start with 0; otherwise it will be relative to the
+                % trigger time.
+                packet.time     = time * 1000; 
                 packet.timestamp= datenum(abstime);
             end
         end

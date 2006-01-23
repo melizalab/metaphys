@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See Also:  PROTOCOLTEMPLATE
 %
-% $Id: SealTest.m,v 1.6 2006/01/20 02:03:16 meliza Exp $
+% $Id: SealTest.m,v 1.7 2006/01/23 19:27:43 meliza Exp $
 
 
 % Parse action
@@ -30,6 +30,8 @@ switch lower(action)
     case 'init'
         createFigure
         setupFigure
+    case 'destroy'
+        % no cleanup necessary
     otherwise
         error('METAPHYS:protocol:noSuchAction',...
             'No such action %s supported by protocol %s',...
@@ -93,7 +95,8 @@ if ~isempty(chan)
         case '11'
             set(ax,'YLim',[-1 1]);
     end
-    plot(packet.time, packet.data(:,chan));
+    time   = packet.time - packet.time(1);
+    plot(time, packet.data(:,chan));
     ylabel(ax, sprintf('%s (%s)', packet.channels{chan}, packet.units{chan}))
     packet.data = packet.data(:,chan);
     packet.units= packet.units{chan};
