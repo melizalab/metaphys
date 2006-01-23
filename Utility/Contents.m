@@ -40,5 +40,12 @@
 %   DeleteUIParam       - Removes an uiparam from control and deletes its handle
 %   GetFields           - Returns one or more fields from a structure in a new structure
 %   StructFlatten       - attempts to remove the fieldnames from a structure.
+%   Cell2Num            - Casts as many elements to numbers in a cell array as possible.
+%   NextDataFile        - Returns the next directory/filename for data storage.
+%   Packet2R0           - Converts an array of packet structures into an array of r0
+%   Packet2R1           - Converts an array of packet structures into an array of r1
+%   SplitPacket         - Converts multichannel packet(s) into multiple single-channel
+%   StrTokenize         - Completely de-tokenizes a string
+%   StructConstruct     - Generic constructor for predefined structures.
 %
-% $Id: Contents.m,v 1.2 2006/01/19 03:15:04 meliza Exp $
+% $Id: Contents.m,v 1.3 2006/01/24 03:26:12 meliza Exp $
