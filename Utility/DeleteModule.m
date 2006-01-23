@@ -7,7 +7,7 @@ function [] = DeleteModule(module)
 %
 % module (String) - module name
 %
-% $Id: DeleteModule.m,v 1.3 2006/01/21 01:22:32 meliza Exp $
+% $Id: DeleteModule.m,v 1.4 2006/01/23 19:29:49 meliza Exp $
 
 global mpctrl
 
@@ -24,7 +24,9 @@ delete(fig(ishandle(fig)))
 if isfield(mpctrl,module)
     % Call the object's destructor
     if exist(module,'file') > 0
+        warning('off','MATLAB:dispatcher:InexactMatch')        
         feval(module, 'destroy')
+        warning('on','MATLAB:dispatcher:InexactMatch')
     end
 
     % Delete the figure
