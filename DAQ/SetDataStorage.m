@@ -31,7 +31,7 @@ function [] = SetDataStorage(mode, varargin)
 %                             stores data to disk using the DATAHANDLER
 %                       `     function and the MATWRITER subscriber
 %
-% $Id: SetDataStorage.m,v 1.3 2006/01/25 01:31:36 meliza Exp $
+% $Id: SetDataStorage.m,v 1.4 2006/01/25 01:58:37 meliza Exp $
 
 MATWRITER   = 'MatWriter';
 mwfunc      = str2func(MATWRITER);
@@ -67,8 +67,6 @@ switch lower(mode)
             set(ai(i), 'LogFileName', newfile)
         end
         SetUIParam('metaphys', 'data_file', fullfile(data_dir,newdir))
-        InitParam('metaphys','data_file',param_struct('data file',...
-            'hidden', fullfile(data_dir, newdir)));        
     case 'matfile'
         if nargin < 2
             error('METAPHYS:setdatastorage:insufficientArguments',...
@@ -96,8 +94,6 @@ switch lower(mode)
             newfile = fullfile(data_dir, newdir, myfilename);
             set(ai(i), 'LogFileName', newfile)
         end
-        InitParam('metaphys','data_file',param_struct('data file',...
-            'hidden', newfile));
 end
 InitParam('metaphys','data_mode',param_struct('data mode', 'hidden',...
     mode));

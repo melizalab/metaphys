@@ -22,7 +22,7 @@ function [] = StartSweep(length, interval, varargin)
 %
 % See Also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.4 2006/01/25 01:31:36 meliza Exp $
+% $Id: StartSweep.m,v 1.5 2006/01/25 01:58:37 meliza Exp $
 
 % Get DAQ objects
 daqs    = GetDAQ(GetDAQNames);
@@ -41,8 +41,9 @@ for i = 1:size(types,1)
                         'SamplesPerTrigger', samp,...
                         'SamplesAcquiredFcn', []);
             if ~isempty(interval)
+                interval    = interval .* srate;
                 set(daqs(i),...
-                     'SamplesAcquiredFcnCount', samp,...
+                     'SamplesAcquiredFcnCount', interval,...
                      'SamplesAcquiredFcn', @DataHandler);
             end
         case 'analog output'

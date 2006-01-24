@@ -13,7 +13,7 @@ function varargout = MovieControl(action, varargin)
 % MOVIECONTROL('stop')
 % MOVIECONTROL('destroy')
 %
-% $Id: MovieControl.m,v 1.2 2006/01/25 01:31:38 meliza Exp $
+% $Id: MovieControl.m,v 1.3 2006/01/25 01:58:38 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -26,7 +26,7 @@ switch lower(action)
             frames  = preparemovie(c);
             props   = get(c);
             fratef  = props.frame_rate_factor;
-            frate   = props.refresh_rate
+            frate   = props.refresh_rate;
             delay   = props.time_before_trigger;
             props.total_movie_time = frames ./ frate .* fratef .* 1000 + delay;
             varargout{1}    = props;

@@ -13,7 +13,7 @@ function varargout = PlayMovie(action)
 %
 % See Also: F21CONTROL
 %
-% $Id: PlayMovie.m,v 1.1 2006/01/25 01:31:42 meliza Exp $
+% $Id: PlayMovie.m,v 1.2 2006/01/25 01:58:39 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -109,11 +109,13 @@ queueStimulus();
 % Get update rate
 uprate  = GetParam(me,'update_rate');
 % Start a sweep
-if isempty(uprate)
-    StartSweep(episodelength,[],props)
-else
-    StartSweep(episodelength, 1/uprate, props);
-end
+StartSweep(episodelength,[],props)
+% multiple updates don't work yet:
+% if isempty(uprate)
+%     StartSweep(episodelength,[],props)
+% else
+%     StartSweep(episodelength, 1/uprate, props);
+% end
 MovieControl('start')
 setStatus('protocol running')
 
