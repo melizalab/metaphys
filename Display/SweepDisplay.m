@@ -1,4 +1,4 @@
-function [] = SweepDisplay(action, varargin)
+function varargout = SweepDisplay(action, varargin)
 %
 % SWEEPDISPLAY Display module for plotting sweeps
 %
@@ -6,16 +6,16 @@ function [] = SweepDisplay(action, varargin)
 % axes - one for each output from an instrument. It creates and manages a
 % subscription that allows it to get this data.
 %
-% SWEEPDISPLAY('init', instrument)
+% fig = SWEEPDISPLAY('init', instrument)
 % SWEEPDISPLAY('clear')
 % SWEEPDISPLAY('destroy')
 %
-% $Id: SweepDisplay.m,v 1.3 2006/01/23 19:27:39 meliza Exp $
+% $Id: SweepDisplay.m,v 1.4 2006/01/25 01:31:38 meliza Exp $
 
 switch lower(action)
     case 'init'
         instrument  = varargin{1};
-        initFigure(instrument)
+        varargout{1} = initFigure(instrument);
         AddSubscriber(mfilename, instrument, @plotData)
     case 'clear'
         ax      = getAxes;
@@ -62,7 +62,7 @@ for i = 1:length(packet.channels)
 end
 
 
-function [] = initFigure(instrument)
+function [f] = initFigure(instrument)
 % Initializes the figure
 f   = FindFigure(mfilename);
 if ~isempty(f)

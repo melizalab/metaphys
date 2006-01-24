@@ -1,38 +1,19 @@
-function varargout = Episode(action)
+function varargout = PlayMovie(action)
 %
-% EPISODE Protocol for acquiring data episodically
+% PLAYMOVIE Protocol that uses f21 to play a movie, recording a response
 %
-% The METAPHYS toolkit works through modules, which are mfiles that control
-% experiments of a similar type.  This module, EPISODE, is probably the
-% most basic protocol, and should be used as an example for writing other
-% modules.  In an episode, the data acquisition hardware is instructed to
-% acquire data for a brief perioid of time, during which a signal can also
-% be sent through the analogoutput device.  After a pause, the episode is
-% repeated.  Individual episodes can be treated separately, or as is more
-% common, averaged together to minimize noise.  Also, there are usually
-% several parameters that can be extracted from each episode (e.g. input
-% resistance); this module provides online tracking of these parameters
-% (still somewhat limited.)
+% The PLAYMOVIE protocol is used to supply visual stimulation to a system
+% while recording its response. It uses f21 for the visual display and the
+% normal DAQ functions for data collection.  F21 runs on a remote computer
+% and is accessed through an f21control object.  Movies reside on the
+% remote computer and can be set to play in one or more "objects" on the
+% screen. F21 will report the amount of time required to play a movie and
+% will collect that much data. The user can also specify voltage waveforms
+% to send to amplifiers and stimulators during that time.
 %
-% EPISODE supports an arbitrary number of input and output channels. These
-% channels are selected by defining an instrument with those channels on
-% it. During each episode, data is acquired from the outputs of the
-% instrument, and data is sent to the inputs. This sent data can be an
-% arbitrary waveform, which can be loaded from a file or specified with a
-% waveform editor (see WAVEFORMDIALOG).
+% See Also: F21CONTROL
 %
-% Note that when data is sent to an instrument it's important for the
-% recorded data to be synchronized with the control waveform. This
-% synchronization is controlled through triggers, which can be defined in
-% the DIGITIZERDIALOG.
-%
-% EPISODE('init')
-% EPISODE('start')
-% EPISODE('record')
-% EPISODE('stop')
-% EPISODE('destroy')
-%
-% $Id: Episode.m,v 1.3 2006/01/25 01:31:40 meliza Exp $
+% $Id: PlayMovie.m,v 1.1 2006/01/25 01:31:42 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -41,24 +22,24 @@ switch lower(action)
         p = GetDefaults(me);
         p.instrument.callback   = @selectInstrument;
         % Open the parameter window
-        f   = ParamFigure(me, p, @destroyModule);
-        movegui(f,'east')
+        movegui(ParamFigure(me, p, @destroyModule),'east')
         instr   = GetParam(me, 'instrument');
         % Open the display scope
         SweepDisplay('init', instr);
-        % Open statistics display
-%         StatsDisplay('init', instr)
+        % Open movie control
+        movegui(MovieControl('init'),'northeast')
         setStatus('protocol initialized');
     
     case 'start'
         % Clear displays
         SweepDisplay('clear')
-%         StatsDisplay('clear')
+        MovieControl('stop')
         DeleteSubscriber('loop')
         StopDAQ
         % Setup data handling
         SetDataStorage('memory')
         % Set system to repeat
+        InitParam(me,'repeats','hidden')
         AddSubscriber('loop', [], @loopControl);
         % Call the sweep control function
         sweepControl
@@ -66,7 +47,7 @@ switch lower(action)
     case 'record'
         % Clear displays
         SweepDisplay('clear')
-%         StatsDisplay('clear')
+        MovieControl('stop')
         DeleteSubscriber('loop')
         StopDAQ
         % Setup data handling
@@ -74,13 +55,16 @@ switch lower(action)
         instr   = GetParam(me, 'instrument');
         SetDataStorage(dsmode, instr)
         % Set system to repeat
-        AddSubscriber('loop', [], @loopControl)
+        InitParam(me,'repeats','hidden')
+        AddSubscriber('loop', [], @loopControl);
         % Call the sweep control function
         sweepControl
     
     case 'stop'
         % Stop system from repeating
         setStatus('protocol stopping');
+        DeleteSubscriber('loop')
+        MovieControl('stop')
         AddSubscriber('loop', [], @cleanupControl)
         
     case 'destroy'
@@ -101,23 +85,42 @@ out = mfilename;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = loopControl(packet)
 ep_interval = GetParam(me,'ep_interval','value');
-pause(ep_interval/1000);
-sweepControl
+tot_repeats = GetParam(me,'movie_repeat','value');
+repeated    = GetParam(me,'repeats','value');
+if isempty(repeated)
+    repeated = 1;
+end
+if repeated < tot_repeats
+    pause(ep_interval/1000);
+    sweepControl
+    SetParam(me,'repeats',repeated+1)
+else
+    cleanupControl(packet)
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = sweepControl()
 
+% Queue movie
+props           = MovieControl('prepare');
+episodelength   = props.total_movie_time ./ 1000;
 % Queue command data
-episodelength = queueStimulus;
+queueStimulus();
+% Get update rate
+uprate  = GetParam(me,'update_rate');
 % Start a sweep
-StartSweep(episodelength)
+if isempty(uprate)
+    StartSweep(episodelength,[],props)
+else
+    StartSweep(episodelength, 1/uprate, props);
+end
+MovieControl('start')
 setStatus('protocol running')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function episodelength = queueStimulus()
+function queueStimulus()
 % Queues command data
-len = GetParam(me, 'ep_length', 'value');
-episodelength = len / 1000;
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = cleanupControl(packet)
@@ -146,10 +149,11 @@ SweepDisplay('init',instr);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = destroyModule(varargin)
 % call stop action
-cleanupControl;
+cleanupControl
 % save current values to control structure
 p   = GetParam(mfilename);
 SetDefaults(mfilename,'control',p)
 % delete display windows
 DeleteModule('sweepdisplay')
+DeleteModule('moviecontrol')
 setStatus('protocol closed')

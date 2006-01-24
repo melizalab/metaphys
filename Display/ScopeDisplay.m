@@ -1,4 +1,4 @@
-function [] = ScopeDisplay(action, varargin)
+function varargout = ScopeDisplay(action, varargin)
 %
 % SCOPEDISPLAY Display module for plotting data continously.
 %
@@ -9,16 +9,16 @@ function [] = ScopeDisplay(action, varargin)
 % variable reaches the end of the limits of the axes, at which point it
 % should replace data at the beginning of the axes.
 %
-% SCOPEDISPLAY('init', instrument)
+% fig = SCOPEDISPLAY('init', instrument)
 % SCOPEDISPLAY('clear')
 % SCOPEDISPLAY('destroy')
 %
-% $Id: ScopeDisplay.m,v 1.1 2006/01/23 19:27:39 meliza Exp $
+% $Id: ScopeDisplay.m,v 1.2 2006/01/25 01:31:38 meliza Exp $
 
 switch lower(action)
     case 'init'
         instrument  = varargin{1};
-        initFigure(instrument)
+        varargout{1} = initFigure(instrument);
         AddSubscriber(mfilename, instrument, @plotData)
     case 'clear'
         ax      = getAxes;
@@ -106,7 +106,7 @@ switch tag
         set(ax, 'xlim', [0, xlim(2) / SCALE])
 end
 
-function [] = initFigure(instrument)
+function [f] = initFigure(instrument)
 % Initializes the figure
 f   = FindFigure(mfilename);
 if ~isempty(f)

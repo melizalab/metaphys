@@ -29,7 +29,7 @@ function out = GetUIParam(module, tag, field)
 %
 %   See Also: GETSELECTED
 %
-%   $Id: GetUIParam.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+%   $Id: GetUIParam.m,v 1.2 2006/01/25 01:31:46 meliza Exp $
 
 if nargin == 1
     handles = GetUIHandle(module);
@@ -47,8 +47,9 @@ else
             out = str2num(get(handle,'String'));
         case 'selected'
             out = GetSelected(handle);
+        case 'string'
+            out = strtrim(get(handle,field));
         otherwise
             out = get(handle, field);
     end
 end
-    

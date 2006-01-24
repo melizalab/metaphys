@@ -1,16 +1,19 @@
-function [] = StartDAQ(daqs)
+function [] = StartDAQ(daqs, userdata)
 %
 % STARTDAQ Initiates data acquisition.
 %
 % STARTDAQ(daqobjs) - Starts all the device objects
 %
+% STARTDAQ(daqobjs, userdata) - Starts devices; writes a file to disk with
+% the contents of <userdata> (which must be a structure). The filename is
+% <basename>-data.mat
 %
 % Handles starting and triggering (if needed) of devices.
 % Throws an error if any of the daq devices is running.
 %
 % See Also: STOPDAQ
 %
-% $Id: StartDAQ.m,v 1.2 2006/01/20 00:04:42 meliza Exp $
+% $Id: StartDAQ.m,v 1.3 2006/01/25 01:31:37 meliza Exp $
 
 
 % check for running objects
@@ -19,6 +22,8 @@ if ~isempty(strmatch('On',isrun))
     error('METAPHYS:startsweep:deviceAlreadyRunning',...
         'One or more DAQ devices is currently running.')
 end
+
+datamode    = GetDataStorage;
 
 % check to see which devices need started and triggered
 do_start    = ones(size(daqs));
@@ -61,6 +66,12 @@ for i = 1:length(types)
                     'DataMissedFcn', data_cb,...
                     'RuntimeErrorFcn', data_cb,...
                     'StopFcn', data_cb)
+            datafile    = get(daqs(i),'LogFileName');
+            [pn fn ext] = fileparts(datafile);
+            usrdatafile = fullfile(pn, sprintf('%s-data.mat', fn));
+            if nargin > 1
+                WriteStructure(usrdatafile, userdata)
+            end
     end
 end
             
@@ -68,9 +79,9 @@ if ~any(do_start)
     DebugPrint('No DAQ devices to start!');
 else
     UpdateTelegraph;
+    EnableSensitiveControls('off')
     start(daqs(find(do_start)))
     if any(do_start & do_trigger)
         trigger(daqs(find(do_start & do_trigger)))
     end
 end
-

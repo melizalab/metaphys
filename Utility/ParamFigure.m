@@ -1,4 +1,4 @@
-function fig = ParamFigure(module, varargin)
+function varargout = ParamFigure(module, varargin)
 %
 % PARAMFIGURE Opens or updates a parameter figure window. 
 %
@@ -39,22 +39,23 @@ function fig = ParamFigure(module, varargin)
 %
 % See Also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.3 2006/01/24 21:42:19 meliza Exp $ 
+% $Id: ParamFigure.m,v 1.4 2006/01/25 01:31:47 meliza Exp $ 
 
 module  = lower(module);
 
+fig   = FindFigure([module '.param']);
 if nargin > 1
-    f   = FindFigure([module '.param']);
-    delete(f(ishandle(f)));
+    delete(fig(ishandle(fig)));
     InitModule(module)
-    newFigure(module, varargin{:})
+    fig = newFigure(module, varargin{:});
 else
     params  = GetParam(module);
     setParams(module, params);
 end
+varargout{1}    = fig;
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = newFigure(module, params, close_callback)
+function [fig] = newFigure(module, params, close_callback)
 % Opens a new parameter figure window and sets up the fields for each 
 % of the parameters. Each editable uicontrol is given a tag 'module.param',
 % so it can be located easily later.

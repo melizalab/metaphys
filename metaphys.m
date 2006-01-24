@@ -10,14 +10,14 @@ function [] = metaphys(action)
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.8 2006/01/21 01:22:21 meliza Exp $
+% $Id: metaphys.m,v 1.9 2006/01/25 01:31:33 meliza Exp $
 
 if nargin > 0 && strcmpi(action,'destroy')
     %
 else
     initPath;
     DebugSetOutput('console')
-    DebugPrint('Starting METAPHYS, $Revision: 1.8 $')
+    DebugPrint('Starting METAPHYS, $Revision: 1.9 $')
     DebugPrint('Initialized METAPHYS path.')
     % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
     InitControl;
@@ -61,10 +61,6 @@ cb      = @menu;
 file    = uimenu(fig, 'label', '&File');
 uimenu(file, 'label', '&Load Prefs...', 'tag', 'm_load_prefs', 'callback', cb)
 uimenu(file, 'label', '&Save Prefs...', 'tag', 'm_save_prefs', 'callback', cb)
-% uimenu(file, 'label', 'Load &Instrument...', 'tag', 'm_load_instr',...
-%     'callback', cb, 'separator', 'on')
-% uimenu(file, 'label', 'Save Selected I&nstrument...', 'tag', 'm_save_instr',...
-%     'callback', cb)
 uimenu(file, 'label', 'Data File &Prefix...', 'tag', 'm_set_prefix',...
     'callback', cb, 'separator', 'on')
 uimenu(file, 'label', 'E&xit', 'tag', 'm_exit', 'callback', cb,...
@@ -188,13 +184,6 @@ function [] = updateInstruments()
 instruments = GetInstrumentNames;
 SetUIParam(mfilename,'instruments','String',instruments)
 selectInstrument
-% if isempty(instruments)
-%     SetUIParam(mfilename,'instruments','String', ' ', 'Value', 1,...
-%         'Enable','Off')
-% else
-%     SetUIParam(mfilename,'instruments','String',instruments,...
-%        'Enable', 'On')
-% end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = close_metaphys(obj, event)
@@ -227,18 +216,21 @@ switch tag
             SetUIParam(mfilename,'data_dir','')
         end
     case 'protocol_select'
-        protocol    = GetUIParam(mfilename, 'protocol');
+        protocol    = GetUIParam(mfilename, 'protocol','userdata');
         [pn fn ext] = fileparts(protocol);
         if isempty(pn)
             pn      = getpref('METAPHYS','basedir');
         end
+        pwd         = cd(pn);
         [fn pn]     = uigetfile({'*.m', 'Protocol Files (*.m)';...
             '*.*', 'All Files (*.*)'},...
             'Select Protocol...');
+        cd(pwd);
         if ~isnumeric(fn)
-            SetUIParam(mfilename,'protocol', fn)
+            SetUIParam(mfilename,'protocol', 'string', fn,...
+                'userdata', fullfile(pn,fn))
         else
-            SetUIParam(mfilename,'protocol','')
+            SetUIParam(mfilename,'protocol','string','','userdata','')
         end
     case 'instrument_add'
         nn  =   NewInstrumentName;

@@ -1,4 +1,4 @@
-function [] = StartSweep(length, interval, daqnames)
+function [] = StartSweep(length, interval, varargin)
 %
 % STARTSWEEP Initiates data acquisition for a fixed length of time.
 %
@@ -15,22 +15,18 @@ function [] = StartSweep(length, interval, daqnames)
 % STARTSWEEP(length, interval) - Acquires <length> seconds of data, but
 % retrieves the data every <interval> seconds.
 %
-% STARTSWEEP(..., daqnames) - Only the DAQ devices specified by
-% <daqnames> are started.
+% STARTSWEEP(..., userdata) - If the DAQ is set to write, writes this data
+% to disk.
 %
 % Throws an error if any of the daq devices is running.
 %
 % See Also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.3 2006/01/20 00:04:38 meliza Exp $
+% $Id: StartSweep.m,v 1.4 2006/01/25 01:31:36 meliza Exp $
 
 % Get DAQ objects
-if nargin < 3
-    daqs    = GetDAQ(GetDAQNames);
-else
-    daqs    = GetDAQ(daqnames);
-end
-if nargin < 2
+daqs    = GetDAQ(GetDAQNames);
+if nargin < 2 || isempty(interval)
     interval    = [];
 end
 
@@ -54,5 +50,5 @@ for i = 1:size(types,1)
     end
 end
 
-StartDAQ(daqs);    
+StartDAQ(daqs, varargin{:});    
     

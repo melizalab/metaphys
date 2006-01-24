@@ -1,4 +1,4 @@
-function [] = MovieControl(action, varargin)
+function varargout = MovieControl(action, varargin)
 %
 % MOVIECONTROL Controls movie playback on an f21 remote computer
 %
@@ -6,16 +6,55 @@ function [] = MovieControl(action, varargin)
 % computer, retrieve display properties and movie file lists, and set up
 % the order of movie playback.
 %
-% MOVIECONTROL('init', remote_host, [remote_port])
+% fig = MOVIECONTROL('init', remote_host, [remote_port])
+% props = MOVIECONTROL('prepare') - returns property structure. one of the
+%               fields, total_movie_time, is the length of the movie in ms
+% MOVIECONTROL('start')
+% MOVIECONTROL('stop')
 % MOVIECONTROL('destroy')
 %
-% $Id: MovieControl.m,v 1.1 2006/01/24 21:42:15 meliza Exp $
+% $Id: MovieControl.m,v 1.2 2006/01/25 01:31:38 meliza Exp $
 
 switch lower(action)
     case 'init'
-        createFigure
+        varargout{1} = createFigure;
         setController(varargin{:})
         updateFigure
+    case 'prepare'
+        c   = getcontroller;
+        if isvalid(c)
+            frames  = preparemovie(c);
+            props   = get(c);
+            fratef  = props.frame_rate_factor;
+            frate   = props.refresh_rate
+            delay   = props.time_before_trigger;
+            props.total_movie_time = frames ./ frate .* fratef .* 1000 + delay;
+            varargout{1}    = props;
+        else
+            errordlg('Unable to prepare movie: no conneciton to f21')
+            error('METAPHYS:communicationFailure',...
+                'Unable to contact remote f21.');
+        end
+        
+    case 'start'
+        c   = getcontroller;
+        if isvalid(c)
+            startmovie(c);
+        else
+            errordlg('Unable to start movie: no connection to f21')
+            error('METAPHYS:communicationFailure',...
+                'Unable to contact remote f21.');
+        end
+    case 'stop'
+        c   = getcontroller;
+        if isvalid(c)
+            stopmovie(c);
+        else
+            errordlg('Unable to stop movie: no connection to f21')
+            error('METAPHYS:communicationFailure',...
+                'Unable to contact remote f21.');
+        end
+        
     case 'destroy'
         deleteController
 end
@@ -23,9 +62,11 @@ end
 function out = me()
 out = mfilename;
 
-function [] = createFigure()
+function [fig] = createFigure()
 % generates the figure
 fig     = OpenGuideFigure(mfilename);
+set(fig,'DeleteFcn',@deleteController)
+movegui(fig,'northeast')
 InitParam(me,'controller','object')
 
 % add callbacks
@@ -48,9 +89,7 @@ end
 c   = GetParam(me, 'controller');
 switch tag
     case {'remote_host', 'remote_port'}
-        rh  = GetUIParam(me, 'remote_host');
-        rp  = GetUIParam(me, 'remote_port','stringval');
-        c   = makecontroller(rh, rp);
+        c   = getcontroller;
     case 'frame_rate_factor'
         v   = GetUIParam(me, 'frame_rate_factor', 'value');
         if ~isempty(c)
@@ -64,7 +103,7 @@ else
     SetUIParam(me,'project_name',props.project_name)
     SetUIParam(me,'video_mode',props.video_mode)
     SetUIParam(me,'time_before_trigger',props.time_before_trigger)
-    frates  = props.refresh_rate ./ [1:12];
+    frates  = props.refresh_rate ./ (1:12);
     frates  = sprintf('%3.4f Hz,',frates);
     frates  = strread(frates, '%s','delimiter',',');
     SetUIParam(me,'frame_rate_factor','string',frates);
@@ -75,7 +114,7 @@ else
     if strcmpi(props.project_name,'f21mvx')
         nobj    = getobjectcount(c);
         SetUIParam(me,'num_objects',nobj);
-        SetUIParam(me,'sel_object','string',num2str([1:nobj]'),...
+        SetUIParam(me,'sel_object','string',num2str((1:nobj)'),...
             'Enable','On');
         obj     = GetUIParam(me,'sel_object','value') - 1;
         [mov frm]   = getmovielist(c, obj);
@@ -90,6 +129,12 @@ else
         'UserData', mov);
     SetUIParam(me,'total_time',total_time);
 end
+
+function [] = deleteController(varargin)
+rh      = GetUIParam(me,'remote_host');
+rp      = GetUIParam(me,'remote_port','stringval');
+SetDefaults(mfilename,'control',struct('remote_host', rh, 'remote_port', rp))
+InitParam(me, 'controller', 'object')
 
 function [] = buttonHandler(varargin)
 % handles button presses
@@ -142,13 +187,10 @@ else
             errordlg('Unable to add movie to list: format mismatch');
             setmovielist(c, obj, mvs);
         end
-        [mvs frms] = getmovielist(c, obj);
     else
         setmovielist(c, newlist);
-        [mvs frms] = getmovielist(c);
     end
-    SetUIParam(me,'movie_list','string',formatmovielist(mvs, frms),...
-        'value', newsel, 'userdata', mvs);
+    updateFigure;
 end
 
 function out = formatmovielist(names, frames)
@@ -158,17 +200,27 @@ out    = [char(names), repmat(' (', size(names,1), 1), num2str(frames),...
     
 function [] = setController(varargin)
 % sets the values in the remote address and port fields
-if nargin > 0
+defaults    = GetDefaults(mfilename);
+if nargin == 0
+    rh  = defaults.remote_host;
+    rp  = defaults.remote_port;
+elseif nargin == 1
     rh      = varargin{1};
-    if nargin > 1
-        rp  = varargin{2};
-    else
-        rp  = 6543;
-    end
-    SetUIParam(me, 'remote_host', rh);
-    SetUIParam(me, 'remote_port', rp);
+    rp  = defaults.remote_port;
+else
+    rh      = varargin{1};
+    rp  = varargin{2};
+end
+SetUIParam(me, 'remote_host', rh);
+SetUIParam(me, 'remote_port', rp);
+if ~isempty(rh)
     makecontroller(rh, rp);
 end
+
+function [c] = getcontroller()
+rh  = GetUIParam(me, 'remote_host');
+rp  = GetUIParam(me, 'remote_port','stringval');
+c   = makecontroller(rh, rp);
 
 function [c] = makecontroller(rh, rp)
 c   = f21control(rh, rp);

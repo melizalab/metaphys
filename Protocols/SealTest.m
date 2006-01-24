@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See Also:  PROTOCOLTEMPLATE
 %
-% $Id: SealTest.m,v 1.7 2006/01/23 19:27:43 meliza Exp $
+% $Id: SealTest.m,v 1.8 2006/01/25 01:31:44 meliza Exp $
 
 
 % Parse action
@@ -383,12 +383,12 @@ end
 % figure out scaling; CalculateResistance works on SI units
 scaling     = 1;
 allunits    = {pulse_u data_u};
-if any(strncmp('mv', lower(allunits),2))
+if any(strncmpi('mv', allunits,2))
     scaling = scaling / 1000;
 end
-if any(strncmp('na', lower(allunits),2))
+if any(strncmpi('na', allunits,2))
     scaling = scaling * 1e9;
-elseif any(strncmp('pa', lower(allunits),2))
+elseif any(strncmpi('pa', allunits,2))
     scaling = scaling * 1e12;
 end
 

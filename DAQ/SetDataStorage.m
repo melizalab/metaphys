@@ -31,7 +31,7 @@ function [] = SetDataStorage(mode, varargin)
 %                             stores data to disk using the DATAHANDLER
 %                       `     function and the MATWRITER subscriber
 %
-% $Id: SetDataStorage.m,v 1.2 2006/01/21 01:22:27 meliza Exp $
+% $Id: SetDataStorage.m,v 1.3 2006/01/25 01:31:36 meliza Exp $
 
 MATWRITER   = 'MatWriter';
 mwfunc      = str2func(MATWRITER);
@@ -57,11 +57,18 @@ switch lower(mode)
         if ~exist(fullfile(data_dir, newdir),'dir')
             mkdir(data_dir, newdir);
         end
-        newfile = fullfile(data_dir, newdir, '0000.daq');
-        set(ai, 'LogFileName', newfile,...
+
+        set(ai,...
                 'LogToDiskMode', 'Index',...
                 'LoggingMode', 'Disk&Memory');
+        for i = 1:length(ainm)
+            myfilename  = sprintf('%s-0000.daq', ainm{i});
+            newfile = fullfile(data_dir, newdir, myfilename);
+            set(ai(i), 'LogFileName', newfile)
+        end
         SetUIParam('metaphys', 'data_file', fullfile(data_dir,newdir))
+        InitParam('metaphys','data_file',param_struct('data file',...
+            'hidden', fullfile(data_dir, newdir)));        
     case 'matfile'
         if nargin < 2
             error('METAPHYS:setdatastorage:insufficientArguments',...
@@ -83,5 +90,14 @@ switch lower(mode)
             mkdir(data_dir, newdir);
         end
         SetUIParam('metaphys', 'data_file', newfile);
+        % the LogFileName prop is important for matfile mode too
+        for i = 1:length(ainm)
+            myfilename  = sprintf('%s-0000.daq', ainm{i});
+            newfile = fullfile(data_dir, newdir, myfilename);
+            set(ai(i), 'LogFileName', newfile)
+        end
+        InitParam('metaphys','data_file',param_struct('data file',...
+            'hidden', newfile));
 end
-
+InitParam('metaphys','data_mode',param_struct('data mode', 'hidden',...
+    mode));

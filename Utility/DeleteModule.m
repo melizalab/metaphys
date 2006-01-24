@@ -7,19 +7,11 @@ function [] = DeleteModule(module)
 %
 % module (String) - module name
 %
-% $Id: DeleteModule.m,v 1.4 2006/01/23 19:29:49 meliza Exp $
+% $Id: DeleteModule.m,v 1.5 2006/01/25 01:31:45 meliza Exp $
 
 global mpctrl
 
 module  = lower(module);
-
-% Delete any orphans
-fig = FindFigure(module);
-delete(fig(ishandle(fig)))
-
-% Delete parameter figures
-fig = FindFigure([module '.param']);
-delete(fig(ishandle(fig)))
 
 if isfield(mpctrl,module)
     % Call the object's destructor
@@ -33,8 +25,16 @@ if isfield(mpctrl,module)
     fig = mpctrl.(module).fig;
     delete(fig(ishandle(fig)))
 
+    % Delete parameter figures
+    fig = FindFigure([module '.param']);
+    delete(fig(ishandle(fig)))
+
     % Clear the module from control
     mpctrl = rmfield(mpctrl, module);
-    
     DebugPrint('Deleted module %s.', module)
 end
+
+% Delete any orphans
+fig = FindFigure(module);
+delete(fig(ishandle(fig)))
+
