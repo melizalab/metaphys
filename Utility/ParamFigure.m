@@ -39,7 +39,7 @@ function fig = ParamFigure(module, varargin)
 %
 % See Also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.2 2006/01/21 01:22:33 meliza Exp $ 
+% $Id: ParamFigure.m,v 1.3 2006/01/24 21:42:19 meliza Exp $ 
 
 module  = lower(module);
 
@@ -104,7 +104,6 @@ for i = 1:paramCount
     y       = y_pad + h * (i + 0.5);
     name    = paramNames{i};
     s       = params.(name);
-%     InitParam(module, name, s);
     if ~strcmpi(s.fieldtype,'hidden')
         % The label for the parameter
         uicontrol(fig,'style','edit','String',s.description,...
@@ -130,7 +129,7 @@ for i = 1:paramCount
         end
         % Create the appropriate UI control
         switch lower(s.fieldtype)
-        case {'string','value'}
+        case {'string','value','object'}
             st = {'style','edit','BackgroundColor','white',...
                     'HorizontalAlignment','right'};
         case 'list'
@@ -191,25 +190,29 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
 function [v] = setUIValue(obj, struct)
 % Sets the uicontrol to display the parameter value. This is done according
-% to the parameter type.
+% to the parameter type. Note that objects fieldtypes return the string,
+% which is passed to the object's constructor by SetParam
 switch lower(struct.fieldtype)
-case 'list'
-    set(obj, 'String', struct.choices);
-    if ischar(struct.value)
-        v = strmatch(struct.value, struct.choices);
-    else
-        v = struct.value;
-    end
-    if ~isempty(v)
-        set(obj,'Value',v);
-    else
-        error('METAPHYS:valueOutOfRange',...
-        'The option %s does not exist for parameter %s.',...
-        struct.value, struct.name)
-    end
-otherwise
-    v = num2str(struct.value);
-    set(obj,'String',v,'tooltipstring',v);
+    case 'list'
+        set(obj, 'String', struct.choices);
+        if ischar(struct.value)
+            v = strmatch(struct.value, struct.choices);
+        else
+            v = struct.value;
+        end
+        if ~isempty(v)
+            set(obj,'Value',v);
+        else
+            error('METAPHYS:valueOutOfRange',...
+                'The option %s does not exist for parameter %s.',...
+                struct.value, struct.name)
+        end
+    case 'object'
+        v = char(struct.value)
+        set(obj,'String',v,'tooltipstring',v);
+    otherwise
+        v = num2str(struct.value);
+        set(obj,'String',v,'tooltipstring',v);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

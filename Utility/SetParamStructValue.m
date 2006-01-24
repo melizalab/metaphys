@@ -12,7 +12,7 @@ function paramstruct = SetParamStructValue(paramstruct, value)
 %
 % See Also: GETPARAMSTRUCTVALUE, SETPARAM, PARAM_STRUCT
 %
-% $Id: SetParamStructValue.m,v 1.2 2006/01/21 01:22:34 meliza Exp $
+% $Id: SetParamStructValue.m,v 1.3 2006/01/24 21:42:20 meliza Exp $
 
 NUMERIC_TYPES   = {'int8', 'int16', 'int32', 'int64',...
                    'uint8', 'uint16', 'uint32', 'uint64',...
@@ -64,6 +64,20 @@ switch paramtype
                     'Only single choices are accepted by list parameters.')
             otherwise
                 cannotCast('list', valuetype)
+        end
+    case 'object'
+        if isobject(value)
+            newval  = value;
+        else
+            % try to determine the class of the object stored in the structure
+            type    = class(paramstruct.value);
+            % try to construct another object of the same class
+            try
+                constr  = str2func(type);
+                newval  = constr(value);
+            catch
+                cannotCast(type, valuetype);
+            end
         end
     otherwise
         % no casting is done for other parameter types

@@ -15,7 +15,8 @@ function [S] = param_struct(varargin)
 % m.description - a 'friendly' description of the parameter 
 %                 (e.g. 'Number of Repeats')
 % m.fieldtype   - the type of parameter this is.  Can be any of the following:
-%                 {'String', 'Value', 'List', 'Hidden', 'File_in', or 'Fixed'}
+%                 {'String', 'Value', 'List', 'Hidden', 'File_in',
+%                  'Fixed', or 'Object'}
 % 
 %
 % Optional fields:
@@ -31,9 +32,19 @@ function [S] = param_struct(varargin)
 %                 in which the callback is a file selection function implemented by
 %                 PARAMFIGURE. Thus, this value will be overwritten.
 %
+%                 The object fieldtype is a special instance of the
+%                 'string' fieldtype but where an underlying object is used
+%                 to hold and handle the string. In order to be used by
+%                 PARAMFIGURE, the object must have a CHAR method and have
+%                 a constructor that takes a single string parameter. For
+%                 instance, the F21CONTROL class returns the remote host
+%                 address when CHAR is called, and will construct a new
+%                 F21CONTROL with a single string argument.  
+%
+%
 % See Also: PARAMFIGURE, GETPARAM
 %
-% $Id: param_struct.m,v 1.2 2006/01/20 02:03:14 meliza Exp $
+% $Id: param_struct.m,v 1.3 2006/01/24 21:42:18 meliza Exp $
 
 fields = {'description','fieldtype','value','choices','units','callback'};
 C      = {'','',[],{},'',[]};
