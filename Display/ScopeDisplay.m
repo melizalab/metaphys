@@ -10,10 +10,10 @@ function varargout = ScopeDisplay(action, varargin)
 % should replace data at the beginning of the axes.
 %
 % fig = SCOPEDISPLAY('init', instrument)
-% SCOPEDISPLAY('clear')
+% SCOPEDISPLAY('clear', [sweeplength])
 % SCOPEDISPLAY('destroy')
 %
-% $Id: ScopeDisplay.m,v 1.2 2006/01/25 01:31:38 meliza Exp $
+% $Id: ScopeDisplay.m,v 1.3 2006/01/25 22:22:48 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -28,6 +28,10 @@ switch lower(action)
         end
         delete(findobj(kids,'HandleVisibility','on'));
         set(ax,'UserData',0)
+        if nargin > 1
+            sweeplength = varargin{1};
+            set(ax, 'xlim', [0 sweeplength]);
+        end
     case 'destroy'
         destroyModule
     otherwise

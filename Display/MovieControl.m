@@ -13,7 +13,7 @@ function varargout = MovieControl(action, varargin)
 % MOVIECONTROL('stop')
 % MOVIECONTROL('destroy')
 %
-% $Id: MovieControl.m,v 1.3 2006/01/25 01:58:38 meliza Exp $
+% $Id: MovieControl.m,v 1.4 2006/01/25 22:22:48 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -31,7 +31,7 @@ switch lower(action)
             props.total_movie_time = frames ./ frate .* fratef .* 1000 + delay;
             varargout{1}    = props;
         else
-            errordlg('Unable to prepare movie: no conneciton to f21')
+            errordlg('No connection to f21!')
             error('METAPHYS:communicationFailure',...
                 'Unable to contact remote f21.');
         end
@@ -41,7 +41,7 @@ switch lower(action)
         if isvalid(c)
             startmovie(c);
         else
-            errordlg('Unable to start movie: no connection to f21')
+            errordlg('No connection to f21!')
             error('METAPHYS:communicationFailure',...
                 'Unable to contact remote f21.');
         end
@@ -50,7 +50,7 @@ switch lower(action)
         if isvalid(c)
             stopmovie(c);
         else
-            errordlg('Unable to stop movie: no connection to f21')
+            errordlg('No connection to f21!')
             error('METAPHYS:communicationFailure',...
                 'Unable to contact remote f21.');
         end

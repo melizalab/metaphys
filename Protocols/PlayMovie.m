@@ -13,7 +13,7 @@ function varargout = PlayMovie(action)
 %
 % See Also: F21CONTROL
 %
-% $Id: PlayMovie.m,v 1.3 2006/01/25 17:49:30 meliza Exp $
+% $Id: PlayMovie.m,v 1.4 2006/01/25 22:22:51 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -32,7 +32,7 @@ switch lower(action)
     
     case 'start'
         % Clear displays
-        SweepDisplay('clear')
+        SweepDisplay('clearall')
         MovieControl('stop')
         DeleteSubscriber('loop')
         StopDAQ
@@ -46,7 +46,7 @@ switch lower(action)
     
     case 'record'
         % Clear displays
-        SweepDisplay('clear')
+        SweepDisplay('clearall')
         MovieControl('stop')
         DeleteSubscriber('loop')
         StopDAQ
@@ -63,9 +63,12 @@ switch lower(action)
     case 'stop'
         % Stop system from repeating
         setStatus('protocol stopping');
-        DeleteSubscriber('loop')
+        if IsDaqRunning
+            AddSubscriber('loop', [], @cleanupControl)
+        else
+            cleanupControl
+        end
         MovieControl('stop')
-        AddSubscriber('loop', [], @cleanupControl)
         
     case 'destroy'
         destroyModule;
@@ -84,35 +87,36 @@ out = mfilename;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = loopControl(packet)
-ep_interval = GetParam(me,'ep_interval','value');
-tot_repeats = GetParam(me,'movie_repeat','value');
-current_sweep    = GetSweepCounter;
-if current_sweep < tot_repeats
-    pause(ep_interval/1000);
-    sweepControl
-    SetParam(me,'repeats',repeated+1)
-else
-    cleanupControl(packet)
+if strcmpi(packet.message.Type, 'stop')
+    ep_interval      = GetParam(me,'ep_interval','value');
+    tot_repeats      = GetParam(me,'movie_repeat','value');
+    current_sweep    = GetSweepCounter;
+    if current_sweep < tot_repeats
+        SweepPause(ep_interval);
+        sweepControl
+    else
+        cleanupControl(packet)
+    end
 end
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = sweepControl()
 
 % Queue movie
 props           = MovieControl('prepare');
-episodelength   = props.total_movie_time ./ 1000;
+episodelength   = props.total_movie_time;
 % Queue command data
 queueStimulus();
 % Get update rate
 uprate  = GetParam(me,'update_rate');
 % Start a sweep
-StartSweep(episodelength,[],props)
+% StartSweep(episodelength,[],props)
 % multiple updates don't work yet:
-% if isempty(uprate)
-%     StartSweep(episodelength,[],props)
-% else
-%     StartSweep(episodelength, 1/uprate, props);
-% end
+SweepDisplay('clearall', episodelength);
+if isempty(uprate)
+    StartSweep(episodelength,[],props)
+else
+    StartSweep(episodelength, 1000/uprate, props);
+end
 MovieControl('start')
 setStatus('protocol running')
 

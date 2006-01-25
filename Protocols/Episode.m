@@ -32,7 +32,7 @@ function varargout = Episode(action)
 % EPISODE('stop')
 % EPISODE('destroy')
 %
-% $Id: Episode.m,v 1.4 2006/01/25 17:49:29 meliza Exp $
+% $Id: Episode.m,v 1.5 2006/01/25 22:22:49 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -45,14 +45,15 @@ switch lower(action)
         movegui(f,'east')
         instr   = GetParam(me, 'instrument');
         % Open the display scope
-        SweepDisplay('init', instr);
+        SweepDisplay('init', instr, Inf);
         % Open statistics display
 %         StatsDisplay('init', instr)
         setStatus('protocol initialized');
     
     case 'start'
         % Clear displays
-        SweepDisplay('clear')
+        len = GetParam(me, 'ep_length', 'value');
+        SweepDisplay('clearall', len)
 %         StatsDisplay('clear')
         DeleteSubscriber('loop')
         StopDAQ
@@ -65,7 +66,8 @@ switch lower(action)
     
     case 'record'
         % Clear displays
-        SweepDisplay('clear')
+        len = GetParam(me, 'ep_length', 'value');
+        SweepDisplay('clearall', len)
 %         StatsDisplay('clear')
         DeleteSubscriber('loop')
         StopDAQ
@@ -81,7 +83,11 @@ switch lower(action)
     case 'stop'
         % Stop system from repeating
         setStatus('protocol stopping');
-        AddSubscriber('loop', [], @cleanupControl)
+        if IsDaqRunning
+            AddSubscriber('loop', [], @cleanupControl)
+        else
+            cleanupControl
+        end
         
     case 'destroy'
         destroyModule;
@@ -100,14 +106,16 @@ out = mfilename;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = loopControl(packet)
-ep_interval = GetParam(me,'ep_interval','value');
-ep_repeats  = GetParam(me,'ep_repeats','value');
-current_sweep   = GetSweepCounter;
-if current_sweep < ep_repeats
-    pause(ep_interval/1000);
-    sweepControl
-else
-    cleanupControl(packet)
+if strcmpi(packet.message.Type, 'Stop')
+    ep_interval     = GetParam(me,'ep_interval','value');
+    ep_repeats      = GetParam(me,'ep_repeats','value');
+    current_sweep   = GetSweepCounter;
+    if current_sweep < ep_repeats
+        SweepPause(ep_interval);
+        sweepControl
+    else
+        cleanupControl(packet)
+    end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -123,7 +131,7 @@ setStatus('protocol running')
 function episodelength = queueStimulus()
 % Queues command data
 len = GetParam(me, 'ep_length', 'value');
-episodelength = len / 1000;
+episodelength = len;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = cleanupControl(packet)

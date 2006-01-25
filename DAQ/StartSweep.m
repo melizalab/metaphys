@@ -3,7 +3,7 @@ function [] = StartSweep(length, interval, varargin)
 % STARTSWEEP Initiates data acquisition for a fixed length of time.
 %
 % STARTSWEEP(length) - All known DAQ devices are started, and if
-% applicable, triggered. <length> is in seconds, not samples
+% applicable, triggered. <length> is in ms, not samples
 %
 % This function should be used for acquiring sweeps of data with a fixed
 % length. In practice, this length of time should be > 50 ms, as most
@@ -12,8 +12,8 @@ function [] = StartSweep(length, interval, varargin)
 % the device will stop logging and call DATAHANDLER.  If DATAHANDLER needs
 % to be called more frequently, use the alternate form:
 %
-% STARTSWEEP(length, interval) - Acquires <length> seconds of data, but
-% retrieves the data every <interval> seconds.
+% STARTSWEEP(length, interval) - Acquires <length> ms of data, but
+% retrieves the data every <interval> ms.
 %
 % STARTSWEEP(..., userdata) - If the DAQ is set to write, writes this data
 % to disk.
@@ -22,7 +22,7 @@ function [] = StartSweep(length, interval, varargin)
 %
 % See Also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.5 2006/01/25 01:58:37 meliza Exp $
+% $Id: StartSweep.m,v 1.6 2006/01/25 22:22:47 meliza Exp $
 
 % Get DAQ objects
 daqs    = GetDAQ(GetDAQNames);
@@ -36,12 +36,12 @@ for i = 1:size(types,1)
     switch types{i}
         case 'analog input'
             srate   = get(daqs(i), 'SampleRate');
-            samp    = length .* srate;
+            samp    = length .* srate ./ 1000;
             set(daqs(i),...
                         'SamplesPerTrigger', samp,...
                         'SamplesAcquiredFcn', []);
             if ~isempty(interval)
-                interval    = interval .* srate;
+                interval    = interval .* srate ./ 1000;
                 set(daqs(i),...
                      'SamplesAcquiredFcnCount', interval,...
                      'SamplesAcquiredFcn', @DataHandler);
