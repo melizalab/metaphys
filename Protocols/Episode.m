@@ -32,7 +32,7 @@ function varargout = Episode(action)
 % EPISODE('stop')
 % EPISODE('destroy')
 %
-% $Id: Episode.m,v 1.3 2006/01/25 01:31:40 meliza Exp $
+% $Id: Episode.m,v 1.4 2006/01/25 17:49:29 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -101,8 +101,14 @@ out = mfilename;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = loopControl(packet)
 ep_interval = GetParam(me,'ep_interval','value');
-pause(ep_interval/1000);
-sweepControl
+ep_repeats  = GetParam(me,'ep_repeats','value');
+current_sweep   = GetSweepCounter;
+if current_sweep < ep_repeats
+    pause(ep_interval/1000);
+    sweepControl
+else
+    cleanupControl(packet)
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = sweepControl()

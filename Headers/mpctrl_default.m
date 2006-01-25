@@ -29,6 +29,7 @@ function [mpctrl] = mpctrl_default()
 %           .updfn      - function handle that updates the instrument
 %           .output     - arguments that define the output of the telegraph
 %    .subscriber - contains subscription structures (SUBSCRIBER_STRUCT)
+%    .globals    - contains global variables
 %       
 %    .defaults  - contains defaults that are accessible through GETDEFAULTS
 %    .(modulename)  - storage for modules currently in use
@@ -37,9 +38,10 @@ function [mpctrl] = mpctrl_default()
 %  TELEGRAPH_STRUCT
 %           
 %
-% $Id: mpctrl_default.m,v 1.5 2006/01/19 03:15:02 meliza Exp $
+% $Id: mpctrl_default.m,v 1.6 2006/01/25 17:49:28 meliza Exp $
 
 mpctrl = struct('daq',[],...
                 'instrument',[],...
                 'subscriber',[],...
+                'globals',[],...
                 'defaults',[]);

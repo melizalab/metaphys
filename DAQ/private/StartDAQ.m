@@ -13,7 +13,7 @@ function [] = StartDAQ(daqs, userdata)
 %
 % See Also: STOPDAQ
 %
-% $Id: StartDAQ.m,v 1.3 2006/01/25 01:31:37 meliza Exp $
+% $Id: StartDAQ.m,v 1.4 2006/01/25 17:49:27 meliza Exp $
 
 
 % check for running objects
@@ -22,8 +22,6 @@ if ~isempty(strmatch('On',isrun))
     error('METAPHYS:startsweep:deviceAlreadyRunning',...
         'One or more DAQ devices is currently running.')
 end
-
-datamode    = GetDataStorage;
 
 % check to see which devices need started and triggered
 do_start    = ones(size(daqs));
@@ -80,6 +78,7 @@ if ~any(do_start)
 else
     UpdateTelegraph;
     EnableSensitiveControls('off')
+    IncrementSweepCounter
     start(daqs(find(do_start)))
     if any(do_start & do_trigger)
         trigger(daqs(find(do_start & do_trigger)))

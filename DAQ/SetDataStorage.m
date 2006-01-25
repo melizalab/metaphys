@@ -31,7 +31,8 @@ function [] = SetDataStorage(mode, varargin)
 %                             stores data to disk using the DATAHANDLER
 %                       `     function and the MATWRITER subscriber
 %
-% $Id: SetDataStorage.m,v 1.4 2006/01/25 01:58:37 meliza Exp $
+%
+% $Id: SetDataStorage.m,v 1.5 2006/01/25 17:49:26 meliza Exp $
 
 MATWRITER   = 'MatWriter';
 mwfunc      = str2func(MATWRITER);
@@ -95,5 +96,6 @@ switch lower(mode)
             set(ai(i), 'LogFileName', newfile)
         end
 end
-InitParam('metaphys','data_mode',param_struct('data mode', 'hidden',...
-    mode));
+% make data mode available; reset sweep counter
+SetGlobal('data_mode', mode);
+ResetSweepCounter

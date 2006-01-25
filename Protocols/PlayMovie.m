@@ -13,7 +13,7 @@ function varargout = PlayMovie(action)
 %
 % See Also: F21CONTROL
 %
-% $Id: PlayMovie.m,v 1.2 2006/01/25 01:58:39 meliza Exp $
+% $Id: PlayMovie.m,v 1.3 2006/01/25 17:49:30 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -86,11 +86,8 @@ out = mfilename;
 function [] = loopControl(packet)
 ep_interval = GetParam(me,'ep_interval','value');
 tot_repeats = GetParam(me,'movie_repeat','value');
-repeated    = GetParam(me,'repeats','value');
-if isempty(repeated)
-    repeated = 1;
-end
-if repeated < tot_repeats
+current_sweep    = GetSweepCounter;
+if current_sweep < tot_repeats
     pause(ep_interval/1000);
     sweepControl
     SetParam(me,'repeats',repeated+1)
