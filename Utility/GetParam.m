@@ -16,7 +16,7 @@ function out = GetParam(module, param, mode)
 %
 %   See Also: SETPARAM, INITPARAM, PARAMFIGURE, GETPARAMSTRUCTVALUE
 % 
-%   $Id: GetParam.m,v 1.2 2006/01/24 21:42:18 meliza Exp $
+%   $Id: GetParam.m,v 1.3 2006/01/26 23:37:27 meliza Exp $
 %
 RETURN_STRUCT   = 'struct';
 
@@ -40,11 +40,8 @@ else
 end
 
 % return structure if that's what's asked for
-if nargin > 3
-    if strcmpi(mode, RETURN_STRUCT)
-        out = paramstruct;
-        return
-    end
+if nargin > 2 && strcmpi(mode, RETURN_STRUCT)
+    out = paramstruct;
+else
+    out = GetParamStructValue(paramstruct);
 end
-
-out = GetParamStructValue(paramstruct);

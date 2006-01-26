@@ -39,7 +39,7 @@ function varargout = ParamFigure(module, varargin)
 %
 % See Also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.4 2006/01/25 01:31:47 meliza Exp $ 
+% $Id: ParamFigure.m,v 1.5 2006/01/26 23:37:28 meliza Exp $ 
 
 module  = lower(module);
 
@@ -130,19 +130,20 @@ for i = 1:paramCount
         end
         % Create the appropriate UI control
         switch lower(s.fieldtype)
-        case {'string','value','object'}
+        case {'string','value'}
             st = {'style','edit','BackgroundColor','white',...
                     'HorizontalAlignment','right'};
         case 'list'
             st = {'style','popupmenu','string',s.choices,'BackgroundColor','white'};
-        case {'fixed','file_in'}
+        case {'fixed','file_in','object'}
             st = {'style','edit','enable','inactive'};
             % create button if .callback is specified
             if isfield(s,'callback')
                 p_u = [w_fn + w_f + x_pad + x_pad, y + 2, w_units/2, 18];
                 cb = s.callback;
                 uicontrol(fig,'position',p_u,'style','pushbutton',...
-                    'String','','Callback', {cb, module, name})       
+                    'String','',...
+                    'Callback', {@callbackHandler module name})
             end
         end
         t = [module '.' name];
@@ -161,7 +162,6 @@ function [] = setParams(module, struct)
 
 % Find the figure
 fig     = FindFigure([module '.param']);
-
 
 n = fieldnames(struct);
 for i = 1:length(n)
@@ -290,3 +290,20 @@ pnfn = fullfile(pn,fn);
 s = GetParam(module);
 WriteStructure(pnfn,s);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = callbackHandler(obj, event, module, param)
+% generally the custom callback on an param needs to be called with the
+% actual value of the parameter, so this is a wrapper
+S       = GetParam(module, param,'struct');
+if iscell(S.callback)
+    func    = S.callback{1};
+    args    = {S.callback{2:end} S.value};
+elseif isa(S.callback,'function_handle')
+    func    = S.callback;
+    args    = {S.value};
+else
+    return
+end
+S.value  = func(args{:});
+paramstruct.(param) = S;
+setParams(module, paramstruct);

@@ -32,7 +32,7 @@ function varargout = Episode(action)
 % EPISODE('stop')
 % EPISODE('destroy')
 %
-% $Id: Episode.m,v 1.5 2006/01/25 22:22:49 meliza Exp $
+% $Id: Episode.m,v 1.6 2006/01/26 23:37:25 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -48,7 +48,7 @@ switch lower(action)
         SweepDisplay('init', instr, Inf);
         % Open statistics display
 %         StatsDisplay('init', instr)
-        setStatus('protocol initialized');
+        SetStatus('protocol initialized');
     
     case 'start'
         % Clear displays
@@ -82,7 +82,7 @@ switch lower(action)
     
     case 'stop'
         % Stop system from repeating
-        setStatus('protocol stopping');
+        SetStatus('protocol stopping');
         if IsDaqRunning
             AddSubscriber('loop', [], @cleanupControl)
         else
@@ -125,7 +125,7 @@ function [] = sweepControl()
 episodelength = queueStimulus;
 % Start a sweep
 StartSweep(episodelength)
-setStatus('protocol running')
+SetStatus('protocol running')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function episodelength = queueStimulus()
@@ -142,11 +142,8 @@ StopDAQ
 % Set data storage to memory
 SetDataStorage('memory')
 DeleteSubscriber('loop')
-setStatus('protocol stopped')
+SetStatus('protocol stopped')
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = setStatus(output)
-SetUIParam('metaphys','protocol_status',output);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = selectInstrument(varargin)
@@ -154,7 +151,7 @@ function [] = selectInstrument(varargin)
 DeleteSubscriber('loop')
 StopDAQ
 instr   = GetParam(me, 'instrument');
-setStatus('instrument changed: protocol stopped')
+SetStatus('instrument changed: protocol stopped')
 SweepDisplay('init',instr);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,4 +163,4 @@ p   = GetParam(mfilename);
 SetDefaults(mfilename,'control',p)
 % delete display windows
 DeleteModule('sweepdisplay')
-setStatus('protocol closed')
+SetStatus('protocol closed')

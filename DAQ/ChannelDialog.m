@@ -18,7 +18,7 @@ function [] = ChannelDialog(instrumentname, channel)
 %
 % See Also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
 %
-% $Id: ChannelDialog.m,v 1.6 2006/01/21 01:22:22 meliza Exp $
+% $Id: ChannelDialog.m,v 1.7 2006/01/26 23:37:21 meliza Exp $
 
 if strcmpi(instrumentname,'destroy')
     % do nothing
@@ -39,8 +39,8 @@ else
     %% Set callbacks
     setCallbacks
 
-    % set(fig,'WindowStyle','modal')
-    % uiwait(fig)
+    set(fig,'WindowStyle','modal')
+    uiwait(fig)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
