@@ -58,13 +58,16 @@ function s = waveformevent_struct(varargin)
 %                       function, keep in mind that <onset> is actually the
 %                       output of @onset_func(onset), which can be any
 %                       value whatsoever.
+%    Private (used by the class; should not be serialized or returned):
+%       .queued_params - a queue of parameters
+%       .queue_pointer - the current position in the queue
 %
-% $Id: waveformevent_struct.m,v 1.1 2006/01/26 01:21:30 meliza Exp $
+% $Id: waveformevent_struct.m,v 1.2 2006/01/27 00:40:09 meliza Exp $
 
 fields  = {'onset', 'ampl', 'dur', 'cycle_mode',...
     'onset_func', 'ampl_func', 'dur_func',...
-    'user_func'};
-C       = {[], [], [], 'single', [], [], [], []};
+    'user_func','queued_params','queue_pointer'};
+C       = {[], [], [], 'single', [], [], [], [],{},0};
 req     = 3;
 
 

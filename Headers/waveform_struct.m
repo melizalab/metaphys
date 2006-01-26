@@ -8,10 +8,13 @@ function s = waveform_struct(varargin)
 %
 % Fields:
 %   Required:
+%       .channel_name   = a cell array, each element of which is the name
+%                         of a channel
 %       .channel_events = a cell array, each element of which is an array
 %                         of waveformevent objects
+% 
 %
-% $Id: waveform_struct.m,v 1.1 2006/01/26 23:37:25 meliza Exp $
+% $Id: waveform_struct.m,v 1.2 2006/01/27 00:40:09 meliza Exp $
 
 fields  = {'channel_names', 'channel_events'};
 C       = {{},{}};
