@@ -13,7 +13,7 @@ function varargout = ScopeDisplay(action, varargin)
 % SCOPEDISPLAY('clear', [sweeplength])
 % SCOPEDISPLAY('destroy')
 %
-% $Id: ScopeDisplay.m,v 1.4 2006/01/27 23:46:31 meliza Exp $
+% $Id: ScopeDisplay.m,v 1.5 2006/01/28 00:46:12 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -126,31 +126,36 @@ f   = OpenFigure(mfilename,'units','normalized',...
 
 [c,p,s]   = GetInstrumentChannelNames(instrument,'output');
 nplots  = length(c);
-% The channel plots should be more tightly placed than subplot makes them
-totalh  = 0.85;
-height  = totalh / nplots;
-gap     = 0.01;
-y       = 0.98;
-ax      = zeros(1,nplots);
-for i = 1:nplots
-    ax(i) = subplot(nplots, 1, i);
-    set(ax(i),'position',[0.1, y-height, 0.89 height],...
-        'XGrid','On','YGrid','On','Box','On',...
-        'nextplot','replacechildren',...
-        'tag',c{i},'xlim',[0 1000],'userdata',0)
-    ylabel(s{i})
-    y   = y-height-gap;
+if nplots > 0
+    % The channel plots should be more tightly placed than subplot makes them
+    totalh  = 0.85;
+    height  = totalh / nplots;
+    gap     = 0.01;
+    y       = 0.98;
+    ax      = zeros(1,nplots);
+    for i = 1:nplots
+        ax(i) = subplot(nplots, 1, i);
+        set(ax(i),'position',[0.1, y-height, 0.89 height],...
+            'XGrid','On','YGrid','On','Box','On',...
+            'nextplot','replacechildren',...
+            'tag',c{i},'xlim',[0 1000],'userdata',0)
+        ylabel(s{i})
+        y   = y-height-gap;
+    end
+    set(ax(1:end-1), 'xticklabel', [])
+    xlabel(ax(end),'Time (ms)')
+    linkaxes(ax, 'x');
+    % add buttons for stretching and shrinking axes
+    uicontrol(f, 'style', 'pushbutton', 'String', '-',...
+        'tag','axes_shrink','callback',@buttonHandler,...
+        'units','normalized','position',[.51 gap 0.03 0.04])
+    uicontrol(f, 'style', 'pushbutton', 'String', '+',...
+        'tag','axes_grow','callback',@buttonHandler,...
+        'units','normalized','position',[.54 gap 0.03 0.04])
+else
+    uicontrol('style','text','String','No Channels Defined',...
+        'units','normalized','position',[0.4 0.45 0.2 0.1]);
 end
-set(ax(1:end-1), 'xticklabel', [])
-xlabel(ax(end),'Time (ms)')
-linkaxes(ax, 'x');
-% add buttons for stretching and shrinking axes
-uicontrol(f, 'style', 'pushbutton', 'String', '-',...
-    'tag','axes_shrink','callback',@buttonHandler,...
-    'units','normalized','position',[.51 gap 0.03 0.04])
-uicontrol(f, 'style', 'pushbutton', 'String', '+',...
-    'tag','axes_grow','callback',@buttonHandler,...
-    'units','normalized','position',[.54 gap 0.03 0.04])
 
 function [] = destroyModule(varargin)
 DeleteSubscriber(mfilename);

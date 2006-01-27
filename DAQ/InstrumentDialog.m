@@ -9,7 +9,7 @@ function [] = InstrumentDialog(action, instrumentname)
 %
 % See Also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
 %
-% $Id: InstrumentDialog.m,v 1.6 2006/01/27 23:46:22 meliza Exp $
+% $Id: InstrumentDialog.m,v 1.7 2006/01/28 00:46:09 meliza Exp $
 
 switch lower(action)
     case {'init', 'modal'}
@@ -82,6 +82,12 @@ SetUIParam(mfilename,'telegraphs','String', telegraphs)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = buttonHandler(obj, event)
 tag = get(obj,'tag');
+daqnm       = GetDAQNames;
+if isempty(daqnm) && ~strcmpi(tag,'instrument_name');
+    warndlg({'No digitizer devices have been activated.',...
+             'Set up digitizer properties before creating channels.'})
+    return
+end
 instrument  = GetUIParam(mfilename,'instrument_name');
 switch tag
     case 'input_add'
@@ -132,13 +138,11 @@ switch tag
         TelegraphDialog('modal',instrument);
         updateTelegraphs
     case 'telegraph_edit'
-%        telegrph    = GetUIParam(mfilename,'telegraphs','String');
         selected    = GetUIParam(mfilename,'telegraphs','Selected');
         if ~isempty(selected)
             TelegraphDialog('modal',instrument, selected);
         end
     case 'telegraph_delete'
-%        telegrph    = GetUIParam(mfilename,'telegraphs','UserData');
         selected    = GetUIParam(mfilename,'telegraphs','Selected');
         if ~isempty(selected)
             DeleteInstrumentTelegraph(instrument, selected);

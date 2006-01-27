@@ -22,10 +22,17 @@ function [] = StartSweep(length, interval, varargin)
 %
 % See Also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.6 2006/01/25 22:22:47 meliza Exp $
+% $Id: StartSweep.m,v 1.7 2006/01/28 00:46:11 meliza Exp $
 
 % Get DAQ objects
-daqs    = GetDAQ(GetDAQNames);
+daqnms  = GetDAQNames;
+if isempty(daqnms)
+    errordlg({'No digitizer devices have been activated.',...
+             'Set up digitizer properties before starting protocols.'})
+    return
+end
+daqs    = GetDAQ(daqnms);
+    
 if nargin < 2 || isempty(interval)
     interval    = [];
 end

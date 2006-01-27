@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See Also:  PROTOCOLTEMPLATE
 %
-% $Id: SealTest.m,v 1.9 2006/01/27 23:46:39 meliza Exp $
+% $Id: SealTest.m,v 1.10 2006/01/28 00:46:19 meliza Exp $
 
 
 % Parse action
@@ -44,6 +44,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = startProtocol()
 % Start the protocol running.
+
 SetUIParam(me,'startbutton','String','Stop');
 SetUIParam(me,'pulse_len','Enable','Off');
 SetUIParam(me,'pulse_amp','Enable','Off');
@@ -198,6 +199,9 @@ else
 end
 SetUIParam(me, 'output', outputs);
 SetUIParam(me, 'command', inputs);
+if isempty(outputs) || isempty(inputs)
+    btn_en  = 'Off';
+end
 SetUIParam(me,'startbutton','Enable', btn_en);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

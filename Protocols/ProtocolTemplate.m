@@ -1,4 +1,4 @@
-function [] = ProtocolTemplate(action)
+function varargout = ProtocolTemplate(action)
 %
 % PROTOCOLTEMPLATE A protocol that does nothing except provide an example
 % for writing more functional ones.
@@ -10,6 +10,9 @@ function [] = ProtocolTemplate(action)
 % are called when the user clicks the Init, Play, Record, or Stop buttons,
 % respectively.
 % 
+% Protocols must return a figure handle when 'init' is called. This allows
+% the calling function to know the protocol has been initialized.
+%
 % Aside from responding to these actions, the protocol can operate however
 % it likes. If the user is expected to change parameters, it may pay,
 % however, to use the PARAMFIGURE function to create a figure that will
@@ -27,7 +30,7 @@ function [] = ProtocolTemplate(action)
 % function.  Whenever the DAQ system returns data, that data will be
 % packaged and sent to the subscriber.
 %
-% $Id: ProtocolTemplate.m,v 1.1 2006/01/20 02:03:15 meliza Exp $
+% $Id: ProtocolTemplate.m,v 1.2 2006/01/28 00:46:18 meliza Exp $
 
 % The main function generally only parses the action, which is how external
 % functions (such as the calling function) control its behavior.

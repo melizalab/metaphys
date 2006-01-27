@@ -13,12 +13,17 @@ function varargout = MovieControl(action, varargin)
 % MOVIECONTROL('stop')
 % MOVIECONTROL('destroy')
 %
-% $Id: MovieControl.m,v 1.5 2006/01/27 23:46:31 meliza Exp $
+% $Id: MovieControl.m,v 1.6 2006/01/28 00:46:12 meliza Exp $
 
 switch lower(action)
     case 'init'
         varargout{1} = createFigure;
-        setController(varargin{:})
+        def_address  = GetDefaults('vis_remote_host');
+        if nargin < 2 && ~isempty(def_address)
+            setController(def_address)
+        else
+            setController(varargin{:})
+        end
         updateFigure
     case 'prepare'
         c   = getcontroller;
@@ -221,7 +226,9 @@ end
 function [c] = getcontroller()
 rh  = GetUIParam(me, 'remote_host');
 rp  = GetUIParam(me, 'remote_port','stringval');
-c   = makecontroller(rh, rp);
+if ~isempty(rh) && ~isempty(rp)
+    c   = makecontroller(rh, rp);
+end
 
 function [c] = makecontroller(rh, rp)
 c   = f21control(rh, rp);

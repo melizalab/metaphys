@@ -6,7 +6,7 @@ function varargout = GapFree(action)
 % acquisition; it retrieves the data at fixed intervals and plots it using
 % SCOPEDISPLAY
 %
-% $Id: GapFree.m,v 1.3 2006/01/27 23:46:35 meliza Exp $
+% $Id: GapFree.m,v 1.4 2006/01/28 00:46:15 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -15,11 +15,12 @@ switch lower(action)
         p = GetDefaults(me);
         p.instrument.callback   = @selectInstrument;
         % Open the parameter window
-        movegui(ParamFigure(me, p, @destroyModule),'east')
+        f   = ParamFigure(me, p, @destroyModule);
+        movegui(f,'east')
         instr   = GetParam(me, 'instrument');
         % Open the display scope
         ScopeDisplay('init', instr)
-        setStatus('protocol initialized');
+        varargout{1}    = f;
     
     case 'start'
         % Clear displays
@@ -88,3 +89,4 @@ p   = GetParam(mfilename);
 SetDefaults(mfilename,'control',p)
 % delete display windows
 DeleteModule('scopedisplay')
+SetCurrentProtocol([])

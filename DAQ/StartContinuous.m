@@ -16,10 +16,17 @@ function [] = StartContinuous(interval, loop, varargin)
 %
 % See Also: STOPDAQ, STARTSWEEP
 %
-% $Id: StartContinuous.m,v 1.3 2006/01/27 23:46:25 meliza Exp $
+% $Id: StartContinuous.m,v 1.4 2006/01/28 00:46:11 meliza Exp $
 
 % Get DAQ objects
-daqs    = GetDAQ(GetDAQNames);
+daqnms  = GetDAQNames;
+if isempty(daqnms)
+    errordlg({'No digitizer devices have been activated.',...
+             'Set up digitizer properties before starting protocols.'})
+    return
+end
+
+daqs    = GetDAQ(daqnms);
 if nargin < 2
     loop    = Inf;
 end

@@ -31,7 +31,7 @@ function varargout = SweepDisplay(action, varargin)
 % the sweeplength so that the plot does not go off the limits or have to
 % reset the limits continually.
 %
-% $Id: SweepDisplay.m,v 1.6 2006/01/27 23:46:32 meliza Exp $
+% $Id: SweepDisplay.m,v 1.7 2006/01/28 00:46:13 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -226,27 +226,32 @@ f   = OpenFigure(mfilename,'units','normalized',...
 
 [c,p,s]   = GetInstrumentChannelNames(instrument,'output');
 nplots  = length(c);
-% The channel plots should be more tightly placed than subplot makes them
-totalh  = 0.9;
-height  = totalh / nplots;
-gap     = 0.01;
-y       = 0.98;
-ax      = zeros(1,nplots);
-for i = 1:nplots
-    ax(i) = subplot(nplots, 1, i);
-    set(ax(i),'position',[0.1, y-height, 0.89 height],...
-        'XGrid','On','YGrid','On','Box','On',...
-        'nextplot','add',...
-        'tag',c{i},'xlim',[0 1000])
-    ylabel(s{i})
-    y   = y-height-gap;
+if nplots > 0
+    % The channel plots should be more tightly placed than subplot makes them
+    totalh  = 0.9;
+    height  = totalh / nplots;
+    gap     = 0.01;
+    y       = 0.98;
+    ax      = zeros(1,nplots);
+    for i = 1:nplots
+        ax(i) = subplot(nplots, 1, i);
+        set(ax(i),'position',[0.1, y-height, 0.89 height],...
+            'XGrid','On','YGrid','On','Box','On',...
+            'nextplot','add',...
+            'tag',c{i},'xlim',[0 1000])
+        ylabel(s{i})
+        y   = y-height-gap;
+    end
+    set(ax(1:end-1), 'xticklabel', [])
+    xlabel(ax(end),'Time (ms)')
+    if nargin > 1
+        set(ax, 'userdata', datamean_struct(n_repeats));
+    end
+    linkaxes(ax, 'x');
+else
+    uicontrol('style','text','String','No Channels Defined',...
+        'units','normalized','position',[0.4 0.45 0.2 0.1]);
 end
-set(ax(1:end-1), 'xticklabel', [])
-xlabel(ax(end),'Time (ms)')
-if nargin > 1
-    set(ax, 'userdata', datamean_struct(n_repeats));
-end
-linkaxes(ax, 'x');
 
 function [] = destroyModule(varargin)
 DeleteSubscriber(mfilename);

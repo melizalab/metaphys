@@ -13,7 +13,7 @@ function varargout = PlayMovie(action)
 %
 % See Also: F21CONTROL
 %
-% $Id: PlayMovie.m,v 1.5 2006/01/27 23:46:37 meliza Exp $
+% $Id: PlayMovie.m,v 1.6 2006/01/28 00:46:16 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -22,13 +22,14 @@ switch lower(action)
         p = GetDefaults(me);
         p.instrument.callback   = @selectInstrument;
         % Open the parameter window
-        movegui(ParamFigure(me, p, @destroyModule),'east')
+        f   = ParamFigure(me, p, @destroyModule);
+        movegui(f,'east')
         instr   = GetParam(me, 'instrument');
         % Open the display scope
         SweepDisplay('init', instr);
         % Open movie control
         movegui(MovieControl('init'),'northeast')
-        setStatus('protocol initialized');
+        varargout{1}    = f;
     
     case 'start'
         % Clear displays
@@ -166,3 +167,4 @@ SetDefaults(mfilename,'control',p)
 DeleteModule('sweepdisplay')
 DeleteModule('moviecontrol')
 setStatus('protocol closed')
+SetCurrentProtocol([])

@@ -10,14 +10,14 @@ function [] = metaphys(action)
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.10 2006/01/27 23:46:13 meliza Exp $
+% $Id: metaphys.m,v 1.11 2006/01/28 00:46:05 meliza Exp $
 
 if nargin > 0 && strcmpi(action,'destroy')
     %
 else
     initPath;
     DebugSetOutput('console')
-    DebugPrint('Starting METAPHYS, $Revision: 1.10 $')
+    DebugPrint('Starting METAPHYS, $Revision: 1.11 $')
     DebugPrint('Initialized METAPHYS path.')
     % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
     InitControl;
@@ -25,6 +25,7 @@ else
 
     createFigure;
     updateFigure;
+    SetCurrentProtocol([])
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,7 +184,14 @@ function [] = updateInstruments()
 % Updates the instrument list
 instruments = GetInstrumentNames;
 SetUIParam(mfilename,'instruments','String',instruments)
-selectInstrument
+h           = GetUIHandle(mfilename,{'protocol_start', 'protocol_init',...
+    'protocol_record', 'protocol_stop', 'seal_test'});
+if isempty(instruments)
+	set(h,'enable','off')
+else
+	set(h,'enable','on')
+    selectInstrument
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = close_metaphys(obj, event)
@@ -199,7 +207,8 @@ DigitizerDialog('init')
 
 function [] = button_push(obj, event)
 % Handles button pushes in the the figure.
-tag     = get(obj,'tag');
+tag             = get(obj,'tag');
+current_prot    = GetCurrentProtocol;
 switch tag
     case 'properties_digitizer'
         digitizer_props(obj, event)
@@ -229,8 +238,11 @@ switch tag
         if ~isnumeric(fn)
             SetUIParam(mfilename,'protocol', 'string', fn,...
                 'userdata', fullfile(pn,fn))
-        else
-            SetUIParam(mfilename,'protocol','string','','userdata','')
+            if ishandle(current_prot)
+                delete(current_prot)
+            else
+                SetCurrentProtocol([])
+            end
         end
     case 'instrument_add'
         nn  =   NewInstrumentName;
@@ -256,7 +268,8 @@ switch tag
         if ~isempty(protocol)
             [pn fn ext] = fileparts(protocol);
             pfunc       = str2func(fn);
-            pfunc('init')
+            fhandle     = pfunc('init');
+            SetCurrentProtocol(fhandle);
         end
     case 'protocol_start'
         protocol    = GetUIParam(mfilename, 'protocol');
@@ -324,6 +337,14 @@ switch tag
         digitizer_props(obj, event)
     case 'm_dig_reset'
         ResetDAQ
+        
+    case 'm_vis_props'
+        prefix  = GetDefaults('vis_remote_host');
+        answer  = inputdlg({'Enter remote f21 host address:'},...
+            'Remote Host Address', 1, {char(prefix)});
+        if ~isempty(answer)
+            SetDefaults('vis_remote_host','control',answer{1})
+        end
         
     otherwise
         warning('METAPHYS:tagCallbackUndefined',...

@@ -26,13 +26,13 @@ function varargout = Episode(action)
 % synchronization is controlled through triggers, which can be defined in
 % the DIGITIZERDIALOG.
 %
-% EPISODE('init')
+% fig = EPISODE('init')
 % EPISODE('start')
 % EPISODE('record')
 % EPISODE('stop')
 % EPISODE('destroy')
 %
-% $Id: Episode.m,v 1.7 2006/01/27 23:46:34 meliza Exp $
+% $Id: Episode.m,v 1.8 2006/01/28 00:46:13 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -48,7 +48,7 @@ switch lower(action)
         SweepDisplay('init', instr, Inf);
         % Open statistics display
 %         StatsDisplay('init', instr)
-        SetStatus('protocol initialized');
+        varargout{1}    = f;
     
     case 'start'
         % Clear displays
@@ -169,4 +169,5 @@ p   = GetParam(mfilename);
 SetDefaults(mfilename,'control',p)
 % delete display windows
 DeleteModule('sweepdisplay')
-SetStatus('protocol closed')
+SetCurrentProtocol([])
+

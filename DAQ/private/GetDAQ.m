@@ -7,7 +7,12 @@ function daq = GetDAQ(daqnames)
 %
 % daq = GETDAQ(daqnames)
 %
-% $Id: GetDAQ.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: GetDAQ.m,v 1.2 2006/01/28 00:46:12 meliza Exp $
+
+if nargin == 0 || isempty(daqnames)
+    error('METAPHYS:invalidArguments',...
+        '%s requires a character or cell array of daq names.', mfilename);
+end
 
 daqstr  = GetDAQStruct(daqnames);
 daq     = [daqstr.obj];
