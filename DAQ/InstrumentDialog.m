@@ -9,7 +9,7 @@ function [] = InstrumentDialog(action, instrumentname)
 %
 % See Also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
 %
-% $Id: InstrumentDialog.m,v 1.7 2006/01/28 00:46:09 meliza Exp $
+% $Id: InstrumentDialog.m,v 1.8 2006/01/28 01:12:07 meliza Exp $
 
 switch lower(action)
     case {'init', 'modal'}
@@ -82,23 +82,29 @@ SetUIParam(mfilename,'telegraphs','String', telegraphs)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = buttonHandler(obj, event)
 tag = get(obj,'tag');
-daqnm       = GetDAQNames;
-if isempty(daqnm) && ~strcmpi(tag,'instrument_name');
-    warndlg({'No digitizer devices have been activated.',...
-             'Set up digitizer properties before creating channels.'})
-    return
-end
+inputdaq    = GetDAQNames('analogoutput');
+outputdaq   = GetDAQNames('analoginput');
 instrument  = GetUIParam(mfilename,'instrument_name');
 switch tag
     case 'input_add'
-        ChannelDialog('modal',instrument,'input');
-        updateInputs
-    case 'input_edit'
-        channels    = GetUIParam(mfilename,'inputs','UserData');
-        selected    = GetUIParam(mfilename,'inputs','Value');
-        if ~isempty(channels)
-            ChannelDialog('modal',instrument,channels{selected});
+        if isempty(inputdaq)
+            warndlg({'No digitizer devices for this type have been activated.',...
+                'Set up digitizer properties before creating channels.'})
+        else
+            ChannelDialog('modal',instrument,'input');
             updateInputs
+        end
+    case 'input_edit'
+        if isempty(inputdaq)
+            warndlg({'No digitizer devices for this type have been activated.',...
+                'Set up digitizer properties before creating channels.'})
+        else
+            channels    = GetUIParam(mfilename,'inputs','UserData');
+            selected    = GetUIParam(mfilename,'inputs','Value');
+            if ~isempty(channels)
+                ChannelDialog('modal',instrument,channels{selected});
+                updateInputs
+            end
         end
     case 'input_delete'
         channels    = GetUIParam(mfilename,'inputs','UserData');
@@ -108,14 +114,24 @@ switch tag
             updateInputs
         end
     case 'output_add'
-        ChannelDialog('modal',instrument,'output');
-        updateOutputs
-    case 'output_edit'
-        channels    = GetUIParam(mfilename,'outputs','UserData');
-        selected    = GetUIParam(mfilename,'outputs','Value');
-        if ~isempty(channels)
-            ChannelDialog('modal',instrument,channels{selected});
+        if isempty(outputdaq)
+            warndlg({'No digitizer devices for this type have been activated.',...
+                'Set up digitizer properties before creating channels.'})
+        else
+            ChannelDialog('modal',instrument,'output');
             updateOutputs
+        end
+    case 'output_edit'
+        if isempty(outputdaq)
+            warndlg({'No digitizer devices for this type have been activated.',...
+                'Set up digitizer properties before creating channels.'})
+        else
+            channels    = GetUIParam(mfilename,'outputs','UserData');
+            selected    = GetUIParam(mfilename,'outputs','Value');
+            if ~isempty(channels)
+                ChannelDialog('modal',instrument,channels{selected});
+                updateOutputs
+            end
         end
     case 'output_delete'
         channels    = GetUIParam(mfilename,'outputs','UserData');

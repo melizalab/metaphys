@@ -39,7 +39,7 @@ function varargout = ParamFigure(module, varargin)
 %
 % See Also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.6 2006/01/27 23:46:42 meliza Exp $ 
+% $Id: ParamFigure.m,v 1.7 2006/01/28 01:12:15 meliza Exp $ 
 
 module  = lower(module);
 
@@ -169,7 +169,7 @@ for i = 1:length(n)
     tag     = [module '.' param];
     h       = findobj(fig,'tag',tag);
     if ishandle(h)
-        setUIValue(h, s)
+        setUIValue(h, s);
     end
     SetParam(module, param, s)
 end

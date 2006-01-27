@@ -13,7 +13,7 @@ function [] = StartDAQ(daqs, userdata)
 %
 % See Also: STOPDAQ
 %
-% $Id: StartDAQ.m,v 1.5 2006/01/27 23:46:30 meliza Exp $
+% $Id: StartDAQ.m,v 1.6 2006/01/28 01:12:10 meliza Exp $
 
 
 % check for running objects
@@ -26,7 +26,7 @@ end
 % check to see which devices need started and triggered
 do_start    = ones(size(daqs));
 % do_trigger  = ones(size(daqs));
-types       = lower(daqs.Type);
+types   = CellWrap(lower(daqs.Type));
 
 % set callbacks
 err_cb   = @EventHandler;

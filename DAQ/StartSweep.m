@@ -22,7 +22,7 @@ function [] = StartSweep(length, interval, varargin)
 %
 % See Also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.7 2006/01/28 00:46:11 meliza Exp $
+% $Id: StartSweep.m,v 1.8 2006/01/28 01:12:09 meliza Exp $
 
 % Get DAQ objects
 daqnms  = GetDAQNames;
@@ -38,7 +38,7 @@ if nargin < 2 || isempty(interval)
 end
 
 % set acquisition times
-types   = lower(daqs.Type);
+types   = CellWrap(lower(daqs.Type));
 for i = 1:size(types,1)
     switch types{i}
         case 'analog input'

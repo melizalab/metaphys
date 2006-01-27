@@ -10,14 +10,14 @@ function [] = metaphys(action)
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.11 2006/01/28 00:46:05 meliza Exp $
+% $Id: metaphys.m,v 1.12 2006/01/28 01:12:04 meliza Exp $
 
 if nargin > 0 && strcmpi(action,'destroy')
     %
 else
     initPath;
     DebugSetOutput('console')
-    DebugPrint('Starting METAPHYS, $Revision: 1.11 $')
+    DebugPrint('Starting METAPHYS, $Revision: 1.12 $')
     DebugPrint('Initialized METAPHYS path.')
     % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
     InitControl;
@@ -184,13 +184,15 @@ function [] = updateInstruments()
 % Updates the instrument list
 instruments = GetInstrumentNames;
 SetUIParam(mfilename,'instruments','String',instruments)
-h           = GetUIHandle(mfilename,{'protocol_start', 'protocol_init',...
-    'protocol_record', 'protocol_stop', 'seal_test'});
+h           = GetUIHandle(mfilename,{'protocol_init', 'seal_test',...
+    'protocol_start', 'protocol_record'});
 if isempty(instruments)
 	set(h,'enable','off')
-else
-	set(h,'enable','on')
+elseif isempty(GetCurrentProtocol)
+	set(h(1:2),'enable','on')
     selectInstrument
+else
+	set('enable','on')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -201,7 +203,7 @@ DestroyControl
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = digitizer_props(obj, event)
 % Handles selection and initialization of digitizer properties
-DigitizerDialog('init')
+DigitizerDialog('init');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -280,7 +282,7 @@ switch tag
         end
     case 'protocol_stop'
         protocol    = GetUIParam(mfilename, 'protocol');
-        if ~isempty(protocol)
+        if ~isempty(protocol) || ~isempty(current_prot)
             [pn fn ext] = fileparts(protocol);
             pfunc       = str2func(fn);
             pfunc('stop')

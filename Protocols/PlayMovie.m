@@ -13,7 +13,7 @@ function varargout = PlayMovie(action)
 %
 % See Also: F21CONTROL
 %
-% $Id: PlayMovie.m,v 1.6 2006/01/28 00:46:16 meliza Exp $
+% $Id: PlayMovie.m,v 1.7 2006/01/28 01:12:13 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -64,7 +64,7 @@ switch lower(action)
     case 'stop'
         % Stop system from repeating
         setStatus('protocol stopping');
-        if IsDaqRunning
+        if IsDAQRunning
             AddSubscriber('loop', [], @cleanupControl)
         else
             cleanupControl

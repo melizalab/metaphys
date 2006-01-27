@@ -13,7 +13,7 @@ function varargout = MovieControl(action, varargin)
 % MOVIECONTROL('stop')
 % MOVIECONTROL('destroy')
 %
-% $Id: MovieControl.m,v 1.6 2006/01/28 00:46:12 meliza Exp $
+% $Id: MovieControl.m,v 1.7 2006/01/28 01:12:10 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -27,7 +27,7 @@ switch lower(action)
         updateFigure
     case 'prepare'
         c   = getcontroller;
-        if isvalid(c)
+        if ~isempty(c) && isvalid(c)
             frames  = preparemovie(c);
             props   = get(c);
             fratef  = props.frame_rate_factor;
@@ -43,7 +43,7 @@ switch lower(action)
         
     case 'start'
         c   = getcontroller;
-        if isvalid(c)
+        if ~isempty(c) && isvalid(c)
             startmovie(c);
         else
             errordlg('No connection to f21!')
@@ -52,7 +52,7 @@ switch lower(action)
         end
     case 'stop'
         c   = getcontroller;
-        if isvalid(c)
+        if ~isempty(c) && isvalid(c)
             stopmovie(c);
         else
             errordlg('No connection to f21!')
@@ -228,6 +228,8 @@ rh  = GetUIParam(me, 'remote_host');
 rp  = GetUIParam(me, 'remote_port','stringval');
 if ~isempty(rh) && ~isempty(rp)
     c   = makecontroller(rh, rp);
+else
+    c   = [];
 end
 
 function [c] = makecontroller(rh, rp)
