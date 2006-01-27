@@ -19,7 +19,7 @@ function [results] = UpdateTelegraph(instrument, telegraph)
 %       results   = checkfn(instrument, object, fnargs...)
 %       updfn(instrument, results, fnargs...)
 %
-% $Id: UpdateTelegraph.m,v 1.3 2006/01/20 22:02:31 meliza Exp $
+% $Id: UpdateTelegraph.m,v 1.4 2006/01/27 23:46:27 meliza Exp $
 global mpctrl
 
 results = [];
@@ -40,7 +40,7 @@ end
 switch nargin
     case 2
         tele_struct = mpctrl.instrument.(instrument).telegraph.(telegraph);
-        results.(instrument) = myupdatetele(instrument, tele_struct)
+        results.(instrument) = myupdatetele(instrument, tele_struct);
     case 1
         inst_struct = mpctrl.instrument.(instrument);
         results.(instrument) = updateinstrumenttelegraphs(instrument, inst_struct);

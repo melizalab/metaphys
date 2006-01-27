@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See Also:  PROTOCOLTEMPLATE
 %
-% $Id: SealTest.m,v 1.8 2006/01/25 01:31:44 meliza Exp $
+% $Id: SealTest.m,v 1.9 2006/01/27 23:46:39 meliza Exp $
 
 
 % Parse action
@@ -30,6 +30,8 @@ switch lower(action)
     case 'init'
         createFigure
         setupFigure
+    case 'start'
+        startProtocol
     case 'destroy'
         % no cleanup necessary
     otherwise
@@ -60,7 +62,7 @@ function [] = mystartSweep(varargin)
 instr                   = GetUIParam(me,'instrument','selected');
 [pulse pulse_len]       = generatePulse(instr);
 PutInputData(instr, pulse)
-SetUIParam(me,'axes','XLim',[0 pulse_len*1000]);
+SetUIParam(me,'axes','XLim',[0 pulse_len]);
 StartContinuous(pulse_len)
 % StartSweep(pulse_len)
 
@@ -120,7 +122,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [pulse pulse_len] = generatePulse(instr)
 % Generates the command pulse
-len     = GetUIParam(me,'pulse_len','StringVal') / 1000 ;   % s
+len     = GetUIParam(me,'pulse_len','StringVal') / 1000;   % s
 amp     = GetUIParam(me,'pulse_amp','StringVal');   % units
 base    = GetUIParam(me,'pulse_base','StringVal');  % units
 chans   = GetUIParam(me,'command');
@@ -137,6 +139,9 @@ off_s   = fix(pulse_len_s * 0.15);
 pulse   = zeros(pulse_len_s, size(chans,1));
 pulse(:,chan)   = base;
 pulse(off_s:off_s+len_s,chan)  = base+amp;
+
+% fix pulse length to ms
+pulse_len   = pulse_len * 1000;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = setupFigure()
@@ -370,16 +375,16 @@ function [] = calculateResist(time, data, data_u)
 % or current pulse.
 pulse   = GetUIParam(me, 'pulse_amp', 'StringVal');
 pulse_u = GetUIParam(me, 'pulse_amp_units', 'String');
-ax      = GetUIHandle(me, 'axes');
+% ax      = GetUIHandle(me, 'axes');
 switch lower(pulse_u(end))
     case 'v'
         mode    = 'vpulse';
-%         [Rt, Ri] = CalculateResistance(time, data, pulse, 'vpulse', ax);
-        [Rt, Ri] = CalculateResistance(time, data, pulse, 'vpulse');
+%         [Rt, Ri] = CalculateResistance(time, data, pulse, mode, ax);
     case 'a'
-%         [Rt, Ri] = CalculateResistance(time, data, pulse, 'ipulse', ax);
-        [Rt, Ri] = CalculateResistance(time, data, pulse, 'ipulse');
+        mode    = 'ipulse';
+%         [Rt, Ri] = CalculateResistance(time, data, pulse, mode, ax);
 end
+[Rt, Ri] = CalculateResistance(time, data, pulse, mode);
 % figure out scaling; CalculateResistance works on SI units
 scaling     = 1;
 allunits    = {pulse_u data_u};

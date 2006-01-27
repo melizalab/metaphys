@@ -3,6 +3,27 @@
 % Utility functions that integrate MATLAB's figure and uiobjects into the
 % METAPHYS control structure.
 %
+% * Params and UIParams:
+%
+%   It is often the case that you will want certain values to be available
+%   to a number of modules. These values are stored in the control
+%   structure, and are made easily accessible as Params and UIParams. The
+%   difference between Params and UIParams is that Params are invisible to
+%   the end user and are only modified through the associated functions,
+%   whereas UIParams are associated with MATLAB uicontrols, and can be
+%   modified by the user through the GUI. The functions associated with
+%   Params are INITPARAM, GETPARAM, and SETPARAM. The functions associated
+%   with UIParams are INITUICONTROL, INITUIOBJECT, GETUIHANDLE, GETUIPARAM,
+%   and SETUIPARAM. Their use is fairly self-explanatory and they have been
+%   documented extensively.
+% 
+%   If a number of parameters are associated with one another, then the
+%   PARAMFIGURE can be used to display and manipulate their values. This is
+%   done by creating a structure that contains the parameter names, types,
+%   and default values, and passing it to PARAMFIGURE, which creates a
+%   figure that contains all those parameters, and futhermore allows the
+%   end user to store the parameter set as a matfile.
+%
 % Files
 %   ClearDefaults       - Clear default values for an object
 %   DebugPrint          - Outputs debugging messages. 
@@ -47,5 +68,12 @@
 %   SplitPacket         - Converts multichannel packet(s) into multiple single-channel
 %   StrTokenize         - Completely de-tokenizes a string
 %   StructConstruct     - Generic constructor for predefined structures.
+%   GetGlobal           - Returns the value of a global variable in the control
+%   ListRearranger      - A callback handler used for moving items around in a
+%   SetGlobal           - Sets a global variable in the control structure
+%   SetStatus           - Updates the status field in the main display window
+%   WaveformEditor      - Dialog for specifying waveforms for output to instruments
+%   multilcm            - returns the least common multiple of an array of positive
+%   shuffledsequence    - Generates a shuffled sequence
 %
-% $Id: Contents.m,v 1.3 2006/01/24 03:26:12 meliza Exp $
+% $Id: Contents.m,v 1.4 2006/01/27 23:46:40 meliza Exp $

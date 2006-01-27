@@ -12,10 +12,13 @@ function [] = DataHandler(obj, event)
 % acquisition, we have to set that value in the data packet by hand, which
 % means UpdateTelegraph needs to return its results in a parseable form.
 %
-% $Id: DataHandler.m,v 1.8 2006/01/25 17:49:23 meliza Exp $
+% $Id: DataHandler.m,v 1.9 2006/01/27 23:46:15 meliza Exp $
 
 global mpctrl
 
+if ~strcmp('Analog Input', obj.Type)
+    return
+end
 
 % get the subscribers (direct through mpctrl for speed)
 if isstruct(mpctrl.subscriber)
@@ -26,14 +29,21 @@ if isstruct(mpctrl.subscriber)
     switch event.Type
         case 'SamplesAcquired'
             avail            = get(obj,'SamplesAcquiredFcnCount');
-            [data, time, abstime]   = getdata(obj, avail);
         otherwise
             avail            = get(obj,'SamplesAvailable');
-            if avail > 0
-                [data, time, abstime]   = getdata(obj, avail);
-            else
-                [data, time, abstime]   = deal([]);
-            end
+    end
+    if avail > 0
+        try
+            [data, time, abstime]   = getdata(obj, avail);
+        catch
+            % this error usually occurs when both stopfcn and
+            % samplesacquiredfcn are active at once. if we pause a few ms
+            % it should go away
+            pause(0.05);
+            [data, time, abstime]   = getdata(obj, avail);
+        end
+    else
+        [data, time, abstime]   = deal([]);
     end
     daqname     = obj.Name;
     daqfile     = obj.LogFileName;

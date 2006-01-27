@@ -28,9 +28,17 @@
 %
 % Files
 %
-%   GetSubscriberNames - Returns a list of the current subscribers
-%   AddSubscriber      - Adds a subscriber to the acquisition system.
-%   DataHandler        - Handles dispersing data to subscribers
-%   DeleteSubscriber   - Unregisters a subscriber from the acquisition system.
+%   GetSubscriberNames      - Returns a list of the current subscribers
+%   AddSubscriber           - Adds a subscriber to the acquisition system.
+%   DataHandler             - Handles dispersing data to subscribers
+%   DeleteSubscriber        - Unregisters a subscriber from the acquisition system.
+%   EventHandler            - Handles events during acquisition.
+%   GetSubscriber           - Returns a subscriber structure by name
+%   GetSweepCounter         - Returns the current number of sweeps acquired
+%   IncrementSweepCounter   - Increases the value of the sweep counter
+%   IsSweepPaused           - Returns true if the acquisition is currently paused between
+%   ResetSweepCounter       - Resets the global sweep counter
+%   SweepPause              - Pauses between sweeps for a fixed number of milliseconds
+%   EnableSensitiveControls - Turn on or off sensitive controls
 %
-% $Id: Contents.m,v 1.2 2006/01/19 03:14:51 meliza Exp $
+% $Id: Contents.m,v 1.3 2006/01/27 23:46:15 meliza Exp $

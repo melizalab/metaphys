@@ -44,5 +44,10 @@
 %   StartContinuous             - Starts a continuous acquisition.
 %   StartSweep                  - Initiates data acquisition for a fixed length of time.
 %   TelegraphDialog             - Dialogue box for configuring instrument telegraphs.
+%   GetCurrentInstrumentName    - Returns the name of the instrument currently
+%   GetInstrumentChannel        - Returns the channel object associated with an
+%   IsDAQRunning                - Returns true if any daq is currently running
+%   PutInputWaveform            - Preloads values from a waveform object into an
+%   SetDataStorage              - Sets where data will be stored
 %
-% $Id: Contents.m,v 1.2 2006/01/19 03:14:52 meliza Exp $
+% $Id: Contents.m,v 1.3 2006/01/27 23:46:19 meliza Exp $

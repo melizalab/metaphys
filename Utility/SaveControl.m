@@ -17,9 +17,14 @@ function [] = SaveControl(filename, subsystem)
 %
 % See Also: LOADCONTROL, INITCONTROL
 %
-% $Id: SaveControl.m,v 1.3 2006/01/14 00:48:16 meliza Exp $
+% $Id: SaveControl.m,v 1.4 2006/01/27 23:46:43 meliza Exp $
 
 global mpctrl
+
+if nargin < 1 || isempty(filename)
+    error('METAPHYS:invalidArguments',...
+        '%s requires a non-empty filename argument.', mfilename);
+end
 
 if nargin == 1
     subsystem = {'daq', 'instrument', 'defaults'};

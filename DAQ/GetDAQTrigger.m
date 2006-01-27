@@ -13,7 +13,7 @@ function [triggertype dio dioline] = GetDAQTrigger(daq)
 %
 % See Also: SETDAQTRIGGER
 %
-% $Id: GetDAQTrigger.m,v 1.1 2006/01/19 03:14:54 meliza Exp $
+% $Id: GetDAQTrigger.m,v 1.2 2006/01/27 23:46:21 meliza Exp $
 
 if ischar(daq)
     daq     = GetDAQ(daq);
@@ -45,8 +45,13 @@ else
                 triggertype = 'hardware';
             else
                 triggertype = 'digital';
-                dio         = udata{1};
-                dioline     = udata{2};
+                diolines    = udata;
+                dio         = get(diolines(1).Parent,'Name');
+                dioline     = diolines.HwLine;
+                if iscell(dioline)
+                    dioline = cell2mat(dioline);
+                    dioline = dioline(:)';
+                end
             end
         otherwise
             warning('METAPHYS:getdaqtrigger:unknownTriggerType',...

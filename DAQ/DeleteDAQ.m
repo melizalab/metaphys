@@ -12,7 +12,7 @@ function [] = DeleteDAQ(daqnames)
 %
 % See Also: INITDAQ, STOPDAQ
 %
-% $Id: DeleteDAQ.m,v 1.5 2006/01/21 01:22:23 meliza Exp $
+% $Id: DeleteDAQ.m,v 1.6 2006/01/27 23:46:19 meliza Exp $
 
 global mpctrl
 
@@ -43,6 +43,6 @@ end
 %% Delete the DAQ and associated control structure
 delete(daq)
 mpctrl.daq = rmfield(mpctrl.daq, daqnames);
-if length(fieldnames(mpctrl.daq)) == 0
+if isempty(fieldnames(mpctrl.daq))
     mpctrl.daq  = [];
 end

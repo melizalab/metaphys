@@ -21,10 +21,10 @@ function fig = OpenGuideFigure(figfile, module)
 %
 %  See Also: OPENFIGURE, FINDFIGURE
 %
-% $Id: OpenGuideFigure.m,v 1.3 2006/01/18 19:01:13 meliza Exp $
+% $Id: OpenGuideFigure.m,v 1.4 2006/01/27 23:46:42 meliza Exp $
 
 if nargin == 1
-    [pn fn ext] = fileparts(figfile);
+    [pn fn] = fileparts(figfile);
     tag = lower(fn);
 else
     tag = lower(module);

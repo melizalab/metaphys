@@ -9,7 +9,7 @@ function [indices, names] = GetChannelIndices(instrument, daqname)
 % [indices, names] = GETCHANNELINDICES(instrument, daqname)
 % 
 %
-% $Id: GetChannelIndices.m,v 1.1 2006/01/18 19:01:05 meliza Exp $
+% $Id: GetChannelIndices.m,v 1.2 2006/01/27 23:46:20 meliza Exp $
 
 instr   = GetInstrument(instrument);
 channels   = StructFlatten(instr.channels);
@@ -24,4 +24,4 @@ indices     = get(channels, 'Index');
 if iscell(indices)
     indices = cell2mat(indices);
 end
-names       = get(channels, 'ChannelName');
+names       = CellWrap(get(channels, 'ChannelName'));

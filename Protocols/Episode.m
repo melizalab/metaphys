@@ -32,7 +32,7 @@ function varargout = Episode(action)
 % EPISODE('stop')
 % EPISODE('destroy')
 %
-% $Id: Episode.m,v 1.6 2006/01/26 23:37:25 meliza Exp $
+% $Id: Episode.m,v 1.7 2006/01/27 23:46:34 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -83,7 +83,7 @@ switch lower(action)
     case 'stop'
         % Stop system from repeating
         SetStatus('protocol stopping');
-        if IsDaqRunning
+        if IsDAQRunning
             AddSubscriber('loop', [], @cleanupControl)
         else
             cleanupControl
@@ -129,9 +129,15 @@ SetStatus('protocol running')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function episodelength = queueStimulus()
-% Queues command data
-len = GetParam(me, 'ep_length', 'value');
-episodelength = len;
+% Queues command data. If the waveform is empty (ie invalid) then no call
+% is made to putdata
+waveform        = GetParam(me, 'waveform', 'value');
+episodelength   = GetParam(me, 'ep_length', 'value');
+if ~isempty(waveform)
+    instr       = GetParam(me,'instrument');
+    waveform    = PutInputWaveform(instr, episodelength, waveform);
+    SetParam(me, 'waveform', waveform);
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = cleanupControl(packet)

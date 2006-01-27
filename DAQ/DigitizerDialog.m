@@ -1,4 +1,4 @@
-function [] = DigitizerDialog(action)
+function varargout = DigitizerDialog(action)
 %
 % DIGITIZERDIALOG Dialogue box for setting up digitization hardware. 
 %
@@ -7,11 +7,9 @@ function [] = DigitizerDialog(action)
 %
 % See Also: INITDAQ, RESETDAQ, DELETEDAQ
 %
-% $Id: DigitizerDialog.m,v 1.5 2006/01/21 01:22:24 meliza Exp $
-if nargin < 1
-    action  = 'init'
-end
-switch lower('action')
+% $Id: DigitizerDialog.m,v 1.6 2006/01/27 23:46:19 meliza Exp $
+
+switch lower(action)
     case 'init'
         %% Open the figure
         fig     = OpenGuideFigure(mfilename);
@@ -36,6 +34,7 @@ switch lower('action')
         %% Populate the systems field
         updateSystems
         SetUIParam(mfilename,'btn_close','Callback','closereq')
+        varargout{1}    = fig;
     case 'destroy'
 end
 

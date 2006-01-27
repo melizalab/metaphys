@@ -50,4 +50,4 @@
 %   CheckAnalogTelegraph - Checks the voltage values of one or several analog
 %   UpdScaledOutput      - Updates one or more scaled outputs on an amplifier based
 %
-% $Id: Contents.m,v 1.3 2006/01/20 00:04:41 meliza Exp $
+% $Id: Contents.m,v 1.4 2006/01/27 23:46:28 meliza Exp $

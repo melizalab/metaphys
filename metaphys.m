@@ -10,14 +10,14 @@ function [] = metaphys(action)
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.9 2006/01/25 01:31:33 meliza Exp $
+% $Id: metaphys.m,v 1.10 2006/01/27 23:46:13 meliza Exp $
 
 if nargin > 0 && strcmpi(action,'destroy')
     %
 else
     initPath;
     DebugSetOutput('console')
-    DebugPrint('Starting METAPHYS, $Revision: 1.9 $')
+    DebugPrint('Starting METAPHYS, $Revision: 1.10 $')
     DebugPrint('Initialized METAPHYS path.')
     % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
     InitControl;
@@ -193,7 +193,7 @@ DestroyControl
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = digitizer_props(obj, event)
 % Handles selection and initialization of digitizer properties
-DigitizerDialog
+DigitizerDialog('init')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -235,12 +235,12 @@ switch tag
     case 'instrument_add'
         nn  =   NewInstrumentName;
         InitInstrument(nn)
-        InstrumentDialog(nn)
+        InstrumentDialog('modal',nn)
         updateInstruments;
     case 'instrument_edit'
         selected    = GetUIParam(mfilename,'instruments','Selected');
-        if ~strcmpi(selected, ' ')
-            InstrumentDialog(selected)
+        if ~isempty(strtrim(selected))
+            InstrumentDialog('modal',selected)
             updateInstruments
         end
     case 'instrument_delete'
@@ -271,6 +271,8 @@ switch tag
             [pn fn ext] = fileparts(protocol);
             pfunc       = str2func(fn);
             pfunc('stop')
+        else
+            StopDAQ
         end
     case 'protocol_record'
         protocol    = GetUIParam(mfilename, 'protocol');
@@ -301,31 +303,9 @@ switch tag
         [fn pn] = uiputfile({'*.mcf', 'METAPHYS control (*.mcf)';...
             '*.*',  'All Files (*.*)'},...
             'Save METAPHYS control information...');
-        SaveControl(fullfile(pn, fn))
-    case 'm_save_instr'
-        % instruments are stored in files with the same structure as used
-        % by LOADCONTROL, but only use the instrument field.
-        instrument  = GetUIParam(mfilename, 'instruments','Selected');
-        if strcmpi(instrument, ' ')
-            return
-        end
-        [fn pn] = uiputfile({'*.mcf', 'METAPHYS control file (*.mcf)';...
-            '*.*',  'All Files (*.*)'},...
-            'Save instrument to control file...');
         if ~isnumeric(fn)
-            SaveInstrument(instrument, fullfile(pn, fn));
+            SaveControl(fullfile(pn, fn))
         end
-    case 'm_load_instr'
-        % instruments are stored in files with the same structure as used
-        % by LOADCONTROL, but only use the instrument field. Only loads the
-        % first instrument.
-        [fn pn] = uigetfile({'*.mcf', 'METAPHYS control file (*.mcf)';...
-            '*.*',  'All Files (*.*)'},...
-            'Select instrument control file...');
-        if ~isnumeric(fn)
-            LoadInstrument(fullfile(pn, fn))
-        end
-        updateInstruments
     case 'm_set_prefix'
         % We are sort of fudging the use of GETDEFAULTS here, since it's
         % normally used to store structures.

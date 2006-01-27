@@ -47,7 +47,8 @@ function [] = SetDAQTrigger(triggertype, varargin)
 %           the TTL pulse.  You will have to wire the digital signal into
 %           the trigger channels, and specify which dio device to use to
 %           generate the signal, and what digital line is connected to the
-%           trigger port.
+%           trigger port. On NI hardware the triggerchannel defaults to
+%           PFI6 for both analoginput and analogoutput devices.
 %
 %           SETDAQTRIGGER('digital', daqname, triggerchannel, dioname, dioline)
 %
@@ -57,7 +58,7 @@ function [] = SetDAQTrigger(triggertype, varargin)
 % other reasons). The function is pretty good at cleaning up after itself,
 % but it may be advisable to call RESETDAQ whenever possible.
 %
-% $Id: SetDAQTrigger.m,v 1.2 2006/01/19 03:14:57 meliza Exp $
+% $Id: SetDAQTrigger.m,v 1.3 2006/01/27 23:46:24 meliza Exp $
 
 switch lower(triggertype)
     case 'immediate'
@@ -90,7 +91,7 @@ switch lower(triggertype)
         triggerchan = varargin{2};
         dio         = GetDAQ(varargin{3});
         dioline     = varargin{4};
-        setupDigitalTrigger(dio, dioline)
+        lines       = setupDigitalTrigger(dio, dioline);
         setaionly(daq, 'ManualTriggerHwOn', 'Start');
         set(daq, 'TriggerType', 'HwDigital');
         if ~isempty(triggerchan)
@@ -98,7 +99,7 @@ switch lower(triggertype)
         end
         % We store the dio device and the appropriate line(s) in the UserData
         % field of the daq; StartDAQ will have to look for this.
-        set(daq, 'UserData', {dio dioline})
+        set(daq, 'UserData', lines);
     otherwise
         error('METAPHYS:daq:noSuchTriggerType',...
             'No such trigger type %s has been defined in SETDAQTRIGGER',...
@@ -117,16 +118,24 @@ else
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [] = setupDigitalTrigger(dio, dioline)
+function [lines] = setupDigitalTrigger(dio, dioline)
 % makes sure the diolines are active on the dio
-lines   = get(dio.Line, 'HwLine');
-if iscell(lines)
-    lines   = cell2mat(lines);
+% returns the active lines
+line_hwind   = get(dio.Line, 'HwLine');
+if iscell(line_hwind)
+    line_hwind   = cell2mat(line_hwind);
 end
-addme   = setdiff(dioline, lines);
+addme   = setdiff(dioline, line_hwind);
 if ~isempty(addme)
     addline(dio, addme, 'Out');
 end
+line_hwind   = get(dio.Line, 'HwLine');
+if iscell(line_hwind)
+    line_hwind   = cell2mat(line_hwind);
+end
+[line_hwind line_ind] = intersect(line_hwind, dioline);
+lines   = dio.Line(line_ind);
+lines   = lines(:)';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = setaionly(daqs, varargin)

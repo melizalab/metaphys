@@ -13,7 +13,7 @@ function varargout = MovieControl(action, varargin)
 % MOVIECONTROL('stop')
 % MOVIECONTROL('destroy')
 %
-% $Id: MovieControl.m,v 1.4 2006/01/25 22:22:48 meliza Exp $
+% $Id: MovieControl.m,v 1.5 2006/01/27 23:46:31 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -191,6 +191,7 @@ else
         setmovielist(c, newlist);
     end
     updateFigure;
+    SetUIParam(me,'movie_list','Value',newsel);
 end
 
 function out = formatmovielist(names, frames)

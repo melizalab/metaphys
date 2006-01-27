@@ -6,7 +6,7 @@ function varargout = GapFree(action)
 % acquisition; it retrieves the data at fixed intervals and plots it using
 % SCOPEDISPLAY
 %
-% $Id: GapFree.m,v 1.2 2006/01/25 01:31:41 meliza Exp $
+% $Id: GapFree.m,v 1.3 2006/01/27 23:46:35 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -63,7 +63,7 @@ function [] = sweepControl()
 
 % Start a sweep
 updaterate  = GetParam(me, 'update_rate');
-interval    = 1/updaterate;
+interval    = 1000/updaterate;
 StartContinuous(interval)
 setStatus('protocol running')
 

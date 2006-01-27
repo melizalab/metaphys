@@ -11,7 +11,7 @@ function r0 = Packet2R0(packet)
 %
 % See Also: PACKET_STRUCT, PACKET2R1, SPLITPACKET
 %
-% $Id: Packet2R0.m,v 1.1 2006/01/20 22:02:35 meliza Exp $
+% $Id: Packet2R0.m,v 1.2 2006/01/27 23:46:42 meliza Exp $
 
 % the tricky thing here is that packets can have multiple channels. there
 % can also be a lot of data, so looping through the packets is not a good
@@ -22,6 +22,7 @@ packet  = SplitPacket(packet);
 
 channels    = {packet.channels};
 uniq_chan   = unique(channels);
+r0          = struct(size(uniq_chan,2));
 for i = 1:size(uniq_chan,2)
     ind     = strmatch(uniq_chan{i}, channels, 'exact');
     data    = {packet(ind).data};

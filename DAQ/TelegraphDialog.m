@@ -1,4 +1,4 @@
-function [] = TelegraphDialog(instrumentname, telegraph)
+function varargout = TelegraphDialog(action, instrumentname, telegraph)
 %
 % TELEGRAPHDIALOG Dialogue box for configuring instrument telegraphs.
 %
@@ -14,40 +14,43 @@ function [] = TelegraphDialog(instrumentname, telegraph)
 %
 % See Also: ADDINSTRUMENTTELEGRAPH
 %
-% $Id: TelegraphDialog.m,v 1.5 2006/01/21 01:22:27 meliza Exp $
+% $Id: TelegraphDialog.m,v 1.6 2006/01/27 23:46:26 meliza Exp $
 
-if strmcpi(instrumentname, 'destroy')
-else
-    %% Open the figure
-    fig     = OpenGuideFigure(mfilename);
+switch action
+    case {'init', 'modal'}
+        %% Open the figure
+        fig     = OpenGuideFigure(mfilename);
 
-    %% Populate the fields
-    TELEGRAPH_TYPES = {'','Axon 200x','Axon 1x','Axon 700x'};
-    SetUIParam(mfilename,'instrument_name',instrumentname);
-    SetUIParam(mfilename,'type','String',TELEGRAPH_TYPES,'Value',1);
+        %% Populate the fields
+        TELEGRAPH_TYPES = {'','Axon 200x','Axon 1x','Axon 700x'};
+        SetUIParam(mfilename,'instrument_name',instrumentname);
+        SetUIParam(mfilename,'type','String',TELEGRAPH_TYPES,'Value',1);
 
-    if nargin > 1
-        tele  = GetTelegraph(instrumentname, telegraph);
-    else
-        tele  = telegraph_struct;
-    end
-    SetUIParam(mfilename,'name',tele.name)
-    SetUIParam(mfilename,mfilename,'UserData',tele)
+        if nargin > 2
+            tele  = GetTelegraph(instrumentname, telegraph);
+        else
+            tele  = telegraph_struct;
+        end
+        SetUIParam(mfilename,'name',tele.name)
+        SetUIParam(mfilename,mfilename,'UserData',tele)
 
-    makePanel
-    % set the channel options
-    pickAI
-    % update the values
-    updateFigure(tele)
-    % make the right stuff visible
-    updatePanel
+        makePanel
+        % set the channel options
+        pickAI
+        % update the values
+        updateFigure(tele)
+        % make the right stuff visible
+        updatePanel
 
-
-    %% Set callbacks
-    setCallbacks
-
-    set(fig,'WindowStyle','modal')
-    uiwait(fig)
+        
+        %% Set callbacks
+        setCallbacks
+        if strcmpi(action,'modal')
+            set(fig,'WindowStyle','modal')
+            uiwait(fig)
+        end
+        varargout{1}    = fig;
+    case 'destroy'
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

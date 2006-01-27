@@ -16,7 +16,7 @@ function [] = StartContinuous(interval, loop, varargin)
 %
 % See Also: STOPDAQ, STARTSWEEP
 %
-% $Id: StartContinuous.m,v 1.2 2006/01/25 22:22:47 meliza Exp $
+% $Id: StartContinuous.m,v 1.3 2006/01/27 23:46:25 meliza Exp $
 
 % Get DAQ objects
 daqs    = GetDAQ(GetDAQNames);
@@ -30,7 +30,7 @@ for i = 1:size(types,1)
     switch types{i}
         case 'analog input'
             srate   = get(daqs(i), 'SampleRate');
-            samp    = interval .* srate ./ 1000;
+            samp    = interval .* srate / 1000;
             set(daqs(i),...
                 'SamplesPerTrigger', Inf,...
                 'SamplesAcquiredFcnCount', samp,...

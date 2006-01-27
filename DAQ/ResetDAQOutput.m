@@ -23,11 +23,13 @@ function [] = ResetDAQOutput(daq, event)
 % device is stopped. It has the correct function signature to be used as a
 % callback for the StopFcn on an analogout device.
 %
-% RESETDAQOUTPUT(daqname) - resets the daq outputs on named daqdevice(s)
+% Safe for analoginput and digitialio objects.
 %
+% RESETDAQOUTPUT(daqname) - resets the daq outputs on named daqdevice(s)
+% RESETDAQOUTPUT(obj, event) - resets the callback object
 % RESETDAQOUTPUT()        - resets the outputs on all output devices
 %
-% $Id: ResetDAQOutput.m,v 1.2 2006/01/19 03:14:56 meliza Exp $
+% $Id: ResetDAQOutput.m,v 1.3 2006/01/27 23:46:24 meliza Exp $
 
 if nargin == 0
     daqname = GetDAQNames('analogoutput');
@@ -37,8 +39,10 @@ elseif ischar(daq)
 end
 
 for i = 1:size(daq,2)
-    defaults    = GetDefaultValues(daq);
-    if ~isempty(defaults)
-        putsample(daq, defaults)
+    if strcmp('Analog Output', daq.Type)
+        defaults    = GetDefaultValues(daq);
+        if ~isempty(defaults)
+            putsample(daq, defaults)
+        end
     end
 end

@@ -3,8 +3,7 @@ function s = waveform_struct(varargin)
 % WAVEFORM_STRUCT Returns a waveform structure
 %
 % A WAVEFORM is basically a collection of WAVEFORMEVENT objects. The
-% collection is organized by channel, but the channels aren't named, for
-% portability between instruments.
+% collection is organized by channel.
 %
 % Fields:
 %   Required:
@@ -13,8 +12,9 @@ function s = waveform_struct(varargin)
 %       .channel_events = a cell array, each element of which is an array
 %                         of waveformevent objects
 % 
+% See Also: @WAVEFORM
 %
-% $Id: waveform_struct.m,v 1.2 2006/01/27 00:40:09 meliza Exp $
+% $Id: waveform_struct.m,v 1.3 2006/01/27 23:46:34 meliza Exp $
 
 fields  = {'channel_names', 'channel_events'};
 C       = {{},{}};

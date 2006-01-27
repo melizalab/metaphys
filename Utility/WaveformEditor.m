@@ -15,7 +15,7 @@ function varargout = WaveformEditor(action, varargin)
 %
 % WAVEFORMEDITOR('destroy')
 %
-% $Id: WaveformEditor.m,v 1.1 2006/01/26 23:37:29 meliza Exp $
+% $Id: WaveformEditor.m,v 1.2 2006/01/27 23:46:44 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -213,7 +213,7 @@ switch tag
         [fn pn] = uiputfile({'*.wvf', 'Waveform file (*.wvf)';...
             '*.*', 'All files (*.*)'},'Select a waveform file');
         if ~isnumeric(fn)
-            [pn fn ext] = fileparts(fullfile(pn, fn));
+            [pn fn] = fileparts(fullfile(pn, fn));
             waveform    = GetUIParam(mfilename,'channel_list','userdata');
             filename    = fullfile(pn, [fn '.wvf']);
             save(filename, 'waveform', '-mat');

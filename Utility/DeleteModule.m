@@ -7,7 +7,7 @@ function [] = DeleteModule(module)
 %
 % module (String) - module name
 %
-% $Id: DeleteModule.m,v 1.5 2006/01/25 01:31:45 meliza Exp $
+% $Id: DeleteModule.m,v 1.6 2006/01/27 23:46:41 meliza Exp $
 
 global mpctrl
 
@@ -15,26 +15,32 @@ module  = lower(module);
 
 if isfield(mpctrl,module)
     % Call the object's destructor
-    if exist(module,'file') > 0
-        warning('off','MATLAB:dispatcher:InexactMatch')        
-        feval(module, 'destroy')
-        warning('on','MATLAB:dispatcher:InexactMatch')
+    try
+        if exist(module,'file') > 0
+            warning('off','MATLAB:dispatcher:InexactMatch')
+            feval(module, 'destroy')
+            warning('on','MATLAB:dispatcher:InexactMatch')
+        end
     end
 
-    % Delete the figure
-    fig = mpctrl.(module).fig;
-    delete(fig(ishandle(fig)))
+    try
+        % Delete the figure
+        fig = mpctrl.(module).fig;
+        delete(fig(ishandle(fig)))
+    end
 
-    % Delete parameter figures
-    fig = FindFigure([module '.param']);
-    delete(fig(ishandle(fig)))
+    try
+        % Delete parameter figures
+        fig = FindFigure([module '.param']);
+        delete(fig(ishandle(fig)))
+    end
 
     % Clear the module from control
     mpctrl = rmfield(mpctrl, module);
     DebugPrint('Deleted module %s.', module)
 end
-
-% Delete any orphans
-fig = FindFigure(module);
-delete(fig(ishandle(fig)))
-
+try
+    % Delete any orphans
+    fig = FindFigure(module);
+    delete(fig(ishandle(fig)))
+end

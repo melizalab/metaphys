@@ -31,7 +31,7 @@ function varargout = SweepDisplay(action, varargin)
 % the sweeplength so that the plot does not go off the limits or have to
 % reset the limits continually.
 %
-% $Id: SweepDisplay.m,v 1.5 2006/01/25 22:22:49 meliza Exp $
+% $Id: SweepDisplay.m,v 1.6 2006/01/27 23:46:32 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -85,7 +85,7 @@ for i = 1:length(packet.channels)
         % handle averging
         if get(gcf,'userdata')
             plotAverages(axmode, ax(ind),...
-                    packet.time, packet.data(:,i), packet.message.Type);
+                    packet.time, packet.data(:,i));
         end
     end
 end
@@ -109,7 +109,7 @@ switch axmode
         set(ax, 'xlimmode', 'auto', 'ylimmode', 'auto');
 end
 
-function [] = plotAverages(axmode, ax, time, data, packet_type, varargin)
+function [] = plotAverages(axmode, ax, time, data)
 % here's how plotting averages works. In each axis's userdata field is
 % stored a 4-field structure array. The fields are: total_repeats, 
 % current_repeat, current_data, and mean_data. There is one structure per
@@ -231,6 +231,7 @@ totalh  = 0.9;
 height  = totalh / nplots;
 gap     = 0.01;
 y       = 0.98;
+ax      = zeros(1,nplots);
 for i = 1:nplots
     ax(i) = subplot(nplots, 1, i);
     set(ax(i),'position',[0.1, y-height, 0.89 height],...

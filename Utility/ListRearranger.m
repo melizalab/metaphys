@@ -1,4 +1,4 @@
-function varargin = ListRearranger(varargin)
+function varargout = ListRearranger(varargin)
 %
 % LISTREARRANGER A callback handler used for moving items around in a
 % listbox
@@ -16,7 +16,7 @@ function varargin = ListRearranger(varargin)
 % 'UserData' property of the list is the same length as 'String', it will
 % also be rearranged
 %
-% $Id: ListRearranger.m,v 1.1 2006/01/26 23:37:27 meliza Exp $
+% $Id: ListRearranger.m,v 1.2 2006/01/27 23:46:41 meliza Exp $
 
 % Parse the arguments
 if nargin == 5
@@ -29,6 +29,8 @@ else
     h       = varargin{1};
     mode    = varargin{2};
     cb      = [];
+    obj     = [];
+    event   = [];
 end
 
 % Get the data from the object
@@ -79,16 +81,16 @@ end
 
 newstr    = str(newind);
 if iscell(ud) && length(ud) == length(str)
-    newud   = newud(newind);
+    newud   = ud(newind);
 else
     newud   = ud;
 end
 
 % Set the values
 if nargout > 0
-    varargout   = {newstr, ud};
+    varargout   = {newstr, newud};
 else
-    set(h,'string',newstr,'userdata',ud,'value',newsel);
+    set(h,'string',newstr,'userdata',newud,'value',newsel);
 end
 
 % Make the callback

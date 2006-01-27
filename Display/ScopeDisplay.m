@@ -13,7 +13,7 @@ function varargout = ScopeDisplay(action, varargin)
 % SCOPEDISPLAY('clear', [sweeplength])
 % SCOPEDISPLAY('destroy')
 %
-% $Id: ScopeDisplay.m,v 1.3 2006/01/25 22:22:48 meliza Exp $
+% $Id: ScopeDisplay.m,v 1.4 2006/01/27 23:46:31 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -90,18 +90,20 @@ end
 function [X, Y] = replacechunk(X, Y, newX, newY)
 % replaces overlapping times
 % times must be monotonic
-below           = (X < newX(1));
-above           = (X > newX(end));
-% insert a NaN to break the display line
-newY(end,:)     = repmat(NaN, 1, size(newY,2));
-X               = cat(1, X(below), newX, X(above));
-Y               = cat(1, Y(below,:), newY, Y(above,:));
+if ~isempty(newX) && ~isempty(newY)
+    below           = (X < newX(1));
+    above           = (X > newX(end));
+    % insert a NaN to break the display line
+    newY(end,:)     = repmat(NaN, 1, size(newY,2));
+    X               = cat(1, X(below), newX, X(above));
+    Y               = cat(1, Y(below,:), newY, Y(above,:));
+end
 
-function [] = buttonHandler(obj, event)
+function [] = buttonHandler(varargin)
 % Handles button presses
 SCALE   = 0.8;
 ax      = getAxes;
-tag     = get(obj, 'tag');
+tag     = get(varargin{1}, 'tag');
 xlim    = get(ax(1), 'xlim');
 switch tag
     case 'axes_shrink'
@@ -129,6 +131,7 @@ totalh  = 0.85;
 height  = totalh / nplots;
 gap     = 0.01;
 y       = 0.98;
+ax      = zeros(1,nplots);
 for i = 1:nplots
     ax(i) = subplot(nplots, 1, i);
     set(ax(i),'position',[0.1, y-height, 0.89 height],...

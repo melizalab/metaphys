@@ -1,4 +1,4 @@
-function [] = InstrumentDialog(instrumentname)
+function [] = InstrumentDialog(action, instrumentname)
 %
 % INSTRUMENTDIALOG Dialogue box for configuring instruments.
 %
@@ -9,12 +9,10 @@ function [] = InstrumentDialog(instrumentname)
 %
 % See Also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
 %
-% $Id: InstrumentDialog.m,v 1.5 2006/01/21 01:22:25 meliza Exp $
+% $Id: InstrumentDialog.m,v 1.6 2006/01/27 23:46:22 meliza Exp $
 
-% handle the destroy callback
-if strcmpi(instrumentname, 'destroy')
-    % do nothing
-else
+switch lower(action)
+    case {'init', 'modal'}
     %% Open the figure
     fig     = OpenGuideFigure(mfilename);
 
@@ -27,8 +25,12 @@ else
     %% Set callbacks
     setCallbacks
 
-%     set(fig,'WindowStyle','modal')
-%     uiwait(fig)
+    if strcmpi(action,'modal')
+        set(fig,'WindowStyle','modal')
+        uiwait(fig)
+    end
+    case 'destroy'
+    % do nothing
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = updateFigure()
@@ -83,13 +85,13 @@ tag = get(obj,'tag');
 instrument  = GetUIParam(mfilename,'instrument_name');
 switch tag
     case 'input_add'
-        ChannelDialog(instrument,'input')
+        ChannelDialog('modal',instrument,'input');
         updateInputs
     case 'input_edit'
         channels    = GetUIParam(mfilename,'inputs','UserData');
         selected    = GetUIParam(mfilename,'inputs','Value');
         if ~isempty(channels)
-            ChannelDialog(instrument,channels{selected})
+            ChannelDialog('modal',instrument,channels{selected});
             updateInputs
         end
     case 'input_delete'
@@ -100,13 +102,13 @@ switch tag
             updateInputs
         end
     case 'output_add'
-        ChannelDialog(instrument,'output')
+        ChannelDialog('modal',instrument,'output');
         updateOutputs
     case 'output_edit'
         channels    = GetUIParam(mfilename,'outputs','UserData');
         selected    = GetUIParam(mfilename,'outputs','Value');
         if ~isempty(channels)
-            ChannelDialog(instrument,channels{selected})
+            ChannelDialog('modal',instrument,channels{selected});
             updateOutputs
         end
     case 'output_delete'
@@ -127,13 +129,13 @@ switch tag
         end
         updateFigure
     case 'telegraph_add'
-        TelegraphDialog(instrument)
+        TelegraphDialog('modal',instrument);
         updateTelegraphs
     case 'telegraph_edit'
 %        telegrph    = GetUIParam(mfilename,'telegraphs','String');
         selected    = GetUIParam(mfilename,'telegraphs','Selected');
         if ~isempty(selected)
-            TelegraphDialog(instrument, selected);
+            TelegraphDialog('modal',instrument, selected);
         end
     case 'telegraph_delete'
 %        telegrph    = GetUIParam(mfilename,'telegraphs','UserData');

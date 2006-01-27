@@ -1,4 +1,4 @@
-function [] = ChannelDialog(instrumentname, channel)
+function varargout = ChannelDialog(action, instrumentname, channel)
 %
 % CHANNELDIALOG Dialogue box for configuring instrument channels.
 %
@@ -18,29 +18,32 @@ function [] = ChannelDialog(instrumentname, channel)
 %
 % See Also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
 %
-% $Id: ChannelDialog.m,v 1.7 2006/01/26 23:37:21 meliza Exp $
+% $Id: ChannelDialog.m,v 1.8 2006/01/27 23:46:18 meliza Exp $
 
-if strcmpi(instrumentname,'destroy')
-    % do nothing
-else
-    %% Open the figure
-    fig     = OpenGuideFigure(mfilename);
+switch action
+    case {'init', 'modal'}
+        
+        %% Open the figure
+        fig     = OpenGuideFigure(mfilename);
 
-    %% Populate the fields
+        %% Populate the fields
+        SetUIParam(mfilename,'instrument_name',instrumentname);
+        switch lower(channel)
+            case {'input' 'output'}
+            otherwise
+                channel = GetChannelStruct(instrumentname, channel);
+        end
+        updateFigure(channel)
 
-    SetUIParam(mfilename,'instrument_name',instrumentname);
-    switch lower(channel)
-        case {'input' 'output'}
-        otherwise
-            channel = GetChannelStruct(instrumentname, channel);
-    end
-    updateFigure(channel)
+        %% Set callbacks
+        setCallbacks
 
-    %% Set callbacks
-    setCallbacks
-
-    set(fig,'WindowStyle','modal')
-    uiwait(fig)
+        if strcmpi(action, 'modal')
+            set(fig,'WindowStyle','modal')
+            uiwait(fig)
+        end
+        varargout{1}    = fig;
+    case 'destroy'
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -11,7 +11,7 @@ function [] = ResetDAQ(varargin)
 %
 % See Also: INITDAQ, STOPDAQ
 %
-% $Id: ResetDAQ.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: ResetDAQ.m,v 1.2 2006/01/27 23:46:24 meliza Exp $
 
 if nargin == 0
     daqnames = GetDAQNames;
@@ -22,8 +22,8 @@ end
 if isempty(daqnames)
     DebugPrint('No DAQ devices have been initialized.')
 else
+    StopDAQ(daqnames)
     daqstr      = GetDAQStruct(daqnames);
-    stop([daqstr.obj])
 
     for i = 1:length(daqstr)
         set(daqstr(i).obj, daqstr(i).initial_props);

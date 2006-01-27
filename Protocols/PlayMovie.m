@@ -13,7 +13,7 @@ function varargout = PlayMovie(action)
 %
 % See Also: F21CONTROL
 %
-% $Id: PlayMovie.m,v 1.4 2006/01/25 22:22:51 meliza Exp $
+% $Id: PlayMovie.m,v 1.5 2006/01/27 23:46:37 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -105,7 +105,7 @@ function [] = sweepControl()
 props           = MovieControl('prepare');
 episodelength   = props.total_movie_time;
 % Queue command data
-queueStimulus();
+queueStimulus(episodelength);
 % Get update rate
 uprate  = GetParam(me,'update_rate');
 % Start a sweep
@@ -121,8 +121,14 @@ MovieControl('start')
 setStatus('protocol running')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function queueStimulus()
+function queueStimulus(episodelength)
 % Queues command data
+waveform        = GetParam(me, 'waveform', 'value');
+if ~isempty(waveform)
+    instr       = GetParam(me,'instrument');
+    waveform    = PutInputWaveform(instr, episodelength, waveform);
+    SetParam(me, 'waveform', waveform);
+end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

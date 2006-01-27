@@ -11,5 +11,6 @@
 %   StatsDisplay - Display module for plotting statistics
 %   SweepDisplay - Display module for plotting sweeps
 %   vline        - Draws a vertical line on axes.
+%   MovieControl - Controls movie playback on an f21 remote computer
 %
-% $Id: Contents.m,v 1.1 2006/01/24 03:26:04 meliza Exp $
+% $Id: Contents.m,v 1.2 2006/01/27 23:46:30 meliza Exp $

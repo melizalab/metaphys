@@ -39,7 +39,7 @@ function varargout = ParamFigure(module, varargin)
 %
 % See Also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.5 2006/01/26 23:37:28 meliza Exp $ 
+% $Id: ParamFigure.m,v 1.6 2006/01/27 23:46:42 meliza Exp $ 
 
 module  = lower(module);
 
@@ -140,7 +140,6 @@ for i = 1:paramCount
             % create button if .callback is specified
             if isfield(s,'callback')
                 p_u = [w_fn + w_f + x_pad + x_pad, y + 2, w_units/2, 18];
-                cb = s.callback;
                 uicontrol(fig,'position',p_u,'style','pushbutton',...
                     'String','',...
                     'Callback', {@callbackHandler module name})
@@ -209,7 +208,7 @@ switch lower(struct.fieldtype)
                 struct.value, struct.name)
         end
     case 'object'
-        v = char(struct.value)
+        v = char(struct.value);
         set(obj,'String',v,'tooltipstring',v);
     otherwise
         v = num2str(struct.value);
@@ -238,7 +237,7 @@ function [] = file_in_btn(obj, event, module, param)
 obj     = findobj(gcbf, 'tag', param);
 % Retrieve the default value 
 default = get(obj,'tooltipstring');
-[pn fn ext] = fileparts(default);
+pn      = fileparts(default);
 [fn2 pn2] = uigetfile([pn filesep '*.mat']);
 if ~isnumeric(fn2)
     v = fullfile(pn2,fn2);
