@@ -10,7 +10,7 @@ function currdir = uisetdatadir(startdir)
 %   
 %   Copyright (c) 1997 by The MathWorks, Inc.
 %
-%   $Id: uisetdatadir.m,v 1.2 2006/01/31 00:14:24 meliza Exp $
+%   $Id: uisetdatadir.m,v 1.3 2006/01/31 00:22:31 meliza Exp $
 
 origdir      = pwd;
 if nargin > 0
@@ -37,6 +37,7 @@ hedit = uicontrol('Style', 'Edit', ...
     'BackgroundColor', 'w', ...
     'Position', [10 220 195  20], ...
     'Tag', 'PWDText', ...
+    'Callback', {CB, 'set_wd'}, ...
     'ToolTipString', 'Present working directory');
 
 hlist = uicontrol('Style', 'Listbox', ...
@@ -99,15 +100,13 @@ delete(fig);
 
 
 function [] = buttonHandler(obj, event, varargin)
-
+hfig  = findobj('Tag', 'GetDirectoryWindow');
+hlist = findobj(hfig, 'Tag', 'DirectoryContentListbox');
+hedit = findobj(hfig, 'Tag', 'PWDText');
+htxt1 = findobj(gcf, 'Tag', 'ChosenDirectoryText');
 switch varargin{1},
     case 'choose',
         if strcmp(get(gcf, 'SelectionType'), 'open'),
-            hfig  = findobj('Tag', 'GetDirectoryWindow');
-            hlist = findobj(hfig, 'Tag', 'DirectoryContentListbox');
-            hedit = findobj(hfig, 'Tag', 'PWDText');
-            htxt1 = findobj(gcf, 'Tag', 'ChosenDirectoryText');
-
             hlist_val = get(hlist, 'Value');
             hlist_str = get(hlist, 'String');
             hlist_dir = hlist_str{hlist_val};
@@ -137,9 +136,30 @@ switch varargin{1},
 
             set(htxt1, 'String', ['Choice:  ', ChosenDir]);
         end
-    case 'select',
+    case 'set_wd'
+        newdir  = get(hedit, 'String');
+        if exist(newdir, 'dir')
+            cd(newdir);
+            DirList = dir;
+            DirName = { DirList.name }';
+            finddir = find(cat(1, DirList.isdir));
+            DirName = DirName(finddir);
+
+            set(hlist, 'String', DirName, ...
+                'Value', 1);
+            set(hedit, 'String', pwd);
+
+            hlist_val = get(hlist, 'Value');
+            hlist_str = get(hlist, 'String');
+            ChosenDir = strrep([pwd, '\', hlist_str{hlist_val}], '\\', '\');
+
+            set(htxt1, 'String', ['Choice:  ', ChosenDir]);
+        else
+            set(hedit, 'String', pwd);
+        end
+    case 'select'
         set(gcf, 'Userdata', 'OK');
-    case 'cancel',
+    case 'cancel'
         set(gcf, 'Userdata', 'Cancel');
     case 'create_dir'
         if nargin > 3
@@ -172,7 +192,6 @@ switch varargin{1},
         if ~isempty(m)
             set(t(1),'Value',m);
         end
-
 end
 
 
