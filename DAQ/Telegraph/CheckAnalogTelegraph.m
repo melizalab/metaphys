@@ -14,7 +14,7 @@ function results = CheckAnalogTelegraph(instrument, object, varargin)
 %
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: CheckAnalogTelegraph.m,v 1.4 2006/01/31 00:26:03 meliza Exp $
+% $Id: CheckAnalogTelegraph.m,v 1.5 2006/01/31 00:30:27 meliza Exp $
 
 ai      = object(1).Parent;
 chan    = object.Index;
@@ -33,7 +33,3 @@ if iscell(chan)
 else
     results = val(chan);
 end
-
-% else
-%     results = [];
-% end
