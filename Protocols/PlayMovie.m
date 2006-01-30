@@ -13,13 +13,14 @@ function varargout = PlayMovie(action)
 %
 % See Also: F21CONTROL
 %
-% $Id: PlayMovie.m,v 1.7 2006/01/28 01:12:13 meliza Exp $
+% $Id: PlayMovie.m,v 1.8 2006/01/30 19:23:15 meliza Exp $
 
 % Parse action
 switch lower(action)
     case 'init'
         % Load default parameters for this protocol
         p = GetDefaults(me);
+        p.instrument.choices    = GetInstrumentNames;
         p.instrument.callback   = @selectInstrument;
         % Open the parameter window
         f   = ParamFigure(me, p, @destroyModule);
@@ -55,8 +56,8 @@ switch lower(action)
         dsmode  = GetParam(me, 'data_mode');
         instr   = GetParam(me, 'instrument');
         SetDataStorage(dsmode, instr)
+        WriteProtocolData(mfilename)
         % Set system to repeat
-        InitParam(me,'repeats','hidden')
         AddSubscriber('loop', [], @loopControl);
         % Call the sweep control function
         sweepControl
@@ -110,8 +111,6 @@ queueStimulus(episodelength);
 % Get update rate
 uprate  = GetParam(me,'update_rate');
 % Start a sweep
-% StartSweep(episodelength,[],props)
-% multiple updates don't work yet:
 SweepDisplay('clearall', episodelength);
 if isempty(uprate)
     StartSweep(episodelength,[],props)
@@ -119,7 +118,6 @@ else
     StartSweep(episodelength, 1000/uprate, props);
 end
 MovieControl('start')
-setStatus('protocol running')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function queueStimulus(episodelength)

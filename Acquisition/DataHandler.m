@@ -12,7 +12,7 @@ function [] = DataHandler(obj, event)
 % acquisition, we have to set that value in the data packet by hand, which
 % means UpdateTelegraph needs to return its results in a parseable form.
 %
-% $Id: DataHandler.m,v 1.9 2006/01/27 23:46:15 meliza Exp $
+% $Id: DataHandler.m,v 1.10 2006/01/30 19:23:04 meliza Exp $
 
 global mpctrl
 
@@ -39,8 +39,14 @@ if isstruct(mpctrl.subscriber)
             % this error usually occurs when both stopfcn and
             % samplesacquiredfcn are active at once. if we pause a few ms
             % it should go away
-            pause(0.05);
-            [data, time, abstime]   = getdata(obj, avail);
+            try
+                pause(0.1);
+                [data, time, abstime]   = getdata(obj, avail);
+            catch
+                error('METAPHYS:dataOverrun',...
+                    ['Data handling was unable to keep up with data \n',...
+                    'acquisition. Reduce the rate of data display.']);
+            end
         end
     else
         [data, time, abstime]   = deal([]);
@@ -48,7 +54,7 @@ if isstruct(mpctrl.subscriber)
     daqname     = obj.Name;
     daqfile     = obj.LogFileName;
     
-    SetUIParam('metaphys','data_file',daqfile)
+    SetDataFileStatus(daqfile)
 
     clients = GetSubscriberNames;
     for i = 1:length(clients);

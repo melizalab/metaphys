@@ -32,7 +32,7 @@ function [] = SetDataStorage(mode, varargin)
 %                       `     function and the MATWRITER subscriber
 %
 %
-% $Id: SetDataStorage.m,v 1.5 2006/01/25 17:49:26 meliza Exp $
+% $Id: SetDataStorage.m,v 1.6 2006/01/30 19:23:08 meliza Exp $
 
 MATWRITER   = 'MatWriter';
 mwfunc      = str2func(MATWRITER);
@@ -67,7 +67,6 @@ switch lower(mode)
             newfile = fullfile(data_dir, newdir, myfilename);
             set(ai(i), 'LogFileName', newfile)
         end
-        SetUIParam('metaphys', 'data_file', fullfile(data_dir,newdir))
     case 'matfile'
         if nargin < 2
             error('METAPHYS:setdatastorage:insufficientArguments',...
@@ -88,7 +87,6 @@ switch lower(mode)
         if ~exist(fullfile(data_dir, newdir),'dir')
             mkdir(data_dir, newdir);
         end
-        SetUIParam('metaphys', 'data_file', newfile);
         % the LogFileName prop is important for matfile mode too
         for i = 1:length(ainm)
             myfilename  = sprintf('%s-0000.daq', ainm{i});

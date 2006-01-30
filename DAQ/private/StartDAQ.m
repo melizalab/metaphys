@@ -1,4 +1,4 @@
-function [] = StartDAQ(daqs, userdata)
+function [] = StartDAQ(daqs, varargin)
 %
 % STARTDAQ Initiates data acquisition.
 %
@@ -6,14 +6,14 @@ function [] = StartDAQ(daqs, userdata)
 %
 % STARTDAQ(daqobjs, userdata) - Starts devices; writes a file to disk with
 % the contents of <userdata> (which must be a structure). The filename is
-% <basename>-data.mat
+% <sweepnum>-data.mat
 %
 % Handles starting and triggering (if needed) of devices.
 % Throws an error if any of the daq devices is running.
 %
 % See Also: STOPDAQ
 %
-% $Id: StartDAQ.m,v 1.6 2006/01/28 01:12:10 meliza Exp $
+% $Id: StartDAQ.m,v 1.7 2006/01/30 19:23:10 meliza Exp $
 
 
 % check for running objects
@@ -58,12 +58,6 @@ for i = 1:length(types)
                     'DataMissedFcn', err_cb,...
                     'RuntimeErrorFcn', err_cb,...
                     'StopFcn', err_cb)
-            datafile    = get(daqs(i),'LogFileName');
-            [pn fn]     = fileparts(datafile);
-            usrdatafile = fullfile(pn, sprintf('%s-data.mat', fn));
-            if nargin > 1
-                WriteStructure(usrdatafile, userdata)
-            end
     end
 end
             
@@ -72,7 +66,9 @@ if ~any(do_start)
 else
     UpdateTelegraph;
     IncrementSweepCounter
+    WriteSweepData(varargin{:})
     daqs    = daqs(find(do_start));
     start(daqs)
     TriggerDAQ(daqs)
+    SetStatus('protocol running')
 end

@@ -10,14 +10,14 @@ function [] = metaphys(action)
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.12 2006/01/28 01:12:04 meliza Exp $
+% $Id: metaphys.m,v 1.13 2006/01/30 19:23:03 meliza Exp $
 
 if nargin > 0 && strcmpi(action,'destroy')
     %
 else
     initPath;
     DebugSetOutput('console')
-    DebugPrint('Starting METAPHYS, $Revision: 1.12 $')
+    DebugPrint('Starting METAPHYS, $Revision: 1.13 $')
     DebugPrint('Initialized METAPHYS path.')
     % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
     InitControl;
@@ -219,12 +219,10 @@ switch tag
         if isempty(data_dir)
             data_dir    = getpref('METAPHYS','basedir');
         end
-        pn          = uigetdir(data_dir,'Select Data Directory');
+        pn          = uisetdatadir(data_dir);
         if ~isnumeric(pn)
             SetUIParam(mfilename,'data_dir', pn);
             SetDefaults('data_dir','control', pn);
-        else
-            SetUIParam(mfilename,'data_dir','')
         end
     case 'protocol_select'
         protocol    = GetUIParam(mfilename, 'protocol','userdata');

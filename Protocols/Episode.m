@@ -32,13 +32,14 @@ function varargout = Episode(action)
 % EPISODE('stop')
 % EPISODE('destroy')
 %
-% $Id: Episode.m,v 1.8 2006/01/28 00:46:13 meliza Exp $
+% $Id: Episode.m,v 1.9 2006/01/30 19:23:13 meliza Exp $
 
 % Parse action
 switch lower(action)
     case 'init'
         % Load default parameters for this protocol
         p = GetDefaults(me);
+        p.instrument.choices    = GetInstrumentNames;
         p.instrument.callback   = @selectInstrument;
         % Open the parameter window
         f   = ParamFigure(me, p, @destroyModule);
@@ -75,6 +76,7 @@ switch lower(action)
         dsmode  = GetParam(me, 'data_mode');
         instr   = GetParam(me, 'instrument');
         SetDataStorage(dsmode, instr)
+        WriteProtocolData(mfilename)
         % Set system to repeat
         AddSubscriber('loop', [], @loopControl)
         % Call the sweep control function
@@ -125,7 +127,6 @@ function [] = sweepControl()
 episodelength = queueStimulus;
 % Start a sweep
 StartSweep(episodelength)
-SetStatus('protocol running')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function episodelength = queueStimulus()

@@ -29,11 +29,11 @@
 %   telegraph_struct     - Header for the telegraph structure
 %   episode_default      - Returns default parameters for the EPISODE protocol
 %   gapfree_default      - Default parameter values for the GAPFREE protocol
-%   moviecontrol_default - MOVIECONROL_DEFAULT: Returns default values for the moviecontrol dialog
+%   moviecontrol_default - Returns default values for the moviecontrol dialog
 %   playmovie_default    - Returns default parameters for the PLAYMOVIE protocol
-%   r0_struct            - RO_STRUCT Constructer for the r0 data structure
+%   r0_struct            - Constructor for the r0 data structure
 %   r1_struct            - Constructer for the r1 data structure
 %   waveform_struct      - Returns a waveform structure
 %   waveformevent_struct - Returns a waveform event structure
 %
-% $Id: Contents.m,v 1.4 2006/01/27 23:46:33 meliza Exp $
+% $Id: Contents.m,v 1.5 2006/01/30 19:23:11 meliza Exp $

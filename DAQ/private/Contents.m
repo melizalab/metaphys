@@ -10,7 +10,7 @@
 %   GetDAQ                  - Returns the DAQ objects referred to by their tags. 
 %   GetDAQStruct            - Returns the DAQ structs referred to by their tags. 
 %   GetInstrument           - Returns the instrument structures referred to by their
-%   AddChannel              - Adds a channel to the instrument structure.
+%   AddInstrumentChannel    - Adds a channel to the instrument structure.
 %   DeleteChannel           - Deletes a channel from the control structure
 %   GetChannelStruct        - Returns the channel structure associated with an
 %   GetChannelType          - Returns a channel's type.
@@ -20,4 +20,4 @@
 %   MatWriter               - Collects data packets and writes them to disk as a matfile when
 %   TriggerDAQ              - Triggers daq acquisition
 %
-% $Id: Contents.m,v 1.3 2006/01/27 23:46:29 meliza Exp $
+% $Id: Contents.m,v 1.4 2006/01/30 19:23:10 meliza Exp $

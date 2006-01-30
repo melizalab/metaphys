@@ -6,13 +6,14 @@ function varargout = GapFree(action)
 % acquisition; it retrieves the data at fixed intervals and plots it using
 % SCOPEDISPLAY
 %
-% $Id: GapFree.m,v 1.5 2006/01/28 01:12:11 meliza Exp $
+% $Id: GapFree.m,v 1.6 2006/01/30 19:23:14 meliza Exp $
 
 % Parse action
 switch lower(action)
     case 'init'
         % Load default parameters for this protocol
         p = GetDefaults(me);
+        p.instrument.choices    = GetInstrumentNames;
         p.instrument.callback   = @selectInstrument;
         % Open the parameter window
         f   = ParamFigure(me, p, @destroyModule);
@@ -37,6 +38,7 @@ switch lower(action)
         StopDAQ
         % Setup data handling
         SetDataStorage('daqfile')
+        WriteProtocolData(mfilename)
         % Call the sweep control function
         sweepControl
     
@@ -66,7 +68,6 @@ function [] = sweepControl()
 updaterate  = GetParam(me, 'update_rate');
 interval    = 1000/updaterate;
 StartContinuous(interval)
-setStatus('protocol running')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = setStatus(output)

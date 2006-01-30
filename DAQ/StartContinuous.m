@@ -10,13 +10,14 @@ function [] = StartContinuous(interval, loop, varargin)
 % queued data will repeat until the device is stopped (default).
 %
 % STARTCONTINOUS(interval, loop, userdata) - Writes contents of <userdata>
-% to file, if the system is set to log to disk.
+% to file, if the system is set to log to disk.  NOTE: if the data remains
+% constant over multiple sweeps, use WRITEPROTOCOLDATA instead.
 %
 % Throws an error if any of the daq devices is running.
 %
 % See Also: STOPDAQ, STARTSWEEP
 %
-% $Id: StartContinuous.m,v 1.5 2006/01/28 01:12:09 meliza Exp $
+% $Id: StartContinuous.m,v 1.6 2006/01/30 19:23:08 meliza Exp $
 
 % Get DAQ objects
 daqnms  = GetDAQNames;

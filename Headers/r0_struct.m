@@ -1,6 +1,6 @@
 function [s] = r0_struct(varargin)
 %
-% RO_STRUCT Constructer for the r0 data structure
+% R0_STRUCT     Constructor for the r0 data structure
 %
 % r0 structures are used to describe episodic responses to periodic
 % stimulation. For each channel, episodes are required to be the same
@@ -23,7 +23,7 @@ function [s] = r0_struct(varargin)
 %
 % .instrument - the instrument this data came from
 %
-% $Id: r0_struct.m,v 1.1 2006/01/20 22:02:33 meliza Exp $
+% $Id: r0_struct.m,v 1.2 2006/01/30 19:23:13 meliza Exp $
 
 fields  = {'data','time','eptime','channel','units','start_time','instrument'};
 C       = {[],[],[],'','',[],''};

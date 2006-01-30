@@ -40,5 +40,11 @@
 %   ResetSweepCounter       - Resets the global sweep counter
 %   SweepPause              - Pauses between sweeps for a fixed number of milliseconds
 %   EnableSensitiveControls - Turn on or off sensitive controls
+%   GetCurrentProtocol      - Returns the current protocol
+%   SetCurrentProtocol      - Sets the current protocol parameter
+%   SetDataFileStatus       - Updates the data_file field in the main window.
+%   SetStatus               - Updates the status field in the main display window
+%   WriteProtocolData       - Outputs protocol data to disk prior to beginning
+%   WriteSweepData          - Writes data associated with a particular sweep to disk
 %
-% $Id: Contents.m,v 1.3 2006/01/27 23:46:15 meliza Exp $
+% $Id: Contents.m,v 1.4 2006/01/30 19:23:03 meliza Exp $

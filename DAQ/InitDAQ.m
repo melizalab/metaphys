@@ -28,7 +28,7 @@ function [daq, daqname] = InitDAQ(hwname, hwnumber, constructor, varargin)
 %
 % See Also: RESETDAQ
 % 
-% $Id: InitDAQ.m,v 1.2 2006/01/19 03:14:55 meliza Exp $
+% $Id: InitDAQ.m,v 1.3 2006/01/30 19:23:07 meliza Exp $
 
 global mpctrl
 
@@ -92,10 +92,7 @@ if nargin > 3
 end
     
 %% Store the object with its initial properties
-props                   = get(daq);
-writeableprops          = fieldnames(set(daq));
-readonlyprops           = setdiff(fieldnames(props),writeableprops);
-props                   = rmfield(props, readonlyprops);
+props                   = GetSettableProps(daq);
 daqstruct               = struct('obj',daq,...
                                  'name',daqname,...
                                  'type',daqtype,...

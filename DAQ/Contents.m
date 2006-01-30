@@ -49,5 +49,7 @@
 %   IsDAQRunning                - Returns true if any daq is currently running
 %   PutInputWaveform            - Preloads values from a waveform object into an
 %   SetDataStorage              - Sets where data will be stored
+%   GetDataStorage              - Returns the current data storage directory
+%   GetSettableProps            - Retrieves the property names and values that can be set
 %
-% $Id: Contents.m,v 1.3 2006/01/27 23:46:19 meliza Exp $
+% $Id: Contents.m,v 1.4 2006/01/30 19:23:06 meliza Exp $

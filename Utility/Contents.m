@@ -71,9 +71,9 @@
 %   GetGlobal           - Returns the value of a global variable in the control
 %   ListRearranger      - A callback handler used for moving items around in a
 %   SetGlobal           - Sets a global variable in the control structure
-%   SetStatus           - Updates the status field in the main display window
+%   uisetdatadir        - A dialog window that fetches a directory; analogous to UIGETFILE.
 %   WaveformEditor      - Dialog for specifying waveforms for output to instruments
 %   multilcm            - returns the least common multiple of an array of positive
 %   shuffledsequence    - Generates a shuffled sequence
 %
-% $Id: Contents.m,v 1.4 2006/01/27 23:46:40 meliza Exp $
+% $Id: Contents.m,v 1.5 2006/01/30 19:23:17 meliza Exp $

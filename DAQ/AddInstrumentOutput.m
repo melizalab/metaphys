@@ -19,14 +19,14 @@ function c = AddInstrumentOutput(instrument, daqname, hwchannel, outputname, var
 %
 % See also INITINSTRUMENT, ADDINSTRUMENTINPUT, PRIVATE/ADDCHANNEL
 %
-% $Id: AddInstrumentOutput.m,v 1.3 2006/01/11 23:03:54 meliza Exp $
+% $Id: AddInstrumentOutput.m,v 1.4 2006/01/30 19:23:06 meliza Exp $
 
 
 daq = GetDAQ(daqname);
 c   = addchannel(daq, hwchannel, outputname);
 
 set(c,varargin{:})
-AddChannel(instrument, outputname, c)
+AddInstrumentChannel(instrument, outputname, c)
 
 
     

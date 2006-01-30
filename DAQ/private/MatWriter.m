@@ -15,7 +15,7 @@ function [] = MatWriter(packet, directory)
 %
 % MATWRITER('flush')
 %
-% $Id: MatWriter.m,v 1.2 2006/01/21 01:22:29 meliza Exp $
+% $Id: MatWriter.m,v 1.3 2006/01/30 19:23:10 meliza Exp $
 
 persistent mw_data datafile
 
@@ -54,14 +54,14 @@ if ~isempty(mw_data)
         packets     = mw_data(ind_instr);
         % PACKET2R0 will fail if packets are of uneven length
         try
-            packets     = Packet2R0(packets);
+            r0     = Packet2R0(packets);
             filename    = fullfile(file, sprintf('%s.r0', instr{i}));
-            save(filename, 'packets', '-mat')
+            save(filename, 'r0', '-mat')
         catch
             try
-                packets     = Packet2R1(packets);
+                r1     = Packet2R1(packets);
                 filename    = fullfile(file, sprintf('%s.r1', instr{i}));
-                save(filename, 'packets', '-mat')
+                save(filename, 'r1', '-mat')
             catch
                 % Now we're in trouble. Save the data to disk as-is
                 DebugPrint('Unable to write packet data to R0 or R1 file.')
@@ -70,8 +70,8 @@ if ~isempty(mw_data)
             end
         end
         DebugPrint('Wrote packet data to %s.', filename);
-        SetUIParam('metaphys','data_file',filename)
-        SetUIParam('metaphys','protocol_status','wrote packet data');
+        SetDataFileStatus(filename)
+        SetStatus('wrote packet data');
     end
 end
 

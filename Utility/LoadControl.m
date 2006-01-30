@@ -19,7 +19,7 @@ function [] = LoadControl(filename)
 %
 % See Also: INITCONTROL, SAVECONTROL
 %
-% $Id: LoadControl.m,v 1.3 2006/01/11 23:04:03 meliza Exp $
+% $Id: LoadControl.m,v 1.4 2006/01/30 19:23:17 meliza Exp $
 
 DEFAULT_FILE    = 'metaphys.mcf';
 
@@ -49,8 +49,14 @@ z   = load('-mat', filename);
 
 %% Copy to control structure
 if isfield(z, 'daq')
-    mpctrl.daq  = z.daq;
     daqnames    = fieldnames(z.daq);
+    % re-load the initial properties on the daq
+    for i = 1:length(daqnames)
+        props   = GetSettableProps(z.daq.(daqnames{i}).obj);
+        z.daq.(daqnames{i}).initial_props   = props;
+    end
+    mpctrl.daq  = z.daq;
+
     DebugPrint('Restored DAQ objects:%s.',...
         sprintf(' %s', daqnames{:}));
 end

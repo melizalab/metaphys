@@ -1,15 +1,15 @@
-function [] = AddChannel(instrument, channelname, channel)
+function [] = AddInstrumentChannel(instrument, channelname, channel)
 %
-% ADDCHANNEL Adds a channel to the instrument structure.
+% ADDINSTRUMENTCHANNEL Adds a channel to the instrument structure.
 %
-% ADDCHANNEL(instrument, channelname, channel) - Adds the channel <channel>
-% to the instrument <instrument> under the name <channelname>. If a channel
-% exists with that name, it will be deleted and overwritten with the new
-% channel.
+% ADDINSTRUMENTCHANNEL(instrument, channelname, channel) - Adds the channel
+% <channel> to the instrument <instrument> under the name <channelname>. If
+% a channel exists with that name, it will be deleted and overwritten with
+% the new channel.
 %
 % See Also: CHANNEL_STRUCT
 %
-% $Id: AddChannel.m,v 1.4 2006/01/20 02:03:12 meliza Exp $
+% $Id: AddInstrumentChannel.m,v 1.1 2006/01/30 19:23:09 meliza Exp $
 
 global mpctrl
 PROTECTED_NAMES = {'input','output','all'};
