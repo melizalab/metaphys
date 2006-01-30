@@ -23,7 +23,9 @@ function [s] = r0_struct(varargin)
 %
 % .instrument - the instrument this data came from
 %
-% $Id: r0_struct.m,v 1.2 2006/01/30 19:23:13 meliza Exp $
+% See also: R1_STRUCT
+%
+% $Id: r0_struct.m,v 1.3 2006/01/30 20:04:50 meliza Exp $
 
 fields  = {'data','time','eptime','channel','units','start_time','instrument'};
 C       = {[],[],[],'','',[],''};

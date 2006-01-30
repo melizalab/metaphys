@@ -2,7 +2,9 @@ function out = playmovie_default()
 %
 % PLAYMOVIE_DEFAULT Returns default parameters for the PLAYMOVIE protocol
 %
-% $Id: playmovie_default.m,v 1.3 2006/01/30 19:23:13 meliza Exp $
+% See also: PLAYMOVIE
+%
+% $Id: playmovie_default.m,v 1.4 2006/01/30 20:04:50 meliza Exp $
 
 out = struct('instrument',...
     param_struct('Instrument', 'list', 1, {}),...

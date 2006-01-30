@@ -32,7 +32,9 @@ function varargout = Episode(action)
 % EPISODE('stop')
 % EPISODE('destroy')
 %
-% $Id: Episode.m,v 1.9 2006/01/30 19:23:13 meliza Exp $
+% See also: EPISODE_DEFAULT
+%
+% $Id: Episode.m,v 1.10 2006/01/30 20:04:51 meliza Exp $
 
 % Parse action
 switch lower(action)

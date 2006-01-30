@@ -11,7 +11,9 @@ function [] = WriteProtocolData(varargin)
 % writes the contents of <data> to disk. The data is stored in a parameter
 % called 'userdata'.
 %
-% $Id: WriteProtocolData.m,v 1.1 2006/01/30 19:23:05 meliza Exp $
+% See also WRITESWEEPDATA
+%
+% $Id: WriteProtocolData.m,v 1.2 2006/01/30 20:04:35 meliza Exp $
 
 FILENAME    = '%s-params.mat';
 

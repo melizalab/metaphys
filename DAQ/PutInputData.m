@@ -10,9 +10,12 @@ function [] = PutInputData(instrument, data)
 %                              the number of input channels on the
 %                              instrument.
 %
-% See Also: DAQDEVICE/PUTDATA
+% If too few channels are supplied, an error is thrown. If too many, they
+% are discarded with a warning.
+% 
+% See also: DAQDEVICE/PUTDATA, PUTINPUTWAVEFORM
 %
-% $Id: PutInputData.m,v 1.2 2006/01/19 03:14:56 meliza Exp $
+% $Id: PutInputData.m,v 1.3 2006/01/30 20:04:42 meliza Exp $
 
 % we have to map to hardware indices here
 instr   = GetInstrument(instrument);

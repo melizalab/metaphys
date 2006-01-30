@@ -12,9 +12,9 @@ function results = CheckAnalogTelegraph(instrument, object, varargin)
 % Returns the current voltage values on OBJECT.  If OBJECT is an array,
 % multiple values will be returned.
 %
-% See Also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
+% See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: CheckAnalogTelegraph.m,v 1.2 2006/01/20 00:04:41 meliza Exp $
+% $Id: CheckAnalogTelegraph.m,v 1.3 2006/01/30 20:04:47 meliza Exp $
 
 ai      = object(1).Parent;
 chan    = object.Index;

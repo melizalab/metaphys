@@ -14,9 +14,9 @@ function out = subscriber_struct(varargin)
 %  The function referred to by <fhandle> must accept a single argument,
 %  which consists of a structure as described by PACKET_STRUCT
 %
-%  See Also: PACKET_STRUCT
+%  See also: PACKET_STRUCT
 %
-% $Id: subscriber_struct.m,v 1.3 2006/01/20 22:02:34 meliza Exp $
+% $Id: subscriber_struct.m,v 1.4 2006/01/30 20:04:51 meliza Exp $
 
 fields  = {'name', 'instrument', 'fhandle', 'fargs'};
 C       = {'', {}, [], {}};

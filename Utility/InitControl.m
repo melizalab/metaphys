@@ -4,9 +4,9 @@ function [] = InitControl()
 %
 % Uses the default values in MPCTRL_DEFAULT.
 %
-% See Also: MPCTRL_DEFAULT
+% See also: MPCTRL_DEFAULT
 %
-% $Id: InitControl.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: InitControl.m,v 1.2 2006/01/30 20:04:57 meliza Exp $
 %
 global mpctrl
 

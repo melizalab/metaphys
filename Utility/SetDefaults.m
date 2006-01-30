@@ -22,9 +22,9 @@ function [] = SetDefaults(class, defloc, props)
 % props  - a structure array with fields corresponding to the properties of
 %          the object
 %
-% See Also: CLEARDEFAULTS, GETDEFAULTS
+% See also: CLEARDEFAULTS, GETDEFAULTS
 %
-% $Id: SetDefaults.m,v 1.1 2006/01/10 20:59:53 meliza Exp $
+% $Id: SetDefaults.m,v 1.2 2006/01/30 20:05:00 meliza Exp $
 
 switch lower(defloc)
     case 'pref'

@@ -12,9 +12,9 @@ function s = waveform_struct(varargin)
 %       .channel_events = a cell array, each element of which is an array
 %                         of waveformevent objects
 % 
-% See Also: @WAVEFORM
+% See also: @WAVEFORM, WAVEFORMEVENT_STRUCT, @WAVEFORMEVENT
 %
-% $Id: waveform_struct.m,v 1.3 2006/01/27 23:46:34 meliza Exp $
+% $Id: waveform_struct.m,v 1.4 2006/01/30 20:04:51 meliza Exp $
 
 fields  = {'channel_names', 'channel_events'};
 C       = {{},{}};

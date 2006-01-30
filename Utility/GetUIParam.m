@@ -27,9 +27,9 @@ function out = GetUIParam(module, tag, field)
 %
 %   If FIELD is not supplied, the default is 'String'
 %
-%   See Also: GETSELECTED
+%   See also: GETSELECTED
 %
-%   $Id: GetUIParam.m,v 1.2 2006/01/25 01:31:46 meliza Exp $
+%   $Id: GetUIParam.m,v 1.3 2006/01/30 20:04:57 meliza Exp $
 
 if nargin == 1
     handles = GetUIHandle(module);

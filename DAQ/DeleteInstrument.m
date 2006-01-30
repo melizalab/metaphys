@@ -11,9 +11,9 @@ function [] = DeleteInstrument(name)
 % name           - the name of the instrument to be deleted. If this does
 %                  not exist a warning is issued and no action is taken.
 %
-% See Also: DELETEINSTRUMENTCHANNEL
+% See also DELETEINSTRUMENTCHANNEL
 %
-% $Id: DeleteInstrument.m,v 1.3 2006/01/17 18:07:53 meliza Exp $
+% $Id: DeleteInstrument.m,v 1.4 2006/01/30 20:04:37 meliza Exp $
 
 global mpctrl
 

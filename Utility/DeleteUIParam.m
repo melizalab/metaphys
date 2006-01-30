@@ -8,9 +8,9 @@ function [] = DeleteUIParam(module, tag)
 % <tag> can be a cell array of strings or a single string
 %
 %
-% See Also: INITUICONTROL, INITUIOBJECT
+% See also: INITUICONTROL, INITUIOBJECT
 %
-% $Id: DeleteUIParam.m,v 1.1 2006/01/14 00:48:15 meliza Exp $
+% $Id: DeleteUIParam.m,v 1.2 2006/01/30 20:04:55 meliza Exp $
 
 global mpctrl
 

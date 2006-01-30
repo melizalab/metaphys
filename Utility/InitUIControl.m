@@ -14,9 +14,9 @@ function handle = InitUIControl(varargin)
 %                (e.g. {'color',[1 1 1],'doublebuffer','on',...})
 %                or a comma-delimited list
 %
-%  See Also: INITUIPARAM
+%  See also: INITUIPARAM
 %
-%   $Id: InitUIControl.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+%   $Id: InitUIControl.m,v 1.2 2006/01/30 20:04:58 meliza Exp $
 
 %% Parse the arguments and find the uicontrol parent
 if ischar(varargin{1})

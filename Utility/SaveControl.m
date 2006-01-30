@@ -15,9 +15,9 @@ function [] = SaveControl(filename, subsystem)
 %                                   the <subsystem> argument. This can be
 %                                   'daq','instrument',or 'defaults'
 %
-% See Also: LOADCONTROL, INITCONTROL
+% See also: LOADCONTROL, INITCONTROL
 %
-% $Id: SaveControl.m,v 1.4 2006/01/27 23:46:43 meliza Exp $
+% $Id: SaveControl.m,v 1.5 2006/01/30 20:05:00 meliza Exp $
 
 global mpctrl
 

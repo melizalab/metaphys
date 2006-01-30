@@ -15,7 +15,7 @@ function varargout = WaveformEditor(action, varargin)
 %
 % WAVEFORMEDITOR('destroy')
 %
-% $Id: WaveformEditor.m,v 1.2 2006/01/27 23:46:44 meliza Exp $
+% $Id: WaveformEditor.m,v 1.3 2006/01/30 20:05:02 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -24,7 +24,6 @@ switch lower(action)
     case 'modal'
         fig = createFigure;
         updateFigure(varargin{:})
-%         set(fig,'WindowStyle','modal')
         uiwait(fig)
         varargout{1}    = getpref('METAPHYS','currentWaveform',{[]});
     case 'destroy'

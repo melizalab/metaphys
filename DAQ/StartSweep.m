@@ -20,9 +20,9 @@ function [] = StartSweep(length, interval, varargin)
 %
 % Throws an error if any of the daq devices is running.
 %
-% See Also: STOPDAQ, STARTCONTINOUS
+% See also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.8 2006/01/28 01:12:09 meliza Exp $
+% $Id: StartSweep.m,v 1.9 2006/01/30 20:04:44 meliza Exp $
 
 % Get DAQ objects
 daqnms  = GetDAQNames;

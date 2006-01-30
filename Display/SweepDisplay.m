@@ -31,7 +31,9 @@ function varargout = SweepDisplay(action, varargin)
 % the sweeplength so that the plot does not go off the limits or have to
 % reset the limits continually.
 %
-% $Id: SweepDisplay.m,v 1.7 2006/01/28 00:46:13 meliza Exp $
+% See also: SCOPEDISPLAY
+%
+% $Id: SweepDisplay.m,v 1.8 2006/01/30 20:04:48 meliza Exp $
 
 switch lower(action)
     case 'init'

@@ -7,7 +7,9 @@ function [] = WriteSweepData(data)
 % the current data directory. The filename is '<sweepnum>-data.mat'. If the
 % system is not currently logging to disk, no action is taken.
 %
-% $Id: WriteSweepData.m,v 1.1 2006/01/30 19:23:05 meliza Exp $
+% See also: WRITEPROTOCOLDATA
+%
+% $Id: WriteSweepData.m,v 1.2 2006/01/30 20:04:36 meliza Exp $
 
 data_mode   = GetGlobal('data_mode');
 BASENAME    = '%04.0f-data.mat';

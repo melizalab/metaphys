@@ -12,9 +12,9 @@ function [] = UpdScaledOutput(instrument, results, scaled_out)
 %
 %
 %
-% See Also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
+% See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: UpdScaledOutput.m,v 1.2 2006/01/20 00:04:42 meliza Exp $
+% $Id: UpdScaledOutput.m,v 1.3 2006/01/30 20:04:47 meliza Exp $
 
 % Get the channels
 chan        = GetInstrumentChannel(instrument, scaled_out);

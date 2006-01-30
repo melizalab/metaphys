@@ -4,9 +4,9 @@ function [] = DeleteSubscriber(name)
 %
 % DELETESUBSCRIBER(names) - removes subscriber(s) from the system
 %
-% See Also: ADDSUBSCRIBER, SUBSCRIBER_STRUCT
+% See also: ADDSUBSCRIBER, SUBSCRIBER_STRUCT
 %
-% $Id: DeleteSubscriber.m,v 1.2 2006/01/19 03:14:51 meliza Exp $
+% $Id: DeleteSubscriber.m,v 1.3 2006/01/30 20:04:33 meliza Exp $
 
 global mpctrl
 
@@ -18,9 +18,6 @@ if isfield(mpctrl.subscriber, name)
         mpctrl.subscriber   = [];
     end
     DebugPrint('Deleted subscriber %s.', name);
-else
-%     warning('METAPHYS:daq:noSuchSubscriber',...
-%         'No such subscriber %s has been defined.', name)
 end
 
 

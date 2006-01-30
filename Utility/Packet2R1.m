@@ -8,9 +8,9 @@ function r1 = Packet2R1(packet)
 % Each channel of each sweep has its own structure in the R1 array. This
 % function remaps an array of packets into an array of r1 structures.
 %
-% See Also: R1_STRUCT, PACKET2R0, SPLITPACKET
+% See also: R1_STRUCT, PACKET2R0, SPLITPACKET
 % 
-% $Id: Packet2R1.m,v 1.1 2006/01/20 22:02:36 meliza Exp $
+% $Id: Packet2R1.m,v 1.2 2006/01/30 20:04:59 meliza Exp $
 
 % The R1 structure is very similar to the packet structure, except only one
 % data channel is allowed. Also, it's nice to sort the packets.

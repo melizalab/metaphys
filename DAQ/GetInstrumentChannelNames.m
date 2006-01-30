@@ -15,9 +15,9 @@ function [channames pretty short]  = GetInstrumentChannelNames(instrument, type)
 %
 % Names are sorted according to their indices
 %
-% See Also: GETINSTRUMENTNAMES, INITINSTRUMENT
+% See also: GETINSTRUMENTNAMES, INITINSTRUMENT
 %
-% $Id: GetInstrumentChannelNames.m,v 1.5 2006/01/20 22:02:29 meliza Exp $
+% $Id: GetInstrumentChannelNames.m,v 1.6 2006/01/30 20:04:40 meliza Exp $
 
 pretty      = [];
 short       = [];
@@ -53,7 +53,6 @@ end
 
 channels    = channels(ind);
 channames   = {channels.name};
-
 
 %% Make the pretty output if necessary
 

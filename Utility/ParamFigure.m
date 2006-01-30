@@ -37,9 +37,9 @@ function varargout = ParamFigure(module, varargin)
 % reinitialized. Note that if there is an action associated with closing
 % the parameter window, that will be executed.
 %
-% See Also: PARAM_STRUCT, GETPARAM
+% See also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.7 2006/01/28 01:12:15 meliza Exp $ 
+% $Id: ParamFigure.m,v 1.8 2006/01/30 20:04:59 meliza Exp $ 
 
 module  = lower(module);
 

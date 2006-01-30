@@ -15,9 +15,9 @@ function [] = StartContinuous(interval, loop, varargin)
 %
 % Throws an error if any of the daq devices is running.
 %
-% See Also: STOPDAQ, STARTSWEEP
+% See also: STOPDAQ, STARTSWEEP
 %
-% $Id: StartContinuous.m,v 1.6 2006/01/30 19:23:08 meliza Exp $
+% $Id: StartContinuous.m,v 1.7 2006/01/30 20:04:43 meliza Exp $
 
 % Get DAQ objects
 daqnms  = GetDAQNames;

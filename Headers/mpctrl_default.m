@@ -34,11 +34,11 @@ function [mpctrl] = mpctrl_default()
 %    .defaults  - contains defaults that are accessible through GETDEFAULTS
 %    .(modulename)  - storage for modules currently in use
 %
-%  See Also: SUBSCRIBER_STRUCT, INSTRUMENT_STRUCT, CHANNEL_STRUCT,
+%  See also: SUBSCRIBER_STRUCT, INSTRUMENT_STRUCT, CHANNEL_STRUCT,
 %  TELEGRAPH_STRUCT
 %           
 %
-% $Id: mpctrl_default.m,v 1.6 2006/01/25 17:49:28 meliza Exp $
+% $Id: mpctrl_default.m,v 1.7 2006/01/30 20:04:49 meliza Exp $
 
 mpctrl = struct('daq',[],...
                 'instrument',[],...

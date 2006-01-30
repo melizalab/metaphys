@@ -16,9 +16,9 @@ function [] = SetParam(module, param, value)
 %                 structure. The value supplied will be automatically cast
 %                 to the type of the parameter.
 %
-%   See Also: GETPARAM, GETPARAMSTRUCTVALUE, SETPARAMSTRUCTVALUE
+%   See also: GETPARAM, GETPARAMSTRUCTVALUE, SETPARAMSTRUCTVALUE
 %
-% $Id: SetParam.m,v 1.1 2006/01/10 20:59:53 meliza Exp $
+% $Id: SetParam.m,v 1.2 2006/01/30 20:05:01 meliza Exp $
 global mpctrl
 
 param = lower(param);
@@ -41,4 +41,3 @@ if ~isstruct(value)
 end
 
 mpctrl.(module).params.(param)  = value;
-

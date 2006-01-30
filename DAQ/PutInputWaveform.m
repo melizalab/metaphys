@@ -11,9 +11,17 @@ function [wvfrm] = PutInputWaveform(instrument, sig_len, wvfrm)
 % so the updated object is returned by this function.  The signal generated
 % will be <length> milliseconds long.
 %
-% See Also: DAQDEVICE/PUTDATA, PUTINPUTDATA
+% On occasion the number of channels defined in a waveform will not match
+% the number of channels we have to fill; this generally happens when a
+% waveform is loaded that was created for a different instrument. If the
+% waveform has too many channels, the extras are discarded. If it has too
+% few, the instrument channels use their default values instead of the
+% waveform. A warning is thrown so the user will do something about it,
+% hopefully.
 %
-% $Id: PutInputWaveform.m,v 1.1 2006/01/27 23:46:23 meliza Exp $
+% See also: DAQDEVICE/PUTDATA, PUTINPUTDATA
+%
+% $Id: PutInputWaveform.m,v 1.2 2006/01/30 20:04:42 meliza Exp $
 
 if nargin < 3 || ~ischar(instrument) || ~isa(wvfrm, 'waveform')
     error('METAPHYS:invalidArgument',...
@@ -27,16 +35,16 @@ n_out_chans = length(out_chans);
 % the number of columns we have to send
 in_chans    = getchannelnames(wvfrm);
 n_in_chans  = length(in_chans);
-% if n_in_chans > n_out_chans
-%     warning('METAPHYS:putinputdata:dataDiscarded',...
-%         'The instrument %s has only %d input channels; %d channels discarded.',...
-%         instrument, n_out_chans, n_in_chans-n_out_chans)
-% elseif n_out_chans > n_in_chans
-%     warning('METAPHYS:putinputdata:dataUnderfull',...
-%         ['The instrument %s has %d input channels; only %d supplied.\n',...
-%         'Underfilled channels will use default channel value.'],...
-%         instrument, n_out_chans, n_in_chans)
-% end
+if n_in_chans > n_out_chans
+    warning('METAPHYS:putinputdata:dataDiscarded',...
+        'The instrument %s has only %d input channels; %d channels discarded.',...
+        instrument, n_out_chans, n_in_chans-n_out_chans)
+elseif n_out_chans > n_in_chans
+    warning('METAPHYS:putinputdata:dataUnderfull',...
+        ['The instrument %s has %d input channels; only %d supplied.\n',...
+        'Underfilled channels will use default channel value.'],...
+        instrument, n_out_chans, n_in_chans)
+end
 % try to match channel names with each other
 chan_match  = zeros(n_out_chans,1);
 for i = 1:n_out_chans

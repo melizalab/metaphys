@@ -13,7 +13,9 @@ function [] = EventHandler(obj, event)
 % Start: disables acquisition UIcontrols
 % Trigger, all others: Does nothing
 %
-% $Id: EventHandler.m,v 1.1 2006/01/27 23:46:16 meliza Exp $
+% See also: DATAHANDLER
+%
+% $Id: EventHandler.m,v 1.2 2006/01/30 20:04:34 meliza Exp $
 
 switch event.Type
     case {'Stop'}

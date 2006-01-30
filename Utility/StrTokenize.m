@@ -10,11 +10,11 @@ function strings    = StrTokenize(string, delimiter)
 %
 % Default delimiter is ','
 %
-% See Also: STRREAD
+% See also: STRREAD
 %
 % (This function is basically a wrapper for STRREAD)
 % 
-% $Id: StrTokenize.m,v 1.1 2006/01/24 03:26:13 meliza Exp $
+% $Id: StrTokenize.m,v 1.2 2006/01/30 20:05:01 meliza Exp $
 
 if ~ischar(string)
     error('METAPHYS:strtokenize',...

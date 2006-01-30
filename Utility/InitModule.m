@@ -13,9 +13,9 @@ function [] = InitModule(module, figure)
 % figure (struct) - module figure handle. If not supplied, .fig and
 %                   .handles will be empty
 %
-% See Also: GETMODULE, INITCONTROL
+% See also: GETMODULE, INITCONTROL
 %
-% $Id: InitModule.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: InitModule.m,v 1.2 2006/01/30 20:04:57 meliza Exp $
 
 global mpctrl
 

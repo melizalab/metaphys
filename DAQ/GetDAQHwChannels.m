@@ -7,9 +7,9 @@ function channels   = GetDAQHwChannels(daqname)
 % Does not check to see what channels are in use, except for on digital io
 % devices.
 %
-% See Also: GETDAQ
+% See also: GETDAQ
 %
-% $Id: GetDAQHwChannels.m,v 1.1 2006/01/14 00:48:07 meliza Exp $
+% $Id: GetDAQHwChannels.m,v 1.2 2006/01/30 20:04:39 meliza Exp $
 
 daq         = GetDAQ(daqname);
 switch lower(daq.Type)

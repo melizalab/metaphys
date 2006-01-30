@@ -5,9 +5,9 @@ function [] = DestroyControl()
 % All known DAQ objects are stopped and deleted; all known figures are
 % deleted; and the mpctrl structure is cleared.
 %
-% See Also: INITCONTROL
+% See also: INITCONTROL
 %
-% $Id: DestroyControl.m,v 1.2 2006/01/25 01:31:46 meliza Exp $
+% $Id: DestroyControl.m,v 1.3 2006/01/30 20:04:56 meliza Exp $
 %
 global mpctrl
 

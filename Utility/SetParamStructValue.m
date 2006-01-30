@@ -10,9 +10,9 @@ function paramstruct = SetParamStructValue(paramstruct, value)
 % the appropriate index. If the string does not exist, an error will be
 % thrown; choices should be set appropriately.
 %
-% See Also: GETPARAMSTRUCTVALUE, SETPARAM, PARAM_STRUCT
+% See also: GETPARAMSTRUCTVALUE, SETPARAM, PARAM_STRUCT
 %
-% $Id: SetParamStructValue.m,v 1.3 2006/01/24 21:42:20 meliza Exp $
+% $Id: SetParamStructValue.m,v 1.4 2006/01/30 20:05:01 meliza Exp $
 
 NUMERIC_TYPES   = {'int8', 'int16', 'int32', 'int64',...
                    'uint8', 'uint16', 'uint32', 'uint64',...

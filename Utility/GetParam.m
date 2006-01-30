@@ -14,9 +14,9 @@ function out = GetParam(module, param, mode)
 %              to return the value
 %   out - the param structure or value
 %
-%   See Also: SETPARAM, INITPARAM, PARAMFIGURE, GETPARAMSTRUCTVALUE
+%   See also: SETPARAM, INITPARAM, PARAMFIGURE, GETPARAMSTRUCTVALUE
 % 
-%   $Id: GetParam.m,v 1.3 2006/01/26 23:37:27 meliza Exp $
+%   $Id: GetParam.m,v 1.4 2006/01/30 20:04:56 meliza Exp $
 %
 RETURN_STRUCT   = 'struct';
 

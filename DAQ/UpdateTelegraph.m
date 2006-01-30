@@ -19,7 +19,9 @@ function [results] = UpdateTelegraph(instrument, telegraph)
 %       results   = checkfn(instrument, object, fnargs...)
 %       updfn(instrument, results, fnargs...)
 %
-% $Id: UpdateTelegraph.m,v 1.4 2006/01/27 23:46:27 meliza Exp $
+% See also TELEGRAPH
+%
+% $Id: UpdateTelegraph.m,v 1.5 2006/01/30 20:04:45 meliza Exp $
 global mpctrl
 
 results = [];

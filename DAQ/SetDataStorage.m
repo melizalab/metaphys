@@ -31,8 +31,9 @@ function [] = SetDataStorage(mode, varargin)
 %                             stores data to disk using the DATAHANDLER
 %                       `     function and the MATWRITER subscriber
 %
+% See also GETDATASTORAGE
 %
-% $Id: SetDataStorage.m,v 1.6 2006/01/30 19:23:08 meliza Exp $
+% $Id: SetDataStorage.m,v 1.7 2006/01/30 20:04:43 meliza Exp $
 
 MATWRITER   = 'MatWriter';
 mwfunc      = str2func(MATWRITER);

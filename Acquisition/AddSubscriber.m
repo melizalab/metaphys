@@ -12,9 +12,9 @@ function []= AddSubscriber(name, instrument, fhandle, varargin)
 % If a previous subscription exists with the same name it will be
 % overwritten.
 %
-% See Also: SUBSCRIBER_STRUCT
+% See also: SUBSCRIBER_STRUCT
 %
-% $Id: AddSubscriber.m,v 1.3 2006/01/20 22:02:28 meliza Exp $
+% $Id: AddSubscriber.m,v 1.4 2006/01/30 20:04:33 meliza Exp $
 
 global mpctrl
 
@@ -41,12 +41,6 @@ if ~isa(S.fhandle, 'function_handle')
     error('METAPHYS:invalidArgument',...
         'Invalid function handle.')
 end
-
-
-% subscriber  = struct('name', name,...
-%                      'instrument',instrument,...
-%                      'fhandle', fhandle,...
-%                      'fargs',{varargin});
                  
 mpctrl.subscriber.(S.name)    = S;
 DebugPrint('Added subscriber %s.', S.name);

@@ -19,9 +19,9 @@ function fig = OpenGuideFigure(figfile, module)
 %   opened. In this case the handles will be re-stored in the control
 %   structure.
 %
-%  See Also: OPENFIGURE, FINDFIGURE
+%  See also: OPENFIGURE, FINDFIGURE
 %
-% $Id: OpenGuideFigure.m,v 1.4 2006/01/27 23:46:42 meliza Exp $
+% $Id: OpenGuideFigure.m,v 1.5 2006/01/30 20:04:59 meliza Exp $
 
 if nargin == 1
     [pn fn] = fileparts(figfile);

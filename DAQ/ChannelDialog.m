@@ -14,11 +14,10 @@ function varargout = ChannelDialog(action, instrumentname, channel)
 %
 % CHANNELDIALOG(instrumentname, channelname) edits an existing channel
 %
-% 
 %
-% See Also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
+% See also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
 %
-% $Id: ChannelDialog.m,v 1.8 2006/01/27 23:46:18 meliza Exp $
+% $Id: ChannelDialog.m,v 1.9 2006/01/30 20:04:37 meliza Exp $
 
 switch action
     case {'init', 'modal'}

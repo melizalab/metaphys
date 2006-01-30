@@ -58,7 +58,9 @@ function [] = SetDAQTrigger(triggertype, varargin)
 % other reasons). The function is pretty good at cleaning up after itself,
 % but it may be advisable to call RESETDAQ whenever possible.
 %
-% $Id: SetDAQTrigger.m,v 1.3 2006/01/27 23:46:24 meliza Exp $
+% See also: GETDAQTRIGGER
+%
+% $Id: SetDAQTrigger.m,v 1.4 2006/01/30 20:04:43 meliza Exp $
 
 switch lower(triggertype)
     case 'immediate'

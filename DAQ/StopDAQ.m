@@ -7,9 +7,9 @@ function [] = StopDAQ(daqnames)
 %
 % STOPDAQ stops all daqs in the control structure
 %
-% See Also: INITDAQ, RESETDAQ, STARTDAQ
+% See also: INITDAQ, RESETDAQ, STARTDAQ
 %
-% $Id: StopDAQ.m,v 1.3 2006/01/25 01:31:36 meliza Exp $
+% $Id: StopDAQ.m,v 1.4 2006/01/30 20:04:44 meliza Exp $
 
 
 if nargin == 0

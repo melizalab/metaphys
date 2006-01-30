@@ -11,9 +11,9 @@ function fig = OpenFigure(module,varargin)
 % propn  - property name
 % valn   - the corresponding value
 %
-% See Also: OPENGUIDEFIGURE, INITMODULE
+% See also: OPENGUIDEFIGURE, INITMODULE
 % 
-% $Id: OpenFigure.m,v 1.1 2006/01/10 20:59:53 meliza Exp $
+% $Id: OpenFigure.m,v 1.2 2006/01/30 20:04:58 meliza Exp $
 
 % open or find the figure
 module  = lower(module);

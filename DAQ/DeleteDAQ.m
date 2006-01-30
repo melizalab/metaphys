@@ -10,9 +10,9 @@ function [] = DeleteDAQ(daqnames)
 %
 % DAQNAMES can be a single string or a cell array.
 %
-% See Also: INITDAQ, STOPDAQ
+% See also: INITDAQ, STOPDAQ
 %
-% $Id: DeleteDAQ.m,v 1.6 2006/01/27 23:46:19 meliza Exp $
+% $Id: DeleteDAQ.m,v 1.7 2006/01/30 20:04:37 meliza Exp $
 
 global mpctrl
 

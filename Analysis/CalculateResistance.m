@@ -29,10 +29,18 @@ function [Rt, Ri] = CalculateResistance(time, data, pulse, mode, handle)
 % edges is with differentiation, but this becomes problematic with high
 % frequency noise, especially with pulses in current mode, since these lack
 % the sharp edge of pulses in voltage clamp. Filtering is not really an
-% option, due to the computational (i.e. time) costs, so for current pulses, 
-% what we try to do is find the two major modes of the signal distribution
-% and set a threshhold. For voltage pulses we take advantage of the sharp
-% edge and use differentiation.
+% option, due to the computational (i.e. time) costs, so we opt for speed
+% over correctness and just use differentiation.
+%
+% $Id: CalculateResistance.m,v 1.2 2006/01/30 20:04:36 meliza Exp $
+
+% For current pulses, what we should try to do is find the two major modes of the signal distribution
+% and set a threshhold. This is a pain in the arse which is left as an
+% exercise to the reader.
+
+% There is also an undocumented feature which is useful for debugging. Pass
+% the function an axes handle and it will plot where it thinks things are
+% happening.
 
 INTEGRATE   = 100;  % (samples)
 GAP         = 4;    % (samples)
@@ -79,4 +87,3 @@ if nargin > 4
     plot(handle,time(ind_trans), repmat(m_trans,size(ind_trans)),'r');
     set(gca,'nextplot',axstate);
 end
-

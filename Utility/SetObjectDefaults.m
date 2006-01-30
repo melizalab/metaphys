@@ -12,9 +12,9 @@ function [] = SetObjectDefaults(object, class, location)
 % object - the object whose preferences should be set. If this is an array,
 %          the preferences will be applied to all the objects
 %
-% See Also: GETDEFAULTS, SETDEFAULTS, CLEARDEFAULTS
+% See also: GETDEFAULTS, SETDEFAULTS, CLEARDEFAULTS
 %
-% $Id: SetObjectDefaults.m,v 1.1 2006/01/10 20:59:53 meliza Exp $
+% $Id: SetObjectDefaults.m,v 1.2 2006/01/30 20:05:00 meliza Exp $
 
 if nargin > 2
    props   = GetDefaults(class, location);

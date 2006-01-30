@@ -7,9 +7,9 @@ function [] = InstrumentDialog(action, instrumentname)
 % input and output channels. The user can define a set of instruments for
 % an experiment, and save them individually.
 %
-% See Also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
+% See also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
 %
-% $Id: InstrumentDialog.m,v 1.8 2006/01/28 01:12:07 meliza Exp $
+% $Id: InstrumentDialog.m,v 1.9 2006/01/30 20:04:40 meliza Exp $
 
 switch lower(action)
     case {'init', 'modal'}

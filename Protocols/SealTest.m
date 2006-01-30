@@ -20,9 +20,9 @@ function [] = SealTest(action)
 % start and stop buttons. Thus, the only action it has to support is
 % 'init'.
 %
-% See Also:  PROTOCOLTEMPLATE
+% See also:  PROTOCOLTEMPLATE, SEALTEST_DEFAULT
 %
-% $Id: SealTest.m,v 1.10 2006/01/28 00:46:19 meliza Exp $
+% $Id: SealTest.m,v 1.11 2006/01/30 20:04:54 meliza Exp $
 
 
 % Parse action

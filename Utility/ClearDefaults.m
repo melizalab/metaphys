@@ -20,9 +20,9 @@ function [] = ClearDefaults(class, defloc)
 % location - can be 'pref', or 'control'. If not supplied, both locations
 %           will be cleared
 %
-% See Also: SETDEFAULTS, GETDEFAULTS
+% See also: SETDEFAULTS, GETDEFAULTS
 %
-% $Id: ClearDefaults.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: ClearDefaults.m,v 1.2 2006/01/30 20:04:55 meliza Exp $
 
 if nargin == 1
     clearPrefs(class)

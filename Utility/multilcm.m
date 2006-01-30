@@ -8,7 +8,7 @@ function V = multilcm(V)
 %
 % Recursively calls LCM until there is only one number left
 %
-% $Id: multilcm.m,v 1.1 2006/01/26 01:21:31 meliza Exp $
+% $Id: multilcm.m,v 1.2 2006/01/30 20:05:03 meliza Exp $
 
 if any(V < 1 | fix(V) ~= V)
     error('METAPHYS:multilcm:InputNotPosInt',...
@@ -23,8 +23,3 @@ while lV > 1
     V   = lcm(V(:,1), V(:,2));
     lV  = size(V,1);
 end
-    
-
-
-% WARNING: uses MATLAB's FACTOR function, which can be extremely slow or
-% unstable for large numbers

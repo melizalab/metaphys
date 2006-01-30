@@ -26,9 +26,10 @@ function results = Check200XTelegraph(instrument, object, scaled_out)
 % 
 % In voltage output modes the base scaling is 1 mV/mV; in current modes the
 % scaling is 1 pA/mV.
-% See Also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: Check200XTelegraph.m,v 1.3 2006/01/20 00:04:41 meliza Exp $
+% See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
+%
+% $Id: Check200XTelegraph.m,v 1.4 2006/01/30 20:04:46 meliza Exp $
 
 %% Retrieve voltages
 voltages    = CheckAnalogTelegraph(instrument, object);

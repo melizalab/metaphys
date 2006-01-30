@@ -12,9 +12,9 @@ function [] = SetChannelGain(varargin)
 % SETCHANNELGAIN(instrument, channelname, gain)
 % SETCHANNELGAIN(channelobj, gain)
 %
-% See Also: GETCHANNELGAIN
+% See also: GETCHANNELGAIN
 %
-% $Id: SetChannelGain.m,v 1.3 2006/01/17 20:22:10 meliza Exp $
+% $Id: SetChannelGain.m,v 1.4 2006/01/30 20:04:42 meliza Exp $
 
 if ischar(varargin{1})
     chanstr     = GetChannelStruct(varargin{1}, varargin{2});

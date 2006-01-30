@@ -16,9 +16,9 @@ function [] = DebugPrint(varargin)
 % may throw an error if DEBUGSETOUTPUT has not been called and the
 % appropriate preferences not initialized.
 %
-% See Also: DEBUGSETOUTPUT
+% See also: DEBUGSETOUTPUT
 %
-% $Id: DebugPrint.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: DebugPrint.m,v 1.2 2006/01/30 20:04:55 meliza Exp $
 %
 
 if(getpref('METAPHYS', 'debugMode'))

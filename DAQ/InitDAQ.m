@@ -26,9 +26,9 @@ function [daq, daqname] = InitDAQ(hwname, hwnumber, constructor, varargin)
 % stores the initial state of the daq object in the control structure; this
 % is used to reset the DAQ to its initial state.
 %
-% See Also: RESETDAQ
+% See also: RESETDAQ
 % 
-% $Id: InitDAQ.m,v 1.3 2006/01/30 19:23:07 meliza Exp $
+% $Id: InitDAQ.m,v 1.4 2006/01/30 20:04:40 meliza Exp $
 
 global mpctrl
 

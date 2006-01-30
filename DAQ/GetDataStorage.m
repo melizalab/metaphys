@@ -9,8 +9,9 @@ function [ddir mode] = GetDataStorage()
 %
 % Possible modes are 'memory', 'daqfile', and 'matfile'
 %
+% See also SETDATASTORAGE
 %
-% $Id: GetDataStorage.m,v 1.4 2006/01/30 19:23:07 meliza Exp $
+% $Id: GetDataStorage.m,v 1.5 2006/01/30 20:04:39 meliza Exp $
 
 ddir    = [];
 mode    = GetGlobal('data_mode');

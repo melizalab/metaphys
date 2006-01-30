@@ -62,7 +62,9 @@ function s = waveformevent_struct(varargin)
 %       .queued_params - a queue of parameters
 %       .queue_pointer - the current position in the queue
 %
-% $Id: waveformevent_struct.m,v 1.2 2006/01/27 00:40:09 meliza Exp $
+% See also: @WAVEFORMEVENT, WAVEFORM_STRUCT
+%
+% $Id: waveformevent_struct.m,v 1.3 2006/01/30 20:04:51 meliza Exp $
 
 fields  = {'onset', 'ampl', 'dur', 'cycle_mode',...
     'onset_func', 'ampl_func', 'dur_func',...

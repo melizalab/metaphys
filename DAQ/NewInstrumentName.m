@@ -6,9 +6,11 @@ function name   = NewInstrumentName(base_name)
 % '<base_name>_n' that is not currently in use. <base_name> defaults to
 % 'newinstrument'
 %
-% The user can, of course, change this later
+% The user can, of course, change this later.
 %
-% $Id: NewInstrumentName.m,v 1.2 2006/01/11 23:03:58 meliza Exp $
+% See also RENAMEINSTRUMENT
+%
+% $Id: NewInstrumentName.m,v 1.3 2006/01/30 20:04:42 meliza Exp $
 BASE_NAME = 'newinstrument';
 if nargin > 0
     BASE_NAME = base_name;

@@ -17,9 +17,9 @@ function [] = LoadControl(filename)
 % in the base directory the project. If the base directory has not been
 % defined, or the file does not exist, exits with a warning.
 %
-% See Also: INITCONTROL, SAVECONTROL
+% See also: INITCONTROL, SAVECONTROL
 %
-% $Id: LoadControl.m,v 1.4 2006/01/30 19:23:17 meliza Exp $
+% $Id: LoadControl.m,v 1.5 2006/01/30 20:04:58 meliza Exp $
 
 DEFAULT_FILE    = 'metaphys.mcf';
 

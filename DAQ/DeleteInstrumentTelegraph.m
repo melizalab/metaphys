@@ -11,9 +11,9 @@ function [] = DeleteInstrumentTelegraph(instrument, telegraph)
 %                                                    telegraph(s)
 % DELETEINSTRUMENTTELEGRAPH(instrument, 'all') - removes all telegraphs
 %
-% See Also: UPDATETELEGRAPH
+% See also UPDATETELEGRAPH
 %
-% $Id: DeleteInstrumentTelegraph.m,v 1.2 2006/01/17 18:07:53 meliza Exp $
+% $Id: DeleteInstrumentTelegraph.m,v 1.3 2006/01/30 20:04:38 meliza Exp $
 
 if ischar(telegraph)
     if strcmpi(telegraph, 'all')

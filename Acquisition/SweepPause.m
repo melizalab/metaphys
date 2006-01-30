@@ -7,7 +7,9 @@ function [] = SweepPause(time)
 % global variable which can be checked by other threads that would like to
 % stop acquisition.
 %
-% $Id: SweepPause.m,v 1.1 2006/01/25 22:22:45 meliza Exp $
+% See also: ISSWEEPPAUSED, ISDAQRUNNING
+%
+% $Id: SweepPause.m,v 1.2 2006/01/30 20:04:35 meliza Exp $
 
 SetGlobal('sweep_pause',true)
 pause(time/1000);

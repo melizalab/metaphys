@@ -11,9 +11,9 @@ function varargout = PlayMovie(action)
 % will collect that much data. The user can also specify voltage waveforms
 % to send to amplifiers and stimulators during that time.
 %
-% See Also: F21CONTROL
+% See Also: @F21CONTROL, PLAYMOVIE_DEFAULT
 %
-% $Id: PlayMovie.m,v 1.8 2006/01/30 19:23:15 meliza Exp $
+% $Id: PlayMovie.m,v 1.9 2006/01/30 20:04:52 meliza Exp $
 
 % Parse action
 switch lower(action)

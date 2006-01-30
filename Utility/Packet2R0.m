@@ -9,9 +9,9 @@ function r0 = Packet2R0(packet)
 % element for each channel in the data. Instrument information is ignored,
 % so this needs to be sorted out ahead of time if it matters.
 %
-% See Also: PACKET_STRUCT, PACKET2R1, SPLITPACKET
+% See also: PACKET_STRUCT, PACKET2R1, SPLITPACKET
 %
-% $Id: Packet2R0.m,v 1.3 2006/01/30 19:23:18 meliza Exp $
+% $Id: Packet2R0.m,v 1.4 2006/01/30 20:04:59 meliza Exp $
 
 % the tricky thing here is that packets can have multiple channels. there
 % can also be a lot of data, so looping through the packets is not a good

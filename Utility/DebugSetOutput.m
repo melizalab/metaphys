@@ -17,9 +17,9 @@ function [] = DebugSetOutput(debugmode, debugsink)
 %
 % Uses the MATLAB prefs METAPHYS/debugMode and METAPHYS/debugSink.
 %
-% See Also: DEBUGPRINT
+% See also: DEBUGPRINT
 %
-% $Id: DebugSetOutput.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: DebugSetOutput.m,v 1.2 2006/01/30 20:04:55 meliza Exp $
 
 %% Close existing debug file
 closeDebugFile

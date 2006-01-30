@@ -20,10 +20,10 @@ function [] = InitParam(module, varargin)
 %                    parameters set by the fieldnames. 
 %
 %
-% See Also: PARAM_STRUCT
+% See also: PARAM_STRUCT
 %
 %
-% $Id: InitParam.m,v 1.3 2006/01/21 01:22:32 meliza Exp $
+% $Id: InitParam.m,v 1.4 2006/01/30 20:04:57 meliza Exp $
 global mpctrl
 
 module = lower(module);

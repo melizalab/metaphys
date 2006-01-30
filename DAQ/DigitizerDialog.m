@@ -5,9 +5,9 @@ function varargout = DigitizerDialog(action)
 % The user is given a list of available hardware, allowed to initialize the
 % subsystems on any of the hardware, and set properties of the hardware.
 %
-% See Also: INITDAQ, RESETDAQ, DELETEDAQ
+% See also: INITDAQ, RESETDAQ, DELETEDAQ
 %
-% $Id: DigitizerDialog.m,v 1.6 2006/01/27 23:46:19 meliza Exp $
+% $Id: DigitizerDialog.m,v 1.7 2006/01/30 20:04:38 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -107,51 +107,47 @@ if ~isempty(currentDAQ)
 
     % the daq type determines what options are available
     dtype   = GetDAQProperty(currentDAQ, 'Type');
-%    if strcmpi(dtype,'digital io')
-        
-%    else
-        % we also have to check for digital daqs
-        dtypes  = GetDAQProperty(currentDAQs, 'Type');
-        dios    = strmatch('digital io', lower(dtypes));
-        if ~isempty(dios)
-            AI_TRIGGER_TYPES    = {AI_TRIGGER_TYPES{:} DIGITAL_TYPE};
-            AO_TRIGGER_TYPES    = {AO_TRIGGER_TYPES{:} DIGITAL_TYPE};
-            SetUIParam(mfilename,'triggerdio',currentDAQs{dios})
-        else
-            SetUIParam(mfilename,'triggerdio',{})
-            ttype   = GetUIParam(mfilename,'triggertype','selected');
-            % fix any triggers that don't work if the digital object is
-            % gone
-            if strcmpi(ttype,'digital')
-                SetUIParam(mfilename,'triggertype','selected','hardware');
-                updateTrigger
-            end
-        end
-
-        switch lower(dtype)
-            case 'analog input'
-                SetUIParam(mfilename,'triggertype','String',AI_TRIGGER_TYPES,...
-                    'Enable','On')
-            case 'analog output'
-                SetUIParam(mfilename,'triggertype','String',AO_TRIGGER_TYPES,...
-                    'Enable','On')
-            case 'digital io'
-                SetUIParam(mfilename,'triggertype','Enable','Off')
-        end
-        % now try to figure out the trigger type
-        [ttype dio dioline]   = GetDAQTrigger(currentDAQ);
-        SetUIParam(mfilename,'triggertype','selected',ttype)
+    % we also have to check for digital daqs
+    dtypes  = GetDAQProperty(currentDAQs, 'Type');
+    dios    = strmatch('digital io', lower(dtypes));
+    if ~isempty(dios)
+        AI_TRIGGER_TYPES    = {AI_TRIGGER_TYPES{:} DIGITAL_TYPE};
+        AO_TRIGGER_TYPES    = {AO_TRIGGER_TYPES{:} DIGITAL_TYPE};
+        SetUIParam(mfilename,'triggerdio',currentDAQs{dios})
+    else
+        SetUIParam(mfilename,'triggerdio',{})
+        ttype   = GetUIParam(mfilename,'triggertype','selected');
+        % fix any triggers that don't work if the digital object is
+        % gone
         if strcmpi(ttype,'digital')
-            SetUIParam(mfilename,'triggerdio','enable','on')
-            SetUIParam(mfilename,'triggerdio','selected',dio)
-            SetUIParam(mfilename,'triggerline','String',num2str(dioline),...
-                'Enable','On')
-        else
-            SetUIParam(mfilename,'triggerdio','Enable','Off')
-            SetUIParam(mfilename,'triggerline',...
-                'Enable','Off')
+            SetUIParam(mfilename,'triggertype','selected','hardware');
+            updateTrigger
         end
-%    end
+    end
+
+    switch lower(dtype)
+        case 'analog input'
+            SetUIParam(mfilename,'triggertype','String',AI_TRIGGER_TYPES,...
+                'Enable','On')
+        case 'analog output'
+            SetUIParam(mfilename,'triggertype','String',AO_TRIGGER_TYPES,...
+                'Enable','On')
+        case 'digital io'
+            SetUIParam(mfilename,'triggertype','Enable','Off')
+    end
+    % now try to figure out the trigger type
+    [ttype dio dioline]   = GetDAQTrigger(currentDAQ);
+    SetUIParam(mfilename,'triggertype','selected',ttype)
+    if strcmpi(ttype,'digital')
+        SetUIParam(mfilename,'triggerdio','enable','on')
+        SetUIParam(mfilename,'triggerdio','selected',dio)
+        SetUIParam(mfilename,'triggerline','String',num2str(dioline),...
+            'Enable','On')
+    else
+        SetUIParam(mfilename,'triggerdio','Enable','Off')
+        SetUIParam(mfilename,'triggerline',...
+            'Enable','Off')
+    end
 else
     for i = 1:length(myproperties)
         SetUIParam(mfilename, lower(myproperties{i}),...

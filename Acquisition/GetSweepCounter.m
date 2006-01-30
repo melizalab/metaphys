@@ -6,7 +6,9 @@ function out = GetSweepCounter()
 %
 % If the sweepcounter has not been properly initialized, returns 0
 %
-% $Id: GetSweepCounter.m,v 1.1 2006/01/25 17:49:24 meliza Exp $
+% See also: INCREMENTSWEEPCOUNTER, RESETSWEEPCOUNTER
+%
+% $Id: GetSweepCounter.m,v 1.2 2006/01/30 20:04:34 meliza Exp $
 
 FIELDNAME   = 'sweepcounter';
 

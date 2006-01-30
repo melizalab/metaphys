@@ -13,9 +13,9 @@ function modstruct = GetModule(module)
 % modstruct (struct) - module structure
 % modlist (cell)  - list of all known modules
 %
-% See Also: INITCONTROL, INITMODULE
+% See also: INITCONTROL, INITMODULE
 % 
-% $Id: GetModule.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: GetModule.m,v 1.2 2006/01/30 20:04:56 meliza Exp $
 
 global mpctrl
 

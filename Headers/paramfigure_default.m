@@ -2,7 +2,9 @@ function props = paramfigure_default()
 %
 % PARAMFIGURE_DEFAULT Returns default properties for new figures.
 %
-% $Id: paramfigure_default.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% See also: PARAMFIGURE
+%
+% $Id: paramfigure_default.m,v 1.2 2006/01/30 20:04:50 meliza Exp $
 
 props = struct('numbertitle','off',...
                'DoubleBuffer','off',...

@@ -11,9 +11,9 @@ function [triggertype dio dioline] = GetDAQTrigger(daq)
 % If <triggertype> is 'digital', then <dio> and <dioline> will be the name
 % of the dio object and the dio lines used for digital triggering
 %
-% See Also: SETDAQTRIGGER
+% See also: SETDAQTRIGGER
 %
-% $Id: GetDAQTrigger.m,v 1.2 2006/01/27 23:46:21 meliza Exp $
+% $Id: GetDAQTrigger.m,v 1.3 2006/01/30 20:04:39 meliza Exp $
 
 if ischar(daq)
     daq     = GetDAQ(daq);

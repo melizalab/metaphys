@@ -9,7 +9,7 @@ function [] = AddInstrumentChannel(instrument, channelname, channel)
 %
 % See Also: CHANNEL_STRUCT
 %
-% $Id: AddInstrumentChannel.m,v 1.1 2006/01/30 19:23:09 meliza Exp $
+% $Id: AddInstrumentChannel.m,v 1.2 2006/01/30 20:04:47 meliza Exp $
 
 global mpctrl
 PROTECTED_NAMES = {'input','output','all'};
@@ -49,8 +49,6 @@ switch lower(parent.Type)
 end
 
 chan_struct = channel_struct(channel, channelname, parent.Name, type);
-                     
-
 mpctrl.instrument.(instrument).channels.(channelname)    = chan_struct;
 
 DebugPrint('Added channel %s to instrument %s.', channelname, instrument);

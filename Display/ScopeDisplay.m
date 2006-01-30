@@ -13,7 +13,9 @@ function varargout = ScopeDisplay(action, varargin)
 % SCOPEDISPLAY('clear', [sweeplength])
 % SCOPEDISPLAY('destroy')
 %
-% $Id: ScopeDisplay.m,v 1.5 2006/01/28 00:46:12 meliza Exp $
+% See also: SWEEPDISPLAY
+%
+% $Id: ScopeDisplay.m,v 1.6 2006/01/30 20:04:48 meliza Exp $
 
 switch lower(action)
     case 'init'

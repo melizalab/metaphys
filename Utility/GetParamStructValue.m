@@ -18,8 +18,8 @@ function out = GetParamStructValue(paramstruct, value_format)
 % See Also:
 %   PARAM_STRUCT, GETPARAM
 %
-% $Id: GetParamStructValue.m,v 1.2 2006/01/21 01:22:32 meliza Exp $
-%
+% $Id: GetParamStructValue.m,v 1.3 2006/01/30 20:04:57 meliza Exp $
+
 VALUE_FORMAT    = 'String';
 if nargin < 2
     value_format    = VALUE_FORMAT;

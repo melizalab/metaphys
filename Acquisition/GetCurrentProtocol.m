@@ -5,6 +5,8 @@ function protocol   = GetCurrentProtocol()
 % GETCURRENTPROTOCOL  returns the handle of the current protocol, or if
 % none is loaded, an empty array.
 %
-% $Id: GetCurrentProtocol.m,v 1.1 2006/01/28 00:46:07 meliza Exp $
+% See also: SETCURRENTPROTOCOL
+%
+% $Id: GetCurrentProtocol.m,v 1.2 2006/01/30 20:04:34 meliza Exp $
 
 protocol    = GetGlobal('current_protocol');

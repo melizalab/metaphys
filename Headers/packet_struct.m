@@ -14,7 +14,9 @@ function out = packet_struct(varargin)
 %   .message    - diagnostic information. generally empty if the packet was
 %                 returned under normal conditions
 %
-% $Id: packet_struct.m,v 1.3 2006/01/20 02:03:13 meliza Exp $
+% See also: SUBSCRIBER_STRUCT
+%
+% $Id: packet_struct.m,v 1.4 2006/01/30 20:04:49 meliza Exp $
 
 fields  = {'name', 'instrument', 'channels', 'units', 'data', 'time',...
            'timestamp', 'message'};

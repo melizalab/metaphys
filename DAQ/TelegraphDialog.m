@@ -12,9 +12,9 @@ function varargout = TelegraphDialog(action, instrumentname, telegraph)
 % TELEGRAPHDIALOG(instrumentname, telegraphname) edits an existing telegraph
 %
 %
-% See Also: ADDINSTRUMENTTELEGRAPH
+% See also: ADDINSTRUMENTTELEGRAPH
 %
-% $Id: TelegraphDialog.m,v 1.6 2006/01/27 23:46:26 meliza Exp $
+% $Id: TelegraphDialog.m,v 1.7 2006/01/30 20:04:44 meliza Exp $
 
 switch action
     case {'init', 'modal'}

@@ -4,9 +4,9 @@ function S = GetSubscriber(subscriber)
 %
 % S = GETSUBSCRIBER(subscriber) - Returns [] if no such subscriber exists.
 %
-% See Also: SUBSCRIBER_STRUCT, PACKET_STRUCT, DATAHANDLER
+% See also: SUBSCRIBER_STRUCT, PACKET_STRUCT, DATAHANDLER, EVENTHANDLER
 %
-% $Id: GetSubscriber.m,v 1.1 2006/01/20 22:02:28 meliza Exp $
+% $Id: GetSubscriber.m,v 1.2 2006/01/30 20:04:34 meliza Exp $
 
 global mpctrl
 

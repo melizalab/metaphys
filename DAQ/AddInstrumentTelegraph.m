@@ -2,7 +2,6 @@ function [] = AddInstrumentTelegraph(instrument, telegraph, varargin)
 %
 % ADDINSTRUMENTTELEGRAPH Defines a telegraph channel for an instrument.
 %
-%
 % Usage:
 %
 % [] = ADDINSTRUMENTTELEGRAPH(instrument, telegraph, input, checkfn,
@@ -27,9 +26,9 @@ function [] = AddInstrumentTelegraph(instrument, telegraph, varargin)
 %
 % AMPCHANNEL can be a single name or a cell array of names.
 %
-% See Also: UPDATETELEGRAPH, GETTELEGRAPH, DELETEINSTRUMENTTELEGRAPH
+% See also: UPDATETELEGRAPH, GETTELEGRAPH, DELETEINSTRUMENTTELEGRAPH
 %
-% $Id: AddInstrumentTelegraph.m,v 1.4 2006/01/20 00:04:37 meliza Exp $
+% $Id: AddInstrumentTelegraph.m,v 1.5 2006/01/30 20:04:36 meliza Exp $
 
 % This function is just a wrapper for private/AddTelegraph. If you want to
 % add another "standard" telegraph, this is where to set up how the

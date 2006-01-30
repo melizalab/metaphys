@@ -15,9 +15,9 @@ function [props] = GetDefaults(class, defloc)
 %          Headers/ as nidaqai_default.m
 % location - can be 'file', 'pref', or 'control'
 %
-% See Also: CLEARDEFAULTS, SETDEFAULTS, SETOBJECTDEFAULTS
+% See also: CLEARDEFAULTS, SETDEFAULTS, SETOBJECTDEFAULTS
 %
-% $Id: GetDefaults.m,v 1.3 2006/01/23 19:27:44 meliza Exp $
+% $Id: GetDefaults.m,v 1.4 2006/01/30 20:04:56 meliza Exp $
 
 if nargin > 1
     switch lower(defloc)
