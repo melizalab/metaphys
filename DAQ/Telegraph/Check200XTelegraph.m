@@ -29,15 +29,20 @@ function results = Check200XTelegraph(instrument, object, scaled_out)
 %
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: Check200XTelegraph.m,v 1.4 2006/01/30 20:04:46 meliza Exp $
+% $Id: Check200XTelegraph.m,v 1.5 2006/01/31 00:26:02 meliza Exp $
 
 %% Retrieve voltages
 voltages    = CheckAnalogTelegraph(instrument, object);
+if isempty(voltages)
+    results = [];
+    return
+end
 
 %% Determine instrument state
 mode    = calcmode(voltages(2));
 units   = calcunits(mode);
 gain    = calcgain(voltages(1));
+
 
 results = struct('instrument',instrument,...
                  'channel',scaled_out,...
@@ -58,7 +63,7 @@ try
     if ~any(ind)
         out = 1;
     else
-        out = gains(ind);
+        out = 1000 ./ gains(ind);
     end
 catch
     out = 1;
@@ -88,7 +93,7 @@ switch mode
 case {'Fast Iclamp', 'IClamp', 'I=0'}
     out = 'mV';
 case {'VClamp', 'Track'}
-    out = 'nA';
+    out = 'pA';
 otherwise
     out = 'V';
 end

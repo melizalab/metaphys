@@ -29,10 +29,14 @@ function results = Check1XTelegraph(instrument, object, scaled_out)
 %
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: Check1XTelegraph.m,v 1.3 2006/01/30 20:04:46 meliza Exp $
+% $Id: Check1XTelegraph.m,v 1.4 2006/01/31 00:26:01 meliza Exp $
 
 % Retrieve voltages
 voltages    = CheckAnalogTelegraph(instrument, object);
+if isempty(voltages)
+    results = [];
+    return
+end
 
 % Determining the gain depends on the current mode of the amplifier. We
 % don't have access to that, so we have to use the units that the user set
@@ -65,8 +69,12 @@ else
     out = gains(ind);
 end
 
-if strcmpi(units,'mv')
-    out = out * 10;
-elseif gainVoltage < 0
+switch lower(units)
+    case 'mv'
+        out = out * 10;
+    case 'pa'
+        out = out * 1000;
+end
+if gainVoltage < 0
     out = out * 100;
 end

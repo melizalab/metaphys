@@ -14,8 +14,11 @@ function [] = UpdScaledOutput(instrument, results, scaled_out)
 %
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: UpdScaledOutput.m,v 1.3 2006/01/30 20:04:47 meliza Exp $
+% $Id: UpdScaledOutput.m,v 1.4 2006/01/31 00:26:03 meliza Exp $
 
+if isempty(results)
+    return
+end
 % Get the channels
 chan        = GetInstrumentChannel(instrument, scaled_out);
 
@@ -28,6 +31,7 @@ if length(results) < length(chan)
     results = repmat(results, length(chan), 1);
 end
 
+% Note: this code duplicates SETCHANNELGAIN for purposes of speed
 for i = 1:length(chan)
     ch          = chan{i};
     sensrange   = get(ch,'SensorRange');
