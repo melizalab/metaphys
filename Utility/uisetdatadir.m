@@ -10,11 +10,13 @@ function currdir = uisetdatadir(startdir)
 %   
 %   Copyright (c) 1997 by The MathWorks, Inc.
 %
-%   $Id: uisetdatadir.m,v 1.1 2006/01/30 19:23:18 meliza Exp $
+%   $Id: uisetdatadir.m,v 1.2 2006/01/31 00:14:24 meliza Exp $
 
 origdir      = pwd;
 if nargin > 0
-    cd(startdir);
+    if exist(startdir,'dir')
+        cd(startdir);
+    end
 end
 CB      = @buttonHandler;
 
@@ -141,32 +143,36 @@ switch varargin{1},
         set(gcf, 'Userdata', 'Cancel');
     case 'create_dir'
         if nargin > 3
-            pref = varargin{2};
-            dirnames = getdirectories;
-            m    = strmatch(pref, dirnames);
+            pref        = varargin{2};
+            dirnames    = getdirectories;
+            m           = strmatch(pref, dirnames);
             if isempty(m)
-                pref = [pref '1'];
+                lastser = 0;
             else
-                last = dirnames{m(end)};
-                num  = sscanf(last,[pref '%d']);
-                if isempty(num)
-                    disp('Couldn''t parse directory');
-                    return
-                else
-                    pref = [pref num2str(num+1)];
+                dirnames    = sort(dirnames(m));
+                last        = dirnames{end};
+                lastser     = sscanf(last,[pref '%d']);
+                if isempty(lastser)
+                    lastser = 0;
                 end
             end
-            if ~isempty(pref)
-                s    = mkdir(pref);
-            end
+            pref    = sprintf('%s%03.0f', pref, lastser + 1);
+            s       = mkdir(pref);
         else
             a = inputdlg('New directory name:','Create Directory',1,{'New Directory'});
             if ~isempty(a)
-                s = mkdir(a{1});
+                pref    = a{1};
+                s = mkdir(pref);
             end
         end
-        t = findobj(gcf,'tag','DirectoryContentListbox');
-        set(t(1),'String',getdirectories);
+        t   = findobj(gcf,'tag','DirectoryContentListbox');
+        d   = getdirectories;
+        m   = strmatch(pref, d);
+        set(t(1),'String',d);        
+        if ~isempty(m)
+            set(t(1),'Value',m);
+        end
+
 end
 
 
