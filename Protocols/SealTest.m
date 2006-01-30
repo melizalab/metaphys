@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See also:  PROTOCOLTEMPLATE, SEALTEST_DEFAULT
 %
-% $Id: SealTest.m,v 1.11 2006/01/30 20:04:54 meliza Exp $
+% $Id: SealTest.m,v 1.12 2006/01/31 00:50:52 meliza Exp $
 
 
 % Parse action
@@ -87,6 +87,14 @@ scaling = GetUIParam(me,'scaling','selected');
 chan    = strmatch(output, packet.channels, 'exact');
 if ~isempty(chan)
     ax  = GetUIHandle(me,'axes');
+    switch packet.units{chan}
+        case 'pA'
+            adjscale    = 1000;
+        case 'nA'
+            adjscale    = 1;
+        case 'mV'
+            adjscale    = 10;
+    end
     switch scaling
         case 'auto'
             % matlab's auto feature is too tight, generally
@@ -94,9 +102,16 @@ if ~isempty(chan)
         case 'manual'
             set(ax,'YLimMode','manual');
         case '15'
-            set(ax,'YLim',[-1 5]);
+            set(ax,'YLim',[-1 5] .* adjscale);
         case '11'
-            set(ax,'YLim',[-1 1]);
+            set(ax,'YLim',[-1 1] .* adjscale);
+        case 'fixed'
+            ylow    = GetUIParam(me, 'fixed_lower', 'StringVal');
+            yhigh   = GetUIParam(me, 'fixed_upper', 'StringVal');
+            if ~isempty(ylow) || ~isempty(yhigh) && ylow < yhigh
+                set(ax,'YLim',[ylow yhigh])
+            end
+                
     end
     time   = packet.time - packet.time(1);
     plot(time, packet.data(:,chan));
@@ -182,6 +197,12 @@ end
 if isfield(defaults, 'command')
     SetUIParam(me, 'command', 'selected', defaults.command);
 end
+if isfield(defaults, 'fixed_upper')
+    SetUIParam(me, 'fixed_upper', defaults.fixed_upper);
+end
+if isfield(defaults, 'fixed_lower')
+    SetUIParam(me, 'fixed_lower', defaults.fixed_lower);
+end
 pickCommand
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -265,7 +286,7 @@ InitUIControl(ph, me, 'command', 'style', 'popupmenu',...
     'position', [10+hw h w-hw 20],'String',' ', 'Callback', @pickCommand);
 
 %% Resistance display
-ph  = uipanel('position',[0.62 0.42 0.35 0.25],...
+ph  = uipanel('position',[0.62 0.43 0.35 0.25],...
     'title','Resistance');
 % Input resistance
 h(1) = uicontrol(ph,'style','text','String','Ri:',...
@@ -286,7 +307,7 @@ set(h([2 5]),'ForegroundColor',[0 0 1],'BackgroundColor',...
     get(0,'defaultUicontrolBackgroundColor'));
 
 %% Pulse Control
-ph = uipanel('position',[0.62 0.20 0.35 0.22],'title','Pulse');
+ph = uipanel('position',[0.62 0.21 0.35 0.22],'title','Pulse');
 [w h] = GetUIObjectSize(ph, 'pixels');
 w   = w-20;
 labelw  = w/2;
@@ -328,19 +349,27 @@ InitUIControl(ph, me, 'pulse_base_units', 'style', 'text',...
 
 
 %% Scaling
-bgh = uibuttongroup('position',[.62 .02 0.35 0.17],...
+bgh = uibuttongroup('position',[.62 .02 0.35 0.19],...
     'Title','Scaling');
 InitUIParam(me, 'scaling', bgh)
 % four buttons: Auto, Manual, [-1 5] and [-1 1]
 uicontrol(bgh,'style','radiobutton','String','Auto',...
-    'tag','auto','position',[10 30 w/2 20])
+    'tag','auto','position',[10 45 w/2 20])
 uicontrol(bgh,'style','radiobutton','String','Manual',...
-    'tag','manual','position',[10 10 w/2 20])
+    'tag','manual','position',[10 25 w/2 20])
 uicontrol(bgh,'style','radiobutton','String','[-1 5]',...
-    'tag','15','position',[10+w/2 30 w/2-10 20])
+    'tag','15','position',[10+w/2 45 w/2-10 20])
 uicontrol(bgh,'style','radiobutton','String','[-1 -1]',...
-    'tag','11','position',[10+w/2 10 w/2-10 20])
-
+    'tag','11','position',[10+w/2 25 w/2-10 20])
+% and one manual control
+uicontrol(bgh,'style','radiobutton','String','Fixed:',...
+    'tag','fixed', 'position', [10 5 w/3 20]);
+InitUIControl(bgh, me, 'fixed_lower', 'style', 'edit',...
+    'String', '-2', 'position', [20+w/3 5 w/4 18]);
+uicontrol(bgh,'style','text','String','to',...
+    'position', [25+w/3+w/4 5 10 15]);
+InitUIControl(bgh, me, 'fixed_upper', 'style', 'edit',...
+    'String', '+2', 'position', [40+w/3+w/4 5 w/4 18]);
 
 %% Protocol control
 h(1) = InitUIControl(me, 'startbutton', 'style', 'togglebutton',...
@@ -368,7 +397,10 @@ defaults    = struct('pulse_amp', GetUIParam(me, 'pulse_amp','stringval'),...
     'pulse_len', GetUIParam(me, 'pulse_len', 'stringval'),...
     'instrument', GetUIParam(me, 'instrument', 'selected'),...
     'output', GetUIParam(me, 'output', 'selected'),...
+    'fixed_lower', GetUIParam(me, 'fixed_lower', 'stringval'), ...
+    'fixed_upper', GetUIParam(me, 'fixed_upper', 'stringval'), ...
     'command', GetUIParam(me, 'command', 'selected'));
+
 SetDefaults(me, 'control', defaults);
 stopProtocol
 DeleteModule(me)
@@ -401,5 +433,8 @@ elseif any(strncmpi('pa', allunits,2))
     scaling = scaling * 1e12;
 end
 
-SetUIParam(me, 'ri', sprintf('%3.1f',Ri * scaling / 1e6));
-SetUIParam(me, 'rt', sprintf('%3.1f',Rt * scaling / 1e6));
+R       = [Ri Rt] .* scaling ./ 1e6;
+R(R>10000)  = Inf;
+
+SetUIParam(me, 'ri', sprintf('%3.1f',R(1)));
+SetUIParam(me, 'rt', sprintf('%3.1f',R(2)));
