@@ -20,42 +20,26 @@ function [] = SetUIParam(module, tag, varargin)
 % set the 'String' property. This form will also attempt to cast numeric
 % values to strings.
 %
-% $Id: SetUIParam.m,v 1.7 2006/01/30 20:05:01 meliza Exp $
+% $Id: SetUIParam.m,v 1.8 2006/01/31 19:59:08 meliza Exp $
 
 % retrieve the object handle
 handle  = GetUIHandle(module, tag);
 
 % attempt to set the property/ies
-if nargin < 4
-    value   = varargin{1};
-    if isnumeric(value)
-        value   = num2str(value);
-    end
-    arguments   = {'String', value};
-elseif strcmpi(varargin{1},'selected')
-    % this gets tricky if multiple items are selected
-    options     = get(handle,'String');
-    if ischar(varargin{2})
-        index       = strmatch(varargin{2},options,'exact');
-    elseif iscell(varargin{2})
-        minlen  = min(cellfun('length', varargin{2}));
-        index   = strncmp(varargin{2},options,minlen);
-        index   = find(index);
-    else
-        % numeric arguments are synonymous with 'Value'
-        index   = varargin{2};
-    end
-    if ~isempty(index)
-        arguments   = {'Value', index};
-    else
-        val         = get(handle,'Value');
-        arguments   = {'Value', val};
-    end
+if strcmpi(varargin{1},'selected')
+    setselected(handle, varargin{2});
 else
-    arguments   = varargin;
+    if nargin < 4
+        value   = varargin{1};
+        if isnumeric(value)
+            value   = num2str(value);
+        end
+        arguments   = {'String', value};
+    else
+        arguments   = varargin;
+    end
+    set(handle, arguments{:});
 end
-
-set(handle, arguments{:});
 
 % There are serious issues with setting the 'String' or 'Value' properties
 % on list and popupmenu objects, because if the Value is out of range of
