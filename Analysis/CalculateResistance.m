@@ -32,7 +32,7 @@ function [Rt, Ri] = CalculateResistance(time, data, pulse, mode, handle)
 % option, due to the computational (i.e. time) costs, so we opt for speed
 % over correctness and just use differentiation.
 %
-% $Id: CalculateResistance.m,v 1.2 2006/01/30 20:04:36 meliza Exp $
+% $Id: CalculateResistance.m,v 1.3 2006/01/31 17:24:52 meliza Exp $
 
 % For current pulses, what we should try to do is find the two major modes of the signal distribution
 % and set a threshhold. This is a pain in the arse which is left as an
@@ -75,8 +75,10 @@ switch mode
     case 'vpulse'
         ind_trans   = (transu):(transu+GAP);
         m_trans     = mean(data(ind_trans));
-        Ri  = pulse./(m_step - m_base);
-        Rt  = pulse./(m_trans - m_base);
+        warning('off','MATLAB:divideByZero')
+        Ri  = abs(pulse./(m_step - m_base));
+        Rt  = abs(pulse./(m_trans - m_base));
+        warning('on','MATLAB:divideByZero')        
 end
 
 if nargin > 4
