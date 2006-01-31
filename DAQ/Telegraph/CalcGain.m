@@ -19,7 +19,7 @@ function [in_gain out_gain] = CalcGain(inst_type, in_units, out_units, voltage)
 %
 % See also: GETCHANNELGAIN, SETCHANNELGAIN
 %
-% $Id: CalcGain.m,v 1.1 2006/01/31 22:48:20 meliza Exp $
+% $Id: CalcGain.m,v 1.2 2006/01/31 23:06:13 meliza Exp $
 
 in_gain    = 1;
 out_gain   = 1;
@@ -35,7 +35,7 @@ switch lower(inst_type)
         end
         switch out_units
             case 'pA'
-                out_gain        = out_gain .* 1000;
+                out_gain        = out_gain ./ 1000;
         end
         switch in_units
             case 'mV'
@@ -63,9 +63,9 @@ switch lower(inst_type)
         end
         switch lower(out_units)
             case 'mv'
-                out_gain = out_gain * 10;
+                out_gain = out_gain .* 10;
             case 'pa'
-                out_gain = out_gain * 1000;
+                out_gain = out_gain ./ 1000;
         end
         if voltage < 0
             out_gain = out_gain * 100;
