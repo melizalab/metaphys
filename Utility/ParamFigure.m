@@ -39,7 +39,7 @@ function varargout = ParamFigure(module, varargin)
 %
 % See also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.8 2006/01/30 20:04:59 meliza Exp $ 
+% $Id: ParamFigure.m,v 1.9 2006/01/31 17:21:46 meliza Exp $ 
 
 module  = lower(module);
 
@@ -93,7 +93,15 @@ set(fig,'units','pixels','position',[1040 502 w_fig h_fig])
 m = uimenu(fig,'Label','&File');
 uimenu(m,'Label','&Load Protocol...','Callback', {@readParams, module});
 uimenu(m,'Label','&Save Protocol...','Callback', {@writeParams, module});
+mh = uimenu(m,'Label','&Revert to Default Values...', ...
+    'Tag', 'm_revert', 'Separator', 'On', 'Enable', 'Off', ...
+    'Callback', {@resetParams, module});
+% find out if the _default file exists
+if exist(sprintf('%s_default', module), 'file')
+    set(mh,'enable','on')
+end
 uimenu(m,'Label','&Close','Callback','closereq');
+    
 
 %% Generate controls
 uicontrol(fig,'style','pushbutton','String','Close',...
@@ -275,6 +283,12 @@ if exist(pnfn,'file')
     s = load(pnfn);
     s = removeFixed(s);
     setParams(module, s);
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [] = resetParams(obj, event, module)
+S   = GetDefaults(module,'file');
+if ~isempty(S)
+    setParams(module, S);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
