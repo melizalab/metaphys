@@ -17,16 +17,11 @@ function [] = UpdScaledChannel(results)
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH, UPDSCALEDOUTPUT,
 % UPDSCALEDINPUT
 %
-% $Id: UpdScaledChannel.m,v 1.1 2006/01/31 20:00:20 meliza Exp $
+% $Id: UpdScaledChannel.m,v 1.2 2006/01/31 22:48:23 meliza Exp $
 
 if isempty(results)
     return
 end
-% % Get the channels
-% chan        = GetInstrumentChannel(instrument, channels);
-% if length(results) < length(chan)
-%     results = repmat(results, length(chan), 1);
-% end
 
 for i = 1:length(results)
     chan    = GetInstrumentChannel(results(i).instrument, results(i).channel);

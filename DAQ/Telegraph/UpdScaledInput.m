@@ -8,7 +8,7 @@ function [] = UpdScaledInput(ch, results)
 % element in the array corresponds to a scaled output. SCALED_IN is an
 % array of analogoutput channels.
 %
-% $Id: UpdScaledInput.m,v 1.1 2006/01/31 20:00:21 meliza Exp $
+% $Id: UpdScaledInput.m,v 1.2 2006/01/31 22:48:23 meliza Exp $
 
 if ~isa(ch, 'daqchild')
     error('METAPHYS:invalidArgument',...
@@ -23,7 +23,7 @@ range   = get(ch,'OutputRange');
 if strcmpi(get(ch.Parent, 'Running'), 'Off')
     set(ch, 'Units', results.in_units)
 end
-f   = @(x) x .* results.in_gain;
+f   = @(x) x ./ results.in_gain;
 if iscell(range)
     ur  = cellfun(f, range);
     set(ch, {'UnitsRange'}, ur);

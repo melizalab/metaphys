@@ -7,14 +7,15 @@ function [] = SetChannelGain(varargin)
 % and the actual voltage produced by the line. Generally one wants the gain
 % on the instrument to match the gain in the software, so that if your
 % AxoClamp 200B outputs 1 V for every 20 mV, then this software will report
-% 20 mV for every V it sees.
+% 20 mV for every V it sees. Note, therefore, that the gain argument used
+% here is CHANNEL gain; i.e. the inverse of INSTRUMENT gain. 
 %
 % SETCHANNELGAIN(instrument, channelname, gain)
 % SETCHANNELGAIN(channelobj, gain)
 %
 % See also: GETCHANNELGAIN
 %
-% $Id: SetChannelGain.m,v 1.4 2006/01/30 20:04:42 meliza Exp $
+% $Id: SetChannelGain.m,v 1.5 2006/01/31 22:48:20 meliza Exp $
 
 if ischar(varargin{1})
     chanstr     = GetChannelStruct(varargin{1}, varargin{2});

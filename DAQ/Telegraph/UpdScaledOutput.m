@@ -10,7 +10,7 @@ function [] = UpdScaledOutput(ch, results)
 %
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH, UPDSCALEDCHANNEL
 %
-% $Id: UpdScaledOutput.m,v 1.5 2006/01/31 20:00:21 meliza Exp $
+% $Id: UpdScaledOutput.m,v 1.6 2006/01/31 22:48:23 meliza Exp $
 
 if ~isa(ch, 'daqchild')
     error('METAPHYS:invalidArgument',...
@@ -27,7 +27,7 @@ sensrange   = get(ch,'SensorRange');
 if strcmpi(get(ch.Parent, 'Running'), 'Off')
     set(ch, 'Units', results.out_units)
 end
-f   = @(x) x .* results.out_gain;
+f   = @(x) x ./ results.out_gain;
 if iscell(sensrange)
     ur  = cellfun(f, sensrange);
     set(ch, {'UnitsRange'}, ur);
