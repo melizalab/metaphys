@@ -14,7 +14,7 @@ function varargout = TelegraphDialog(action, instrumentname, telegraph)
 %
 % See also: ADDINSTRUMENTTELEGRAPH
 %
-% $Id: TelegraphDialog.m,v 1.7 2006/01/30 20:04:44 meliza Exp $
+% $Id: TelegraphDialog.m,v 1.8 2006/01/31 20:00:16 meliza Exp $
 
 switch action
     case {'init', 'modal'}
@@ -140,7 +140,7 @@ h           = GetUIHandle(mfilename,'pnl_settings');
 % get some data we might need
 instr       = GetUIParam(mfilename,'instrument_name');
 daqs        = GetDAQNames('analoginput');
-[out]       = GetInstrumentChannelNames(instr, 'output');
+[out]       = GetInstrumentChannelNames(instr);
 c           = get(0,'defaultUicontrolBackgroundColor');
 % this should NOT happen but bad things happen if we don't check
 if isempty(out)

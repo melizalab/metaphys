@@ -17,11 +17,11 @@ function [results] = UpdateTelegraph(instrument, telegraph)
 % UPDATETELEGRAPH calls the checkfn and updfn functions for each telegraph
 % with the following signatures:
 %       results   = checkfn(instrument, object, fnargs...)
-%       updfn(instrument, results, fnargs...)
+%       updfn(results)
 %
-% See also TELEGRAPH
+% See also TELEGRAPH, TELEGRAPH_STRUCT, TELEGRAPHRESULTS_STRUCT
 %
-% $Id: UpdateTelegraph.m,v 1.5 2006/01/30 20:04:45 meliza Exp $
+% $Id: UpdateTelegraph.m,v 1.6 2006/01/31 20:00:17 meliza Exp $
 global mpctrl
 
 results = [];
@@ -80,6 +80,4 @@ function [results] = myupdatetele(instrument, tele_struct)
 
 results = tele_struct.checkfn(instrument,...
     tele_struct.obj, tele_struct.output);
-tele_struct.updfn(instrument, results, tele_struct.output);
-
-
+tele_struct.updfn(results);

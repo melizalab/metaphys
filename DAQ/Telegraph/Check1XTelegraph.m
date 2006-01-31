@@ -1,4 +1,4 @@
-function results = Check1XTelegraph(instrument, object, scaled_out)
+function results = Check1XTelegraph(instrument, object, channels)
 %
 % CHECK1XTELEGRAPH Checks the telegraph values on a 1-series Axon
 % amplifier. 
@@ -27,9 +27,10 @@ function results = Check1XTelegraph(instrument, object, scaled_out)
 % In voltage modes the base scaling is 10 mV/mV, in current modes this is
 % controlled by the beta switch
 %
-% See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
+% See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH,
+% TELEGRAPHRESULTS_STRUCT
 %
-% $Id: Check1XTelegraph.m,v 1.4 2006/01/31 00:26:01 meliza Exp $
+% $Id: Check1XTelegraph.m,v 1.5 2006/01/31 20:00:18 meliza Exp $
 
 % Retrieve voltages
 voltages    = CheckAnalogTelegraph(instrument, object);
@@ -41,21 +42,25 @@ end
 % Determining the gain depends on the current mode of the amplifier. We
 % don't have access to that, so we have to use the units that the user set
 % on the scaled output.
-chan        = GetInstrumentChannel(instrument, scaled_out);
+chan        = GetInstrumentChannel(instrument, channels);
 
 % Determine instrument state for each scaled out
 for i = 1:length(chan)
-    units{i,:}    = get(chan{i},'Units');
-    gain{i,:}     = calcgain(voltages(1), units{i});
+    units{i,:}                        = get(chan{i},'Units');
+    [in out]                          = calcgain(voltages(1), units{i});
+    in_gain{i,:}                      = in;
+    out_gain{i,:}                     = out;
 end
 
 results = struct('instrument',instrument,...
-                 'channel', scaled_out,...
-                 'units', units,...
-                 'gain', gain);
+                 'channel', channels,...
+                 'out_units', units,...
+                 'out_gain', out_gain,...
+                 'in_units', units,...
+                 'in_gain', in_gain);
              
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function out = calcgain(gainVoltage, units)
+function [in_gain out_gain] = calcgain(gainVoltage, units)
 % The telegraph values go up by increments of ~ 0.4
 % If it's negative, add a factor of 100
 % If the units are mV, add a factor of 10
@@ -64,17 +69,24 @@ gains = [0.5 1 2 5 10 20 50 100];
 voltages = 1:8;
 ind = (voltages == V);
 if ~any(ind)
-    out = 1;
+    out_gain = 1;
 else
-    out = gains(ind);
+    out_gain = gains(ind);
 end
 
 switch lower(units)
     case 'mv'
-        out = out * 10;
+        out_gain = out_gain * 10;
+        in_gain  = 20;
     case 'pa'
-        out = out * 1000;
+        out_gain = out_gain * 1000;
+        in_gain  = 2000;
+    case 'na'
+        in_gain  = 2;
+    otherwise
+        in_gain  = 1;
 end
 if gainVoltage < 0
-    out = out * 100;
+    out_gain = out_gain * 100;
 end
+

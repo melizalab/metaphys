@@ -4,19 +4,19 @@ function [] = AddInstrumentTelegraph(instrument, telegraph, varargin)
 %
 % Usage:
 %
-% [] = ADDINSTRUMENTTELEGRAPH(instrument, telegraph, input, checkfn,
-% updatefn, [args]): initializes the telegraph with the input object and the
+% [] = ADDINSTRUMENTTELEGRAPH('instrument', 'telegraph', input, @checkfn,
+% @updatefn, [args]): initializes the telegraph with the input object and the
 % associated functions. The most general usage. ARGS are passed to the
 % checkfn and updatefn when they are called.
 %
-% [] = ADDINSTRUMENTTELEGRAPH(instrument, telegraph, '200x', daqname,  
-% modechannel, gainchannel, ampchannel): initializes a standard 200A/B 
+% [] = ADDINSTRUMENTTELEGRAPH('instrument', 'telegraph', "200x", 'daqname',  
+% modechannel, gainchannel, {ampchannels}): initializes a standard 200A/B 
 % telegraph configuration. NOTE: The user must supply two *hardware* input 
-% channels to use for the mode and gain signals, and one *named* channel 
-% for the amplifier output.
+% channels to use for the mode and gain signals, and *named* channels 
+% for the amplifier input/output.
 %
-% [] = ADDINSTRUMENTTELEGRAPH(instrument, telegraph, '1x', daqname, 
-% gainchannel, ampchannels). The 1-X series of axon amplifiers doesn't 
+% [] = ADDINSTRUMENTTELEGRAPH('instrument', 'telegraph', "1x", 'daqname', 
+% gainchannel, {ampchannels}). The 1-X series of axon amplifiers doesn't 
 % support a mode telegraph, so the best configuration is to assign two
 % instrumentoutputs to the same hardware channel. These are *named*,
 % whereas the telegraph channel is *numerical* (hardware).
@@ -25,10 +25,11 @@ function [] = AddInstrumentTelegraph(instrument, telegraph, varargin)
 % input2). Not yet supported.
 %
 % AMPCHANNEL can be a single name or a cell array of names.
+% ("200x" and "1x" are literal strings)
 %
 % See also: UPDATETELEGRAPH, GETTELEGRAPH, DELETEINSTRUMENTTELEGRAPH
 %
-% $Id: AddInstrumentTelegraph.m,v 1.5 2006/01/30 20:04:36 meliza Exp $
+% $Id: AddInstrumentTelegraph.m,v 1.6 2006/01/31 20:00:14 meliza Exp $
 
 % This function is just a wrapper for private/AddTelegraph. If you want to
 % add another "standard" telegraph, this is where to set up how the
@@ -54,7 +55,7 @@ else
                 modechan);
             object      = [gainobj modeobj];
             checkfn     = @Check200XTelegraph;
-            updfn       = @UpdScaledOutput;
+            updfn       = @UpdScaledChannel;
         case '1x'
             daqname     = varargin{2};
             gainchan    = varargin{3};
@@ -63,7 +64,7 @@ else
                 'gaintelegraph',...
                 gainchan);
             checkfn     = @Check1XTelegraph;
-            updfn       = @UpdScaledOutput;
+            updfn       = @UpdScaledChannel;
         case '700x'
             error('METAPHYS:notSupported',...
                 'No support for 700x series telegraphs yet...')

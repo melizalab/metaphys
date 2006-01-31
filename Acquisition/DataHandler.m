@@ -12,7 +12,7 @@ function [] = DataHandler(obj, event)
 % acquisition, we have to set that value in the data packet by hand, which
 % means UpdateTelegraph needs to return its results in a parseable form.
 %
-% $Id: DataHandler.m,v 1.10 2006/01/30 19:23:04 meliza Exp $
+% $Id: DataHandler.m,v 1.11 2006/01/31 20:00:14 meliza Exp $
 
 global mpctrl
 
@@ -88,7 +88,7 @@ if isstruct(mpctrl.subscriber)
                 ind = strmatch(channels{j}, packet.channels);
                 if ~isempty(ind)
                     packet.units{ind(1)} =...
-                        telegraph_results.(packet.instrument)(j).units;
+                        telegraph_results.(packet.instrument)(j).out_units;
                 end
             end
         end
