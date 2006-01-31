@@ -10,14 +10,14 @@ function [] = metaphys(action)
 %   - Initialize any non-matlab drivers, activex controls, etc
 % - Initialize GUI. User will set up DAQ preferences here
 %
-% $Id: metaphys.m,v 1.13 2006/01/30 19:23:03 meliza Exp $
+% $Id: metaphys.m,v 1.14 2006/01/31 17:24:12 meliza Exp $
 
 if nargin > 0 && strcmpi(action,'destroy')
     %
 else
     initPath;
     DebugSetOutput('console')
-    DebugPrint('Starting METAPHYS, $Revision: 1.13 $')
+    DebugPrint('Starting METAPHYS, $Revision: 1.14 $')
     DebugPrint('Initialized METAPHYS path.')
     % warning('off','MATLAB:dispatcher:CaseInsensitiveFunctionPrecedesExactMatch')
     InitControl;
@@ -192,7 +192,7 @@ elseif isempty(GetCurrentProtocol)
 	set(h(1:2),'enable','on')
     selectInstrument
 else
-	set('enable','on')
+	set(h,'enable','on')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
