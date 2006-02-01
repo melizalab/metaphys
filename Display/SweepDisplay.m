@@ -33,7 +33,7 @@ function varargout = SweepDisplay(action, varargin)
 %
 % See also: SCOPEDISPLAY
 %
-% $Id: SweepDisplay.m,v 1.8 2006/01/30 20:04:48 meliza Exp $
+% $Id: SweepDisplay.m,v 1.9 2006/02/01 19:13:15 meliza Exp $
 
 switch lower(action)
     case 'init'
@@ -61,14 +61,17 @@ tag     = get(ax, 'tag');
 function [] = plotData(packet)
 % Plots data in a packet
 [ax tag fig]    = getAxes;
-selmode         = get(fig, 'Pointer');
+ptrmode         = getpointermode(fig);
 
 for i = 1:length(packet.channels)
     ind     = strmatch(packet.channels{i}, tag);
     if ~isempty(ind)
-        % axis limits depend on if the user has a tool selected
-        if strcmpi(selmode, 'arrow')
-            if get(gcf,'userdata')
+        % axis behavior: depends on (1) whether the x limit is fixed
+        % (hold_x param set) and (2) whether the user has a tool selected.
+        % axis limits depend on if the user has a tool selected. Also, if
+        % the time variable starts with 0, the axis is cleared.
+        if strcmpi(ptrmode, 'pointer')
+            if GetParam(mfilename,'hold_x')
                 axmode  = 'holdx';
             else
                 axmode  = 'reset';
@@ -76,29 +79,37 @@ for i = 1:length(packet.channels)
         else
             axmode  = 'holdall';
         end
+        h   = plotChannel(axmode, ax(ind), packet.time, packet.data(:,i));
+        % don't delete the old traces until the new ones have been plotted
         if packet.time(1) == 0
             del     = findobj(get(ax(ind),'children'),'tag','single');
             delete(del)
         end
-        h   = plotChannel(axmode, ax(ind), packet.time, packet.data(:,i));
         set(h,'tag','single');
         ylabel(ax(ind),...
             sprintf('%s (%s)', packet.channels{i}, packet.units{i}));
+        % any time plot() gets called the zoom button is reset, so we have
+        % to do this twice
+        if strcmpi(ptrmode, 'zoom')
+            zoom(fig,'on');
+        end
         % handle averging
-        if get(gcf,'userdata')
+        if GetParam(mfilename,'hold_x')
             plotAverages(axmode, ax(ind),...
                     packet.time, packet.data(:,i));
+                if strcmpi(ptrmode, 'zoom')
+                    zoom(fig,'on');
+                end
         end
     end
 end
 
 function [h] = plotChannel(axmode, ax, time, data, varargin)
 % plots data on an axis. axmode can be 'holdx', 'holdy', 'holdall', or
-% 'reset'. Also takes care of clearing axes of single traces if the time
-% variable starts with 0.
+% 'reset'.
 xlim    = get(ax, 'XLim');
 ylim    = get(ax, 'YLim');
-   
+
 h       = plot(ax, time, data, varargin{:});
 switch axmode
     case 'holdx'
@@ -109,6 +120,7 @@ switch axmode
         set(ax, 'xlim', xlim, 'ylim', ylim);
     case 'reset'
         set(ax, 'xlimmode', 'auto', 'ylimmode', 'auto');
+        zoom(get(ax,'parent'), 'reset')
 end
 
 function [] = plotAverages(axmode, ax, time, data)
@@ -208,9 +220,9 @@ if nargin > 1
         set(ax, 'xlim', [0 sweeplength],...
             'userdata', ud);
     end
-    set(gcf,'userdata', true);
+    SetParam(mfilename, 'hold_x', true)
 else
-    set(gcf,'userdata', false);
+    SetParam(mfilename, 'hold_x', false)
 end
 
 
@@ -226,6 +238,7 @@ f   = OpenFigure(mfilename,'units','normalized',...
     'toolbar','figure',...
     'DeleteFcn',@destroyModule);
 
+InitParam(mfilename, 'hold_x', 'hidden')
 [c,p,s]   = GetInstrumentChannelNames(instrument,'output');
 nplots  = length(c);
 if nplots > 0
@@ -277,3 +290,18 @@ S   = struct('time',[],...
              struct('total_repeats',n_repeats,...
                     'current_repeat',0,...
                     'mean_data',[]));
+                
+function mode = getpointermode(fig)
+% returns the current pointer mode - 'pan', 'zoom', or 'pointer'
+% this is a pain-in-the-ass workaround based on the functions that the
+% figure toolbar puts in gcf. There's no way to tell what the zoom or pan
+% mode is, so that information gets lost.
+f_down  = get(fig,'windowbuttondownfcn');
+f_up    = get(fig,'windowbuttonupfcn');
+if isempty(f_down)
+    mode    = 'pointer';
+elseif isempty(f_up)
+    mode    = 'zoom';
+else
+    mode    = 'pan';
+end
