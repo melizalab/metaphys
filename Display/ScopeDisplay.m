@@ -15,7 +15,7 @@ function varargout = ScopeDisplay(action, varargin)
 %
 % See also: SWEEPDISPLAY
 %
-% $Id: ScopeDisplay.m,v 1.6 2006/01/30 20:04:48 meliza Exp $
+% $Id: ScopeDisplay.m,v 1.7 2006/02/02 01:36:15 dan lab Exp $
 
 switch lower(action)
     case 'init'
@@ -74,14 +74,8 @@ for i = 1:length(packet.channels)
             [T Y]       = replacechunk(T, Y, t_over, packet.data(over,i));
         end
         % axis limits depend on if the user has a tool selected
-        if strcmpi(selmode, 'arrow')
-            plot(ax(ind), T, Y);
-            set(ax(ind), 'xlim', xlim, 'ylimmode','auto')
-        else
-            ylim    = get(ax(ind), 'YLim');
-            plot(ax(ind), T, Y);
-            set(ax(ind), 'xlim', xlim, 'ylim', ylim)
-        end
+        plot(ax(ind), T, Y);
+        set(ax(ind), 'xlim', xlim)
         set(ax(ind), 'userdata', lastpt)
         
         ylabel(ax(ind),...
@@ -104,7 +98,7 @@ end
 function [] = buttonHandler(varargin)
 % Handles button presses
 SCALE   = 0.8;
-ax      = getAxes;
+[ax t fig]      = getAxes;
 tag     = get(varargin{1}, 'tag');
 xlim    = get(ax(1), 'xlim');
 switch tag
@@ -112,6 +106,28 @@ switch tag
         set(ax, 'xlim', [0, xlim(2) * SCALE])
     case 'axes_grow'
         set(ax, 'xlim', [0, xlim(2) / SCALE])
+    case 'axes_yshrink'
+        ax      = get(varargin{1},'userdata');
+        ylim    = get(ax,'ylim');
+        cent    = ylim(1) + diff(ylim)/2;
+        range   = diff(ylim) .* SCALE / 2;
+        set(ax, 'ylim', [cent - range, cent + range]);
+    case 'axes_ygrow'
+        ax      = get(varargin{1},'userdata');
+        ylim    = get(ax,'ylim');
+        cent    = ylim(1) + diff(ylim)/2;
+        range   = diff(ylim) ./ SCALE / 2;
+        set(ax, 'ylim', [cent - range, cent + range]);
+end
+
+function [] = axesHandler(obj, event)
+% resets the axis to auto ylim
+% this function only gets called if the window has no callbacks, so if the
+% user has a tool selected there is no effect
+click    = get(obj, 'selectiontype');
+ax       = get(obj, 'currentaxes');
+if strcmpi(click,'alt') && ishandle(ax)
+    set(ax,'ylimmode','auto');
 end
 
 function [f] = initFigure(instrument)
@@ -124,6 +140,7 @@ f   = OpenFigure(mfilename,'units','normalized',...
     'position',[0.0031    0.2031    0.7070    0.485],...
     'toolbar','figure',...
     'UserData', instrument,...
+    'WindowButtonDownFcn', @axesHandler, ...
     'DeleteFcn',@destroyModule);
 
 [c,p,s]   = GetInstrumentChannelNames(instrument,'output');
@@ -137,10 +154,22 @@ if nplots > 0
     ax      = zeros(1,nplots);
     for i = 1:nplots
         ax(i) = subplot(nplots, 1, i);
-        set(ax(i),'position',[0.1, y-height, 0.89 height],...
+        set(ax(i),'position',[0.1, y-height, 0.85 height],...
             'XGrid','On','YGrid','On','Box','On',...
             'nextplot','replacechildren',...
             'tag',c{i},'xlim',[0 1000],'userdata',0)
+        uicontrol(f, 'style','pushbutton','String','+',...
+            'units','normalized',...
+            'position', [0.96 y-(height * 0.5) 0.02 0.04],...
+            'tag','axes_ygrow',...
+            'userdata',ax(i),...
+            'callback',@buttonHandler);
+        uicontrol(f, 'style','pushbutton','String','-',...
+            'units','normalized',...
+            'position', [0.96 y-(height * 0.5)-0.05 0.02 0.04],...
+            'tag','axes_yshrink',...
+            'userdata',ax(i),...
+            'callback',@buttonHandler);
         ylabel(s{i})
         y   = y-height-gap;
     end
@@ -150,10 +179,10 @@ if nplots > 0
     % add buttons for stretching and shrinking axes
     uicontrol(f, 'style', 'pushbutton', 'String', '-',...
         'tag','axes_shrink','callback',@buttonHandler,...
-        'units','normalized','position',[.51 gap 0.03 0.04])
+        'units','normalized','position',[.495 gap 0.03 0.04])
     uicontrol(f, 'style', 'pushbutton', 'String', '+',...
         'tag','axes_grow','callback',@buttonHandler,...
-        'units','normalized','position',[.54 gap 0.03 0.04])
+        'units','normalized','position',[.525 gap 0.03 0.04])
 else
     uicontrol('style','text','String','No Channels Defined',...
         'units','normalized','position',[0.4 0.45 0.2 0.1]);
