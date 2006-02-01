@@ -5,5 +5,10 @@
 %
 % Files
 %   CalculateResistance - Calculates the resistance of a voltage or current
+%   DAQ2Packet          - Converts a daq file into packets
+%   DAQ2R0              - Reads in a list of daq files and generates an r0 structure
+%   DAQ2R1              - Reads in a list of daq files and generates an r1 structure
+%   GetDAQHeader        - Retrieves header information from a daq file.
 %
-% $Id: Contents.m,v 1.1 2006/01/27 23:46:16 meliza Exp $
+% $Id: Contents.m,v 1.2 2006/02/01 19:57:48 meliza Exp $
+%

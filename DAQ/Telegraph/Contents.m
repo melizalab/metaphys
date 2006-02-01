@@ -48,6 +48,11 @@
 %   Check1XTelegraph     - Checks the telegraph values on a 1-series Axon
 %   Check200XTelegraph   - Checks the telegraph values on a 200-series Axon
 %   CheckAnalogTelegraph - Checks the voltage values of one or several analog
-%   UpdScaledOutput      - Updates one or more scaled outputs on an amplifier based
+%   UpdScaledOutput      - Updates a scaled output channel based
+%   CalcGain             - Omnibus function for determining the input and output gain
+%   CalcMode             - Omnibus function for determining the mode from telegraph
+%   CalcUnits            - Omnibus function for determining the input and output units
+%   UpdScaledChannel     - Updates one or more channels on an amplifier based
+%   UpdScaledInput       - Updates a scaled input channel based on the mode and
 %
-% $Id: Contents.m,v 1.4 2006/01/27 23:46:28 meliza Exp $
+% $Id: Contents.m,v 1.5 2006/02/01 19:57:49 meliza Exp $

@@ -1,0 +1,22 @@
+<productinfo
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="optional">
+<?xml-stylesheet type="text/xsl" href="optional"?>
+
+<matlabrelease>14</matlabrelease>
+<name>Metaphys</name>
+<type>toolbox</type>
+<icon>metaphysicon.gif</icon>
+<help_location></help_location>
+
+<list>
+
+<listitem>
+<label>Metaphys GUI</label>
+<callback>metaphys</callback>
+<icon>metaphysicon.gif</icon>
+</listitem>
+
+</list>
+
+</productinfo>

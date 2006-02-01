@@ -20,9 +20,8 @@ function [out] = DAQ2R0(files, varargin)
 %
 % See also:     R0_STRUCT, DAQ2R1, DAQ2PACKET
 %
-% $Id: DAQ2R0.m,v 1.1 2006/01/31 23:06:12 meliza Exp $
+% $Id: DAQ2R0.m,v 1.2 2006/02/01 19:57:48 meliza Exp $
 
-out = r0_struct;
 if isa(files,'char')
     files = {files};
 end

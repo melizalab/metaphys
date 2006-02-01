@@ -13,27 +13,30 @@
 % created objects.
 %
 % Files
-%   figure_default       - Returns default properties for new figures.
-%   instrument_struct    - Header for the instrument structure.
-%   mpctrl_default       - Returns the default values for the MPCTRL global control 
-%   nidaqai_default      - Returns default properties for nidaq analog input objects.
-%   param_struct         - Header for the parameter structure. 
-%   paramfigure_default  - Returns default properties for new figures.
-%   uiparam_default      - Returns default properties for new UIParams
-%   channel_default      - Default values for a new channel
-%   channel_struct       - Header for the channel structure in control
-%   nidaqao_default      - Returns default properties for nidaq analog output objects.
-%   packet_struct        - Returns the header for the data packet structure.
-%   sealtest_default     - Returns default values for sealtest protocol
-%   subscriber_struct    - Returns the header for the subscriber structure
-%   telegraph_struct     - Header for the telegraph structure
-%   episode_default      - Returns default parameters for the EPISODE protocol
-%   gapfree_default      - Default parameter values for the GAPFREE protocol
-%   moviecontrol_default - Returns default values for the moviecontrol dialog
-%   playmovie_default    - Returns default parameters for the PLAYMOVIE protocol
-%   r0_struct            - Constructor for the r0 data structure
-%   r1_struct            - Constructer for the r1 data structure
-%   waveform_struct      - Returns a waveform structure
-%   waveformevent_struct - Returns a waveform event structure
+%   figure_default          - Returns default properties for new figures.
+%   instrument_struct       - Header for the instrument structure.
+%   mpctrl_default          - Returns the default values for the MPCTRL global control 
+%   nidaqai_default         - Returns default properties for nidaq analog input objects.
+%   param_struct            - Header for the parameter structure. 
+%   paramfigure_default     - Returns default properties for new figures.
+%   uiparam_default         - Returns default properties for new UIParams
+%   channel_default         - Default values for a new channel
+%   channel_struct          - Header for the channel structure in control
+%   nidaqao_default         - Returns default properties for nidaq analog output objects.
+%   packet_struct           - Returns the header for the data packet structure.
+%   sealtest_default        - Returns default values for sealtest protocol
+%   subscriber_struct       - Returns the header for the subscriber structure
+%   telegraph_struct        - Header for the telegraph structure
+%   episode_default         - Returns default parameters for the EPISODE protocol
+%   gapfree_default         - Default parameter values for the GAPFREE protocol
+%   moviecontrol_default    - Returns default values for the moviecontrol dialog
+%   playmovie_default       - Returns default parameters for the PLAYMOVIE protocol
+%   r0_struct               - Constructor for the r0 data structure
+%   r1_struct               - Constructer for the r1 data structure
+%   waveform_struct         - Returns a waveform structure
+%   waveformevent_struct    - Returns a waveform event structure
+%   daqfileinfo_struct      - Constructor for the daqfileinfo structure
+%   telegraphresults_struct - Header for the structure containing telegraph
 %
-% $Id: Contents.m,v 1.5 2006/01/30 19:23:11 meliza Exp $
+% $Id: Contents.m,v 1.6 2006/02/01 19:57:49 meliza Exp $
+%

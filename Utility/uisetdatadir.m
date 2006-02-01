@@ -10,7 +10,7 @@ function currdir = uisetdatadir(startdir)
 %   
 %   Copyright (c) 1997 by The MathWorks, Inc.
 %
-%   $Id: uisetdatadir.m,v 1.3 2006/01/31 00:22:31 meliza Exp $
+%   $Id: uisetdatadir.m,v 1.4 2006/02/01 19:57:54 meliza Exp $
 
 origdir      = pwd;
 if nargin > 0
@@ -114,7 +114,7 @@ switch varargin{1},
             cd([pwd, '\', hlist_dir]);
             DirList = dir;
             DirName = { DirList.name }';
-            finddir = find(cat(1, DirList.isdir));
+            finddir = cat(1, DirList.isdir);
             DirName = DirName(finddir);
 
             set(hlist, 'String', DirName, ...
@@ -142,7 +142,7 @@ switch varargin{1},
             cd(newdir);
             DirList = dir;
             DirName = { DirList.name }';
-            finddir = find(cat(1, DirList.isdir));
+            finddir = cat(1, DirList.isdir);
             DirName = DirName(finddir);
 
             set(hlist, 'String', DirName, ...
@@ -177,12 +177,12 @@ switch varargin{1},
                 end
             end
             pref    = sprintf('%s%03.0f', pref, lastser + 1);
-            s       = mkdir(pref);
+            mkdir(pref);
         else
             a = inputdlg('New directory name:','Create Directory',1,{'New Directory'});
             if ~isempty(a)
                 pref    = a{1};
-                s = mkdir(pref);
+                mkdir(pref);
             end
         end
         t   = findobj(gcf,'tag','DirectoryContentListbox');
@@ -199,5 +199,5 @@ function dirnames = getdirectories()
 % returns the directories in the current directory
 dirlist = dir;
 dirnames = { dirlist.name }';
-finddir = find(cat(1, dirlist.isdir));
+finddir = cat(1, dirlist.isdir);
 dirnames = dirnames(finddir);

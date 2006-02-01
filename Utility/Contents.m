@@ -75,5 +75,8 @@
 %   WaveformEditor      - Dialog for specifying waveforms for output to instruments
 %   multilcm            - returns the least common multiple of an array of positive
 %   shuffledsequence    - Generates a shuffled sequence
+%   setselected         - Sets the selected item in a list or popupmenu
+%   wmean               - Weighted average or mean value.
 %
-% $Id: Contents.m,v 1.5 2006/01/30 19:23:17 meliza Exp $
+% $Id: Contents.m,v 1.6 2006/02/01 19:57:52 meliza Exp $
+%

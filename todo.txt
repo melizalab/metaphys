@@ -1,20 +1,18 @@
 
-MAIN GUI
-- add telegraphs to instrumentdialog -DONE
-- add holding voltages to main window -DONE
+* As of METAPHYS-1.0:
 
-PROTOCOLS
-- SealTest  -DONE (test with real amp)
-- Episode
+    MAIN GUI
 
-BACKEND
-- telegraphs for 700X series
-- triggers -DONE (test digital and hardware)
+    PROTOCOLS
 
-EPISODEANALYSIS
-- >2 time points for parameters
-- crashes when opening daqdatas with multiple lengths
-- in daq2mat, set units on all input channels
+    MODULES
+        - StatsDisplay: computes episodic stats; unwritten
+        - SweepDisplay/ScopeDisplay: Allow user to turn on/off axes
+        - SweepDisplay/ScopeDisplay: better control over y-axes
+        - MovieControl: support for loading movie lists
 
-MISC
-- add as toolbox
+    BACKEND
+        - telegraphs for 700X series
+
+    MISC
+        - add as toolbox

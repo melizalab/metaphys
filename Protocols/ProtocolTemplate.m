@@ -30,7 +30,7 @@ function varargout = ProtocolTemplate(action)
 % function.  Whenever the DAQ system returns data, that data will be
 % packaged and sent to the subscriber.
 %
-% $Id: ProtocolTemplate.m,v 1.2 2006/01/28 00:46:18 meliza Exp $
+% $Id: ProtocolTemplate.m,v 1.3 2006/02/01 19:57:51 meliza Exp $
 
 % The main function generally only parses the action, which is how external
 % functions (such as the calling function) control its behavior.
@@ -95,7 +95,7 @@ function [] = sweepControl
 % protocols, since this function will be called by the loop control
 % function.  This function should send data to DAQ or sensory stimulation
 % devices, if applicable, and then call STARTSWEEP or STARTCONTINUOUS
-episodelenth = queueStimulus;
+episodelength = queueStimulus;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [episodelength] = queueStimulus()
