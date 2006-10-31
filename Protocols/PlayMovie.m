@@ -13,7 +13,7 @@ function varargout = PlayMovie(action)
 %
 % See Also: @F21CONTROL, PLAYMOVIE_DEFAULT
 %
-% $Id: PlayMovie.m,v 1.9 2006/01/30 20:04:52 meliza Exp $
+% $Id: PlayMovie.m,v 1.10 2006/10/31 16:09:14 dmeliza Exp $
 
 % Parse action
 switch lower(action)
@@ -139,6 +139,9 @@ StopDAQ
 % Set data storage to memory
 SetDataStorage('memory')
 DeleteSubscriber('loop')
+waveform = GetParam(me, 'waveform', 'value');
+waveform = resetqueues(waveform);
+SetParam(me,'waveform',waveform);
 setStatus('protocol stopped')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
