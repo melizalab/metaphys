@@ -29,10 +29,10 @@ if nargin > 2 && ~isempty(instrumenttype) && ~isempty(info.gain)
             [in out]    = CalcGain(instrumenttype, c_units, c_units, gain_v);
         else
             mode_v          = mean(d(:,info.mode));
-            mode            = CalcMode(instrumenttype, mode_v);
+            mode            = CalcMode(instrumenttype, mode_v(1:length(scaledchannels)));
             [in_u out_u]    = CalcUnits(instrumenttype, mode);
             % (V/units)
-            [in out]        = CalcGain(instrumenttype, in_u, out_u, gain_v);
+            [in out]        = CalcGain(instrumenttype, in_u, out_u, gain_v(1:length(scaledchannels)));
             c_units         = out_u;
         end
         info.channels(i).Units  = c_units;
@@ -43,7 +43,7 @@ end
 
 chan_ind    = 1:length(info.channel_names);
 if nargin < 2 || isempty(channels)
-    channels    = setdiff(chan_ind, [info.gain info.mode]);
+    channels    = setdiff(chan_ind, [info.gain;info.mode]); % J [,]changed 06.27.06
 else
     channels    = intersect(channels, chan_ind);
 end
@@ -51,8 +51,9 @@ units   = {info.channels.Units};
 packet  = packet_struct('', '',...
                         info.channel_names(channels), ...
                         units(channels), ...
-                        d, ...
+                        d(:,channels), ...
                         t, ...
                         datenum(at), ...
                         info);
+
                         

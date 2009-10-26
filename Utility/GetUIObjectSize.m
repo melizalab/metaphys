@@ -12,7 +12,7 @@ function varargout = GetUIObjectSize(handle, units)
 % object. If the user specifies a different value, the 'Units' property
 % will be briefly changed and returned to its original value.
 %
-% $Id: GetUIObjectSize.m,v 1.1 2006/01/10 20:59:52 meliza Exp $
+% $Id: GetUIObjectSize.m,v 1.1.1.1 2006/01/10 20:59:52 meliza Exp $
 %
 
 if nargin > 1

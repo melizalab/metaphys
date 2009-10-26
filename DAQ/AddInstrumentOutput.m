@@ -24,6 +24,8 @@ function c = AddInstrumentOutput(instrument, daqname, hwchannel, outputname, var
 
 daq = GetDAQ(daqname);
 c   = addchannel(daq, hwchannel, outputname);
+set(c,'InputRange',[-5 5],'SensorRange',[-5 5],'UnitsRange',[-5 5],...
+    'Units', 'V');
 
 set(c,varargin{:})
 AddInstrumentChannel(instrument, outputname, c)

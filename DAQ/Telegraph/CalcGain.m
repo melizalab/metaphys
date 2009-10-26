@@ -36,6 +36,9 @@ switch lower(inst_type)
         switch out_units
             case 'pA'
                 out_gain        = out_gain ./ 1000;
+            case 'mV' %nati
+                out_gain        = out_gain ./ 1000; %nati
+                
         end
         switch in_units
             case 'mV'

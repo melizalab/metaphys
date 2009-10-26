@@ -9,7 +9,7 @@ function [out] = SetDAQProperty(daqname, varargin)
 % 
 % See also DAQDEVICE/SET
 %
-% $Id: SetDAQProperty.m,v 1.1 2006/01/10 20:59:50 meliza Exp $
+% $Id: SetDAQProperty.m,v 1.1.1.1 2006/01/10 20:59:50 meliza Exp $
 %
 daqobj  = GetDAQ(daqname);
 if nargin > 2

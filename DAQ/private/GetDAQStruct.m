@@ -7,7 +7,7 @@ function daq = GetDAQStruct(daqnames)
 %
 % daq = GETDAQSTRUCT(daqnames)
 %
-% $Id: GetDAQStruct.m,v 1.1 2006/01/10 20:59:51 meliza Exp $
+% $Id: GetDAQStruct.m,v 1.1.1.1 2006/01/10 20:59:51 meliza Exp $
 
 if iscell(daqnames)
     for i = 1:length(daqnames)
@@ -20,14 +20,14 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function daq  = getdaqstr(daqname)
 global mpctrl
-daqname = lower(daqname);
+%daqname = lower(daqname);
 
-if ~isfield(mpctrl.daq, daqname)
+if isfield(mpctrl.daq, daqname)==0
     error('METAPHYS:daq:deviceNotFound','No daq device %s exists.',daqname)
 end
 
 daq = mpctrl.daq.(daqname);
-if ~isvalid(daq.obj)
+if isvalid(daq.obj)==0
     warning('METAPHYS:daq:invalidDevice',...
         'The DAQ object %s no longer exists.', daqname);
 end

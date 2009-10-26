@@ -34,7 +34,7 @@ function varargout = Episode(action)
 %
 % See also: EPISODE_DEFAULT
 %
-% $Id: Episode.m,v 1.11 2006/10/31 16:07:40 dmeliza Exp $
+% $Id: Episode.m,v 1.10 2006/01/30 20:04:51 meliza Exp $
 
 % Parse action
 switch lower(action)
@@ -155,6 +155,21 @@ waveform = GetParam(me, 'waveform', 'value');
 waveform = resetqueues(waveform);
 SetParam(me,'waveform',waveform);
 SetStatus('protocol stopped')
+
+
+
+
+
+
+% function [] = cleanupControl(packet)
+% % Handles cleanup after last loop is done
+% 
+% % Stop acquisition
+% StopDAQ
+% % Set data storage to memory
+% SetDataStorage('memory')
+% DeleteSubscriber('loop')
+% SetStatus('protocol stopped')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

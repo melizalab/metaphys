@@ -13,7 +13,7 @@ function WriteStructure(writestruct_filename_12312, wstruct_structure_13244)
 % Usage:
 % WRITESTRUCTURE(filename, structure)
 %
-% $Id: WriteStructure.m,v 1.1 2006/01/10 20:59:53 meliza Exp $
+% $Id: WriteStructure.m,v 1.1.1.1 2006/01/10 20:59:53 meliza Exp $
 
 % Note: the reason the variable names are so obfuscated is to avoid
 % situations where the fieldname is the same as a variable in the
