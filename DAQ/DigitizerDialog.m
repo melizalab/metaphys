@@ -184,7 +184,7 @@ switch tag
         hwselected  = GetUIParam(mfilename,'hardware','Value');
         hwinfo      = GetUIParam(mfilename,'hardware','UserData');
         z           = daqhwinfo(hwinfo(hwselected).hwname);
-        openvar z
+        openvar('z')
     case 'm_daq_deactivate'
         hwselected  = GetUIParam(mfilename,'systems','Selected');
         DeleteDAQ(hwselected)

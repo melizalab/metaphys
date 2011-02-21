@@ -226,7 +226,7 @@ switch tag
         end
     case 'protocol_select'
         protocol    = GetUIParam(mfilename, 'protocol','userdata');
-        [pn fn ext] = fileparts(protocol);
+        [pn fn ext] = fileparts(char(protocol));
         if isempty(pn)
             pn      = getpref('METAPHYS','basedir');
         end

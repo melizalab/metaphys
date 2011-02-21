@@ -156,22 +156,6 @@ waveform = resetqueues(waveform);
 SetParam(me,'waveform',waveform);
 SetStatus('protocol stopped')
 
-
-
-
-
-
-% function [] = cleanupControl(packet)
-% % Handles cleanup after last loop is done
-% 
-% % Stop acquisition
-% StopDAQ
-% % Set data storage to memory
-% SetDataStorage('memory')
-% DeleteSubscriber('loop')
-% SetStatus('protocol stopped')
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = selectInstrument(varargin)
 % handles when the user chooses a new instrument

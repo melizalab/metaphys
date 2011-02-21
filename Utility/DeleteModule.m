@@ -17,9 +17,9 @@ if isfield(mpctrl,module)
     % Call the object's destructor
     try
         if exist(module,'file') > 0
-            warning('off','MATLAB:dispatcher:InexactMatch')
+            warning('off','MATLAB:dispatcher:InexactCaseMatch')
             feval(module, 'destroy')
-            warning('on','MATLAB:dispatcher:InexactMatch')
+            warning('on','MATLAB:dispatcher:InexactCaseMatch')
         end
     end
 

@@ -98,7 +98,7 @@ switch tag
         updateFigure(wvs)
     case {'onset_func_pick', 'ampl_func_pick', 'dur_func_pick',...
             'user_func_pick'}
-        tn  = tag(1:end-4);
+        tn  = tag(1:end-5);
         basedir = getpref('METAPHYS','basedir');
         wd = cd(basedir);
         [pn fn] = uigetfile({'*.m', 'MATLAB functions (*.m)'},...

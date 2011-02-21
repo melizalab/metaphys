@@ -16,3 +16,10 @@
 
     MISC
         - add as toolbox
+
+* Migration to R2010b/DAQ 2.17:
+
+    Fix case warnings
+    Better error handling
+    Loading episode protocols with different instrument
+    Clean out CVS revision numbers
