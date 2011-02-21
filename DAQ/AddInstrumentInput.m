@@ -42,5 +42,7 @@ else
     c   = addchannel(daq, hwchannel, inputname);
 end
 
+set(c,'OutputRange',[-10 10],'UnitsRange',[-10 10],...
+    'Units', 'V');
 set(c,varargin{:})
 AddInstrumentChannel(instrument, inputname, c)
