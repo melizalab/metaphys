@@ -1,4 +1,4 @@
-function [] = SetParam(module, param, value)
+function [] = SetParam(module, param, field, value)
 % SETPARAM Sets the value of a module parameter. 
 %
 % Parameters are structures stored in the control structure, so this
@@ -7,13 +7,15 @@ function [] = SetParam(module, param, value)
 % will be reinitialized to the new structure (similar to INITPARAM).
 % 
 % [] = SETPARAM(module, paramname, value)
+% [] = SETPARAM(module, paramname, field, value)
 % 		
 % 	module      - the name of the module
 %   paramname   - the name of the parameter
+%   field       - the field to change (default value)
 %   value       - can be a structure or a value. If a structure, it MUST
 %                 conform to PARAM_STRUCT, otherwise GETPARAM will break.
-%                 If a value, sets the value field of the parameter
-%                 structure. The value supplied will be automatically cast
+%                 If a value, sets the specified field of the parameter
+%                 structure. If field is 'value', value supplied will be automatically cast
 %                 to the type of the parameter.
 %
 %   See also: GETPARAM, GETPARAMSTRUCTVALUE, SETPARAMSTRUCTVALUE
@@ -36,8 +38,12 @@ if ~isfield(mpctrl.(module).params, param)
 end
 
 %% Set the parameter
-if ~isstruct(value)
-    value   = SetParamStructValue(mpctrl.(module).params.(param), value);
+if nargin == 3
+    value = field;
+    if ~isstruct(value)
+        value   =  SetParamStructValue(mpctrl.(module).params.(param), value);
+    end
+    mpctrl.(module).params.(param)  = value;
+else
+    mpctrl.(module).params.(param).(field) = value;
 end
-
-mpctrl.(module).params.(param)  = value;
