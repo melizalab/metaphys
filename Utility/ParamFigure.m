@@ -132,10 +132,6 @@ for i = 1:paramCount
             paramstruct = GetParam(module, name);
             s.value     = paramstruct.value;
         end
-        % Add callback to custom field types ('file_in')
-        if strcmpi(s.fieldtype, 'file_in')
-            s.callback = @file_in_btn;
-        end
         % Create the appropriate UI control
         switch lower(s.fieldtype)
         case {'string','value'}
@@ -143,7 +139,7 @@ for i = 1:paramCount
                     'HorizontalAlignment','right'};
         case 'list'
             st = {'style','popupmenu','string',s.choices,'BackgroundColor','white'};
-        case {'fixed','file_in','object'}
+        case {'fixed','object'}
             st = {'style','edit','enable','inactive'};
             % create button if .callback is specified
             if isfield(s,'callback')
@@ -152,6 +148,13 @@ for i = 1:paramCount
                     'String','',...
                     'Callback', {@callbackHandler module name})
             end
+        case 'file_in'
+            st = {'style','edit','enable','inactive'};
+            p_u = [w_fn + w_f + x_pad + x_pad, y + 2, w_units/2, 18];
+            uicontrol(fig,'position',p_u,'style','pushbutton',...
+                      'String','','Callback', {@file_in_btn module name});
+            s.callback = @file_in_btn;
+            SetParam(module, name, s);            
         end
         t = [module '.' name];
         u = uicontrol(fig,'position',p,st{:},'tag', t,...
@@ -242,11 +245,15 @@ function [] = file_in_btn(obj, event, module, param)
 % Function handle that's used for file_in fields.
 
 % Find the field with the value in it (<obj> is the button)
-obj     = findobj(gcbf, 'tag', param);
+obj     = findobj(gcbf, 'tag', sprintf('%s.%s',module,param));
 % Retrieve the default value 
 default = get(obj,'tooltipstring');
-pn      = fileparts(default);
-[fn2 pn2] = uigetfile([pn filesep '*.mat']);
+if isempty(default)
+    pn =    pwd;
+else
+    pn = fileparts(default);
+end
+[fn2 pn2] = uigetfile([pn filesep '*.*']);
 if ~isnumeric(fn2)
     v = fullfile(pn2,fn2);
     set(obj,'string',fn2,'tooltipstring',v)
