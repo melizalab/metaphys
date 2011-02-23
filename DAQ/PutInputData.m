@@ -1,9 +1,9 @@
-function [] = PutInputData(instrument, data)
+function [T] = PutInputData(instrument, data, channel_names)
 %
 % PUTINPUTDATA Preloads values that will go to the instrument's inputs in the
 % next sweep.
 %
-% PUTINPUTDATA(instrument, data) - stores <data> in the daq devices associated
+% T = PUTINPUTDATA(instrument, data) - stores <data> in the daq devices associated
 %                              with <instrument>, so that when the next
 %                              sweep starts, these values will be output.
 %                              <data> must be an NxM array, with M equal to
@@ -11,8 +11,16 @@ function [] = PutInputData(instrument, data)
 %                              instrument.
 %
 % If too few channels are supplied, an error is thrown. If too many, they
-% are discarded with a warning.
+% are discarded with a warning. To write a single column data to
+% one channel, use the following form:
+%
+% PUTINPUTDATA(instrument, data, channel_names) - store <data> in
+% the daq device associated with <instrument>/<channel_names>. The
+% default value is used for all the other channels. <data> must
+% have as many columns as <channel_names> has cells.
 % 
+% Return value is the duration of the loaded data (in ms).
+%
 % See also: DAQDEVICE/PUTDATA, PUTINPUTWAVEFORM
 %
 % $Id: PutInputData.m,v 1.3 2006/01/30 20:04:42 meliza Exp $
@@ -25,6 +33,9 @@ chans   = StructFlatten(instr.channels);
 types   = {chans.type};
 chans   = chans(strmatch('input',types));
 n_chans = length(chans);
+if nargin > 2
+  n_chans = length(channel_names);
+end
 
 % the number of columns we have to send
 columns = size(data, 2);
@@ -45,22 +56,27 @@ daqs    = unique({chans.daq});
 
 for i = 1:length(daqs)
     % the channels we (presumably) have data for
-    ind     = GetChannelIndices(instrument, daqs{i});
+    [ind cname]     = GetChannelIndices(instrument, daqs{i});
     
     daq     = GetDAQ(daqs{i});
+    Fs      = get(daq, 'SampleRate') / 1000;
     % send the default values by, um, default
     defs    = GetDefaultValues(daq);
     daqdata = repmat(defs, size(data,1), 1);
-    
-    % replace defaults with actual values
-    data_ind    = column:column+length(ind)-1;
-    if any(data_ind > columns)
-        error('METAPHYS:putinputdata:insufficientData',...
-            'Not enough data to fill all the device channels')
-    end
-    daqdata(:,ind)  = data(:,data_ind);
-    column  = data_ind+1;
-    
+    T       = size(data,1) / Fs;
+
+    for j = 1:length(ind)
+      if nargin > 2
+        % fill by name
+        data_ind = strmatch(cname{j}, channel_names, 'exact');
+      else
+        data_ind = column;
+        column = column + 1;
+      end
+      if ~isempty(data_ind)
+        daqdata(:,j) = data(:,data_ind);
+      end
+    end    
     % send the data to the device
     putdata(daq, daqdata)
 end
