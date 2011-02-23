@@ -64,7 +64,7 @@ function s = waveformevent_struct(varargin)
 %
 % See also: @WAVEFORMEVENT, WAVEFORM_STRUCT
 %
-% $Id: waveformevent_struct.m,v 1.3 2006/01/30 20:04:51 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'onset', 'ampl', 'dur', 'cycle_mode',...
     'onset_func', 'ampl_func', 'dur_func',...

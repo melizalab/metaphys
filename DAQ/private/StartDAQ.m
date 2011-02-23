@@ -13,7 +13,7 @@ function [] = StartDAQ(daqs, varargin)
 %
 % See Also: STOPDAQ
 %
-% $Id: StartDAQ.m,v 1.7 2006/01/30 19:23:10 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 
 % check for running objects

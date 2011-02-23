@@ -9,7 +9,7 @@ function [] = WriteSweepData(data)
 %
 % See also: WRITEPROTOCOLDATA
 %
-% $Id: WriteSweepData.m,v 1.2 2006/01/30 20:04:36 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 data_mode   = GetGlobal('data_mode');
 BASENAME    = '%04.0f-data.mat';

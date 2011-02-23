@@ -4,7 +4,7 @@ function obj = set(obj, fieldname, value)
 %
 % event = SET(event, fieldname, value)
 %
-% $Id: set.m,v 1.2 2006/01/26 23:37:36 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 error(nargchk(3,3,nargin,'struct'))
 if isfield(struct(obj), fieldname)

@@ -27,7 +27,7 @@ function [] = InitInstrument(instrument, type)
 %
 % See also INSTRUMENT_STRUCT
 %
-% $Id: InitInstrument.m,v 1.4 2006/01/19 03:14:55 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 global mpctrl
 
 if isstruct(instrument)

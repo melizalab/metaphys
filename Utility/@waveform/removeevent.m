@@ -8,7 +8,7 @@ function obj = removeevent(obj, channel, eventnum)
 %
 % If the channel or event do not exist, no error is thrown.
 %
-% $Id: removeevent.m,v 1.2 2006/01/27 23:46:46 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 ind     = getchanindex(obj, channel);
 for i = 1:length(ind)

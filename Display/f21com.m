@@ -15,7 +15,7 @@ function flog = f21com(remote_host,command,if_feedback,remote_port)
 %
 % See also: @F21CONTROL
 %
-% $Id: f21com.m,v 1.2 2006/01/30 20:04:48 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % constant
 HEADER_SIZE = 8;

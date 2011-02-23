@@ -12,7 +12,7 @@ function S = daqfileinfo_struct(varargin)
 %         .mode       -   index of mode telegraph channel (if there is one)
 %         .gain       -   index of gain telegraph channel (if there is one)
 %
-% $Id: daqfileinfo_struct.m,v 1.1 2006/01/31 23:06:14 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'t_unit', 't_rate', 'start_time', 'samples',...
            'channel_names', 'channels', 'mode', 'gain'};

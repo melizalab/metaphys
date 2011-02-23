@@ -10,7 +10,7 @@ function substruct  = StructFlatten(fullstruct)
 %
 % substruct = STRUCTFLATTEN(fullstruct)
 %
-% $Id: StructFlatten.m,v 1.1 2006/01/12 02:02:06 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 c   = struct2cell(fullstruct);
 try

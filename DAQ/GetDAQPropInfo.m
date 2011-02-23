@@ -9,7 +9,7 @@ function out = GetDAQPropInfo(daqname, property)
 % 
 % See also: PROPINFO
 %
-% $Id: GetDAQPropInfo.m,v 1.2 2006/01/30 20:04:39 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %
 daqobj  = GetDAQ(daqname);
 out     = propinfo(daqobj, property);

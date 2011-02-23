@@ -20,7 +20,7 @@ function [out] = DAQ2R0(files, varargin)
 %
 % See also:     R0_STRUCT, DAQ2R1, DAQ2PACKET
 %
-% $Id: DAQ2R0.m,v 1.2 2006/02/01 19:57:48 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if isa(files,'char')
     files = {files};

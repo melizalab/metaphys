@@ -17,7 +17,7 @@ function varargout = ChannelDialog(action, instrumentname, channel)
 %
 % See also: ADDINSTRUMENTINPUT, ADDINSTRUMENTOUTPUT
 %
-% $Id: ChannelDialog.m,v 1.9 2006/01/30 20:04:37 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch action
     case {'init', 'modal'}

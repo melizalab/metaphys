@@ -28,7 +28,7 @@ function [daq, daqname] = InitDAQ(hwname, hwnumber, constructor, varargin)
 %
 % See also: RESETDAQ
 % 
-% $Id: InitDAQ.m,v 1.4 2006/01/30 20:04:40 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

@@ -4,7 +4,7 @@ function C = getparameters(obj, fields)
 %
 % C = GETPARAMETERS(obj, fields)
 %
-% $Id: getparameters.m,v 1.1 2006/01/26 01:21:35 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 sf  = sprintf('obj.%s ', fields{:});
 C   = eval(['{' sf '}']);

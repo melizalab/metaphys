@@ -5,7 +5,7 @@ function out     = isvalid(obj)
 %
 % bool  = ISVALID(event)
 %
-% $Id: isvalid.m,v 1.2 2006/01/26 23:37:36 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if any(size(obj) > 1)
     error('METAPHYS:invalidArgument',...

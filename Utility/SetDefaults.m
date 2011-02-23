@@ -24,7 +24,7 @@ function [] = SetDefaults(class, defloc, props)
 %
 % See also: CLEARDEFAULTS, GETDEFAULTS
 %
-% $Id: SetDefaults.m,v 1.2 2006/01/30 20:05:00 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch lower(defloc)
     case 'pref'

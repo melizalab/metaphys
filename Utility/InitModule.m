@@ -15,7 +15,7 @@ function [] = InitModule(module, figure)
 %
 % See also: GETMODULE, INITCONTROL
 %
-% $Id: InitModule.m,v 1.2 2006/01/30 20:04:57 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

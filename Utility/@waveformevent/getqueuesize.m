@@ -4,7 +4,7 @@ function ntrials    = getqueuesize(obj)
 %
 % GETQUEUESIZE(event) returns the number of trials in the queue
 %
-% $Id: getqueuesize.m,v 1.1 2006/01/27 00:40:10 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if isempty(obj.queued_params)
     ntrials = 0;

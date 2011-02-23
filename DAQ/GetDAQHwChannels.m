@@ -9,7 +9,7 @@ function channels   = GetDAQHwChannels(daqname)
 %
 % See also: GETDAQ
 %
-% $Id: GetDAQHwChannels.m,v 1.2 2006/01/30 20:04:39 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 daq         = GetDAQ(daqname);
 switch lower(daq.Type)

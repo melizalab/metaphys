@@ -14,7 +14,7 @@ function s = waveform_struct(varargin)
 % 
 % See also: @WAVEFORM, WAVEFORMEVENT_STRUCT, @WAVEFORMEVENT
 %
-% $Id: waveform_struct.m,v 1.4 2006/01/30 20:04:51 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'channel_names', 'channel_events'};
 C       = {{},{}};

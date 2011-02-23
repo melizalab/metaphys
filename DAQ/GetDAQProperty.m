@@ -16,7 +16,7 @@ function out = GetDAQProperty(daqname, varargin)
 % If Property is omitted, all the properties of the object will be
 % returned in a structure.
 %
-% $Id: GetDAQProperty.m,v 1.1.1.1 2006/01/10 20:59:50 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %
 daqobj  = GetDAQ(daqname);
 out     = get(daqobj, varargin{:});

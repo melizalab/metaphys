@@ -20,7 +20,7 @@ function props = GetInstrumentChannelProps(instrument, channame, varargin)
 %
 % See also INITINSTRUMENT, ADDINSTRUMENTINPUT, DAQCHILD/GET
 %
-% $Id: GetInstrumentChannelProps.m,v 1.3 2006/01/27 23:46:21 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 chan    = GetInstrumentChannel(instrument, channame);
 

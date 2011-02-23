@@ -10,7 +10,7 @@ function out = GetSelected(handle)
 %
 % handle - graphics object handle for the list or uicontrol
 %
-% $Id: GetSelected.m,v 1.5 2006/01/20 00:04:45 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 type    = get(handle,'type');
 switch type

@@ -9,7 +9,7 @@ function [] = AddInstrumentChannel(instrument, channelname, channel)
 %
 % See Also: CHANNEL_STRUCT
 %
-% $Id: AddInstrumentChannel.m,v 1.2 2006/01/30 20:04:47 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 PROTECTED_NAMES = {'input','output','all'};

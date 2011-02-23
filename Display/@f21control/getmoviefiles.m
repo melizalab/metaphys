@@ -4,7 +4,7 @@ function [names, frames] = getmoviefiles(obj)
 %
 % [names, frames] = GETMOVIEFILES(f21ctrl)
 %
-% $Id: getmoviefiles.m,v 1.1 2006/01/24 03:26:07 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 out = sendrequest(obj, 'sti_get_mv_files');
 tok = Cell2Num(StrTokenize(out));

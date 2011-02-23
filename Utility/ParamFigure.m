@@ -39,7 +39,7 @@ function varargout = ParamFigure(module, varargin)
 %
 % See also: PARAM_STRUCT, GETPARAM
 %
-% $Id: ParamFigure.m,v 1.9 2006/01/31 17:21:46 meliza Exp $ 
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE 
 
 module  = lower(module);
 

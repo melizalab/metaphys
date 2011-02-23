@@ -13,7 +13,7 @@ function mode   = CalcMode(inst_type, voltage)
 %
 % The default value (if the mode cannot be determined) is []
 %
-% $Id: CalcMode.m,v 1.1 2006/01/31 22:48:21 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 mode    = [];
 switch lower(inst_type)

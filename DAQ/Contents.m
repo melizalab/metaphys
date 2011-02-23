@@ -52,4 +52,4 @@
 %   GetDataStorage              - Returns the current data storage directory
 %   GetSettableProps            - Retrieves the property names and values that can be set
 %
-% $Id: Contents.m,v 1.4 2006/01/30 19:23:06 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE

@@ -38,7 +38,7 @@ function [mpctrl] = mpctrl_default()
 %  TELEGRAPH_STRUCT
 %           
 %
-% $Id: mpctrl_default.m,v 1.7 2006/01/30 20:04:49 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 mpctrl = struct('daq',[],...
                 'instrument',[],...

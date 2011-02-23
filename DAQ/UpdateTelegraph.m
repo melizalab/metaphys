@@ -21,7 +21,7 @@ function [results] = UpdateTelegraph(instrument, telegraph)
 %
 % See also TELEGRAPH, TELEGRAPH_STRUCT, TELEGRAPHRESULTS_STRUCT
 %
-% $Id: UpdateTelegraph.m,v 1.6 2006/01/31 20:00:17 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 global mpctrl
 
 results = [];

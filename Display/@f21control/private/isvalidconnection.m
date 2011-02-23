@@ -2,7 +2,7 @@ function out = isvalidconnection(connection)
 %
 % ISVALIDCONNECTION Returns boolean indicating whether a connection is valid
 %
-% $Id: isvalidconnection.m,v 1.1 2006/01/24 03:26:11 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %
 
 out = false;

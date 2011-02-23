@@ -18,7 +18,7 @@ function out = GetParamStructValue(paramstruct, value_format)
 % See Also:
 %   PARAM_STRUCT, GETPARAM
 %
-% $Id: GetParamStructValue.m,v 1.3 2006/01/30 20:04:57 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 VALUE_FORMAT    = 'String';
 if nargin < 2

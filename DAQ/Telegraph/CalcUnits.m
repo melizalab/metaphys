@@ -13,7 +13,7 @@ function [in_units out_units]   = CalcUnits(inst_type, mode)
 %
 % The default value (if the mode cannot be determined) is 'V'
 %
-% $Id: CalcUnits.m,v 1.1 2006/01/31 22:48:21 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 in_units    = 'V';
 out_units   = 'V';

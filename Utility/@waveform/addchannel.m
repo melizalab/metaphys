@@ -8,7 +8,7 @@ function obj    = addchannel(obj, channelname)
 % ADDCHANNEL(waveform, numchans), but <numchans> channel names are
 % generated automatically.
 %
-% $Id: addchannel.m,v 1.3 2006/01/30 20:05:03 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if isnumeric(channelname)
     channelname     = makenewchannelnames(obj.channel_names, channelname);

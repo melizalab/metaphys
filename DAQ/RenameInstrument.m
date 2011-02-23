@@ -2,7 +2,7 @@ function [] = RenameInstrument(instrument, newname)
 %
 % RENAMEINSTRUMENT renames an instrument in the control structure.
 %
-% $Id: RenameInstrument.m,v 1.2 2006/01/19 03:14:56 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

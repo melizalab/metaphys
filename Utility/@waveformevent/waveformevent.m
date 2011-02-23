@@ -10,7 +10,7 @@ function obj    = waveformevent(varargin)
 %
 % See also: WAVEFORMEVENT_STRUCT
 % 
-% $Id: waveformevent.m,v 1.1 2006/01/26 01:21:34 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin   == 0
     S   = waveformevent_struct;

@@ -6,7 +6,7 @@ function [] = InitControl()
 %
 % See also: MPCTRL_DEFAULT
 %
-% $Id: InitControl.m,v 1.2 2006/01/30 20:04:57 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %
 global mpctrl
 

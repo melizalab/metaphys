@@ -10,7 +10,7 @@ function r1 = Packet2R1(packet)
 %
 % See also: R1_STRUCT, PACKET2R0, SPLITPACKET
 % 
-% $Id: Packet2R1.m,v 1.2 2006/01/30 20:04:59 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % The R1 structure is very similar to the packet structure, except only one
 % data channel is allowed. Also, it's nice to sort the packets.

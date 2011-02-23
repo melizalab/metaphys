@@ -25,7 +25,7 @@ function [s] = r0_struct(varargin)
 %
 % See also: R1_STRUCT
 %
-% $Id: r0_struct.m,v 1.3 2006/01/30 20:04:50 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'data','time','eptime','channel','units','start_time','instrument'};
 C       = {[],[],[],'','',[],''};

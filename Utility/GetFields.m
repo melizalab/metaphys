@@ -12,7 +12,7 @@ function S = GetFields(S, fieldnames)
 % S = GETFIELDS(S, fieldnames) - <fieldnames> can be a string or cell array
 %                                of strings.
 %
-% $Id: GetFields.m,v 1.2 2006/01/19 03:15:04 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if isstruct(S)
     fieldnames  = CellWrap(fieldnames);

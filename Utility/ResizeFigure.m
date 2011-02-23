@@ -8,7 +8,7 @@ function [] = ResizeFigure(varargin)
 %
 %   [] = RESIZEFIGURE(h,...)  resizes the figure given by the handle H
 %
-% $Id: ResizeFigure.m,v 1.2 2006/01/30 20:05:00 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 UNITS   = 'inches';
 
 error(nargchk(1,3,nargin))

@@ -16,7 +16,7 @@ function out = GetParam(module, param, mode)
 %
 %   See also: SETPARAM, INITPARAM, PARAMFIGURE, GETPARAMSTRUCTVALUE
 % 
-%   $Id: GetParam.m,v 1.4 2006/01/30 20:04:56 meliza Exp $
+%   Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %
 RETURN_STRUCT   = 'struct';
 

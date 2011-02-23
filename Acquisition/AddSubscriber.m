@@ -14,7 +14,7 @@ function []= AddSubscriber(name, instrument, fhandle, varargin)
 %
 % See also: SUBSCRIBER_STRUCT
 %
-% $Id: AddSubscriber.m,v 1.4 2006/01/30 20:04:33 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

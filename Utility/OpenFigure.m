@@ -13,7 +13,7 @@ function fig = OpenFigure(module,varargin)
 %
 % See also: OPENGUIDEFIGURE, INITMODULE
 % 
-% $Id: OpenFigure.m,v 1.2 2006/01/30 20:04:58 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % open or find the figure
 module  = lower(module);

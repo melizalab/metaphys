@@ -6,7 +6,7 @@ function [] = DeleteSubscriber(name)
 %
 % See also: ADDSUBSCRIBER, SUBSCRIBER_STRUCT
 %
-% $Id: DeleteSubscriber.m,v 1.3 2006/01/30 20:04:33 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

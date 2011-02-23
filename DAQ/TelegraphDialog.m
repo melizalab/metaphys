@@ -14,7 +14,7 @@ function varargout = TelegraphDialog(action, instrumentname, telegraph)
 %
 % See also: ADDINSTRUMENTTELEGRAPH
 %
-% $Id: TelegraphDialog.m,v 1.9 2006/02/01 19:00:41 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch action
     case {'init', 'modal'}

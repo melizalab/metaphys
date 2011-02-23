@@ -13,7 +13,7 @@ function varargout = MovieControl(action, varargin)
 % MOVIECONTROL('stop')
 % MOVIECONTROL('destroy')
 %
-% $Id: MovieControl.m,v 1.7 2006/01/28 01:12:10 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch lower(action)
     case 'init'

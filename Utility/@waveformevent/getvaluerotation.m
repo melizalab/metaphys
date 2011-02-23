@@ -18,7 +18,7 @@ function varargout = getvaluerotation(obj, varargin)
 %
 % See Also: WAVEFORMEVENT/GETPARAMROTATION
 %
-% $Id: getvaluerotation.m,v 1.2 2006/01/27 00:40:11 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = FIELDS;
 

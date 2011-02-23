@@ -21,7 +21,7 @@ function [wvfrm] = PutInputWaveform(instrument, sig_len, wvfrm)
 %
 % See also: DAQDEVICE/PUTDATA, PUTINPUTDATA
 %
-% $Id: PutInputWaveform.m,v 1.2 2006/01/30 20:04:42 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin < 3 || ~ischar(instrument) || ~isa(wvfrm, 'waveform')
     error('METAPHYS:invalidArgument',...

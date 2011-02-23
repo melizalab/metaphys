@@ -2,7 +2,7 @@ function telestruct = GetTelegraph(instrument, telegraph)
 %
 % GETTELEGRAPH Returns the telgraph control structure for an instrument.
 %
-% $Id: GetTelegraph.m,v 1.2 2006/01/14 00:48:14 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 instr   = GetInstrument(instrument);
 

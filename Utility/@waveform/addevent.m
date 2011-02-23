@@ -6,7 +6,7 @@ function obj    = addevent(obj, channel, event)
 % with the waveformevent object <event> added to <channel>. <Channel> may
 % be a string or numeric.
 %
-% $Id: addevent.m,v 1.1 2006/01/26 23:37:31 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ~all(isa(event,'waveformevent'))
     error('METAPHYS:addevent:invalidArgument',...

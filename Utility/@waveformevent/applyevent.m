@@ -18,7 +18,7 @@ function X  = applyevent(obj, T, X, do_unique)
 %
 % See also: 
 %
-% $Id: applyevent.m,v 1.1 2006/01/26 01:21:32 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = FIELDS;
 params  = cell(size(fields));

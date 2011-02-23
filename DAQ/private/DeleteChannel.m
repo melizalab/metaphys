@@ -4,7 +4,7 @@ function [] = DeleteChannel(instrument, channelname)
 %
 % If the channel does not exist, a warning is thrown.
 %
-% $Id: DeleteChannel.m,v 1.6 2006/01/17 20:22:11 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

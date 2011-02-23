@@ -29,7 +29,7 @@ function results = Check200XTelegraph(instrument, object, channels)
 %
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: Check200XTelegraph.m,v 1.7 2006/01/31 22:48:22 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 INST_TYPE   = '200x';
 

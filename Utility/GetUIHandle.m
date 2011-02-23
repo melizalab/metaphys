@@ -8,7 +8,7 @@ function handle = GetUIHandle(module, tag)
 %   tag    - the tag for the GUI object. If this is not supplied, all the
 %            handles will be returned
 %
-%   $Id: GetUIHandle.m,v 1.3 2006/01/20 22:02:35 meliza Exp $
+%   Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

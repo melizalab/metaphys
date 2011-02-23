@@ -10,7 +10,7 @@ function events = getevents(obj, channel, event_ind)
 % GETEVENTS(obj, channel, events) returns only the events referred to by
 % the indices in <events> (scalar or vector)
 %
-% $Id: getevents.m,v 1.1 2006/01/26 23:37:32 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 ind     = getchanindex(obj, channel);
 events  = [obj.channel_events{ind}];

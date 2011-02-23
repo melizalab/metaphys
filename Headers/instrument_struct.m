@@ -11,7 +11,7 @@ function s  = instrument_struct(varargin)
 %   channels  - an array of channels connected to the device's input/output
 %   telegraph - a structure array defining the device's telegraphs
 %
-% $Id: instrument_struct.m,v 1.4 2006/01/20 02:03:13 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'name', 'type', 'channels', 'telegraph'};
 C       = {'', '', [], []};

@@ -2,7 +2,7 @@ function props  = nidaqai_default()
 %
 % NIDAQAI_DEFAULT Returns default properties for nidaq analog input objects.
 %
-% $Id: nidaqai_default.m,v 1.3 2006/01/27 23:46:33 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 props   = struct('InputType','SingleEnded',...
                  'TriggerType','Manual',...

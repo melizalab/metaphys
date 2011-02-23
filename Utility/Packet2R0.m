@@ -11,7 +11,7 @@ function r0 = Packet2R0(packet)
 %
 % See also: PACKET_STRUCT, PACKET2R1, SPLITPACKET
 %
-% $Id: Packet2R0.m,v 1.4 2006/01/30 20:04:59 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % the tricky thing here is that packets can have multiple channels. there
 % can also be a lot of data, so looping through the packets is not a good

@@ -38,5 +38,5 @@
 %   daqfileinfo_struct      - Constructor for the daqfileinfo structure
 %   telegraphresults_struct - Header for the structure containing telegraph
 %
-% $Id: Contents.m,v 1.6 2006/02/01 19:57:49 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %

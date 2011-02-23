@@ -13,7 +13,7 @@ function [triggertype dio dioline] = GetDAQTrigger(daq)
 %
 % See also: SETDAQTRIGGER
 %
-% $Id: GetDAQTrigger.m,v 1.3 2006/01/30 20:04:39 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ischar(daq)
     daq     = GetDAQ(daq);

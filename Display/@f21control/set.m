@@ -9,7 +9,7 @@ function varargout = set(obj, varargin)
 %                 and their valid values.
 % 
 %
-% $Id: set.m,v 1.1 2006/01/24 03:26:09 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 PROPERTIES  = {'frame_rate_factor'};
 

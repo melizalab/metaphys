@@ -10,7 +10,7 @@ function [] = SetGlobal(fieldname, value)
 %
 % SETGLOBAL(fieldname, value)
 %
-% $Id: SetGlobal.m,v 1.1 2006/01/25 17:49:32 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

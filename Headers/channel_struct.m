@@ -7,7 +7,7 @@ function channelstruct = channel_struct(varargin)
 %           .daq    - the name of the associated daq
 %           .type   - 'input' or 'output'
 %
-% $Id: channel_struct.m,v 1.3 2006/01/20 02:03:13 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'obj', 'name', 'daq', 'type'};
 C       = {[], '', '', ''};

@@ -11,7 +11,7 @@ function [ddir mode] = GetDataStorage()
 %
 % See also SETDATASTORAGE
 %
-% $Id: GetDataStorage.m,v 1.5 2006/01/30 20:04:39 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 ddir    = [];
 mode    = GetGlobal('data_mode');

@@ -15,7 +15,7 @@ function modstruct = GetModule(module)
 %
 % See also: INITCONTROL, INITMODULE
 % 
-% $Id: GetModule.m,v 1.2 2006/01/30 20:04:56 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

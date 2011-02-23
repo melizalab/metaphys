@@ -36,7 +36,7 @@ function hhh=hline(y,in1,in2)
 % brandon_kuczenski@kensingtonlabs.com
 % 8 November 2001
 %
-% $Id: hline.m,v 1.2 2006/01/24 03:26:05 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if length(y)>1  % vector input
     for I=1:length(y)

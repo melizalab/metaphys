@@ -5,7 +5,7 @@ function obj    = removechannel(obj, channel)
 % REMOVECHANNEL(waveform, C) Removes the channel C from WAVEFORM. C can be
 % numeric or a character array.
 %
-% $Id: removechannel.m,v 1.1 2006/01/26 23:37:33 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 ind                 = getchanindex(obj, channel);
 newind              = setdiff(1:length(obj.channel_names), ind);

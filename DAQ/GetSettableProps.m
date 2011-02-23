@@ -8,7 +8,7 @@ function props  = GetSettableProps(daq)
 % any newly created daq device so that RESETDAQ works. This includes DAQ
 % devices loaded from disk.
 %
-% $Id: GetSettableProps.m,v 1.1 2006/01/30 19:23:07 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ~isempty(daq) && isvalid(daq)
     props                   = get(daq);

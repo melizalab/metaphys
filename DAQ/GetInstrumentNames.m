@@ -5,7 +5,7 @@ function instruments = GetInstrumentNames()
 %
 % instruments = GETINSTRUMENTNAMES()
 %
-% $Id: GetInstrumentNames.m,v 1.2 2006/01/11 03:19:57 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 global mpctrl
 
 instruments = [];

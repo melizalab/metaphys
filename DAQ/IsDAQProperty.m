@@ -7,7 +7,7 @@ function out = IsDAQProperty(daqname, propname)
 %
 % See also: GETDAQPROPINFO, GETDAQNAMES
 %
-% $Id: IsDAQProperty.m,v 1.2 2006/01/30 20:04:41 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % This is a stupid workaround
 daqprops  = GetDAQProperty(daqname);

@@ -32,7 +32,7 @@ function [Rt, Ri] = CalculateResistance(time, data, pulse, mode, handle)
 % option, due to the computational (i.e. time) costs, so we opt for speed
 % over correctness and just use differentiation.
 %
-% $Id: CalculateResistance.m,v 1.3 2006/01/31 17:24:52 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % For current pulses, what we should try to do is find the two major modes of the signal distribution
 % and set a threshhold. This is a pain in the arse which is left as an

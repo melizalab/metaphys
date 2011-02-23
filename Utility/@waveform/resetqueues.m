@@ -5,7 +5,7 @@ function obj = resetqueues(obj)
 % RESETQUEUES(waveform) returns a modified version of <waveform> in which
 % all the queues have been reset.
 %
-% $Id: resetqueues.m,v 1.2 2006/01/27 23:46:46 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 for i = 1:length(obj.channel_events)
     if ~isempty(obj.channel_events{i})

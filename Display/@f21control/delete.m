@@ -4,7 +4,7 @@ function [] = delete(obj)
 %
 % DELETE(obj)
 %
-% $Id: delete.m,v 1.1 2006/01/24 03:26:05 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin == 1 && isa(obj, 'f21control')
     % this would do something if we had any open connections

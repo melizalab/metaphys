@@ -7,7 +7,7 @@ function [] = sendcommand(obj, command, varargin)
 % Does not return any response. Use this method for commands that do not
 % generate feedback.
 %
-% $Id: sendcommand.m,v 1.1 2006/01/24 03:26:08 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 MODE = 'uint8';
 

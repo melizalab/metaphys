@@ -12,7 +12,7 @@ function instrument = GetInstrument(instrumentnames)
 %
 % instrument = GETINSTRUMENT(instrumentnames)
 %
-% $Id: GetInstrument.m,v 1.2 2006/01/18 19:01:08 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if iscell(instrumentnames)
     for i = 1:length(instrumentnames)

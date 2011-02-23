@@ -20,4 +20,4 @@
 %   MatWriter               - Collects data packets and writes them to disk as a matfile when
 %   TriggerDAQ              - Triggers daq acquisition
 %
-% $Id: Contents.m,v 1.4 2006/01/30 19:23:10 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE

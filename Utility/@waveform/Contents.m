@@ -23,4 +23,4 @@
 %   transformsignal - Applies the waveform to a signal
 %   waveform        - Constructor for the waveform class
 %
-% $Id: Contents.m,v 1.1 2006/01/27 23:46:45 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE

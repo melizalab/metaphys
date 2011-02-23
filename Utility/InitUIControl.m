@@ -16,7 +16,7 @@ function handle = InitUIControl(varargin)
 %
 %  See also: INITUIPARAM
 %
-%   $Id: InitUIControl.m,v 1.2 2006/01/30 20:04:58 meliza Exp $
+%   Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 %% Parse the arguments and find the uicontrol parent
 if ischar(varargin{1})

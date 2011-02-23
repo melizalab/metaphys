@@ -13,4 +13,4 @@
 %   PlayMovie        - Protocol that uses f21 to play a movie, recording a response
 %   ProtocolTemplate - A protocol that does nothing except provide an example
 %
-% $Id: Contents.m,v 1.2 2006/01/27 23:46:34 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE

@@ -8,7 +8,7 @@ function [] = UpdScaledInput(ch, results)
 % element in the array corresponds to a scaled output. SCALED_IN is an
 % array of analogoutput channels.
 %
-% $Id: UpdScaledInput.m,v 1.2 2006/01/31 22:48:23 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ~isa(ch, 'daqchild')
     error('METAPHYS:invalidArgument',...

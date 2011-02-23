@@ -22,7 +22,7 @@ function [] = StartSweep(length, interval, varargin)
 %
 % See also: STOPDAQ, STARTCONTINOUS
 %
-% $Id: StartSweep.m,v 1.9 2006/01/30 20:04:44 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % Get DAQ objects
 daqnms  = GetDAQNames;

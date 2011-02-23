@@ -19,7 +19,7 @@ function [in_gain out_gain] = CalcGain(inst_type, in_units, out_units, voltage)
 %
 % See also: GETCHANNELGAIN, SETCHANNELGAIN
 %
-% $Id: CalcGain.m,v 1.2 2006/01/31 23:06:13 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 in_gain    = 1;
 out_gain   = 1;

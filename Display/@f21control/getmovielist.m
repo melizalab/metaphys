@@ -8,7 +8,7 @@ function [names, frames] = getmovielist(obj, display_object)
 % If the remote program is f21mvx
 % [names, frames] = GETMOVIELIST(obj, display_object)
 %
-% $Id: getmovielist.m,v 1.1 2006/01/24 03:26:07 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 remote  = get(obj, 'project_name');
 switch lower(remote)

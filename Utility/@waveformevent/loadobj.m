@@ -2,7 +2,7 @@ function obj    = loadobj(obj)
 %
 % LOADOBJ Handles WAVEFORMEVENT objects after loading from disk
 %
-% $Id: loadobj.m,v 1.1 2006/01/27 00:40:11 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ~isa(obj,CLASSNAME)
     obj.queued_params   = {};

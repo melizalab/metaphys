@@ -18,7 +18,7 @@ function out  = setselected(handle, varargin)
 % {choices}, and selects <item>. As above, <item> can be a string, a cell
 % array of strings, or a vector of indices.
 %
-% $Id: setselected.m,v 1.1 2006/01/31 19:59:08 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin < 1 || isempty(handle) || ~ishandle(handle)
     error('METAPHYS:setselected:invalidHandle',...

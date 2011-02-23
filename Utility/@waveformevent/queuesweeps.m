@@ -14,7 +14,7 @@ function obj    = queuesweeps(obj, varargin)
 %
 % If the queue was formerly invalid, the queue pointer is advanced to 1.
 %
-% $Id: queuesweeps.m,v 1.1 2006/01/27 00:40:11 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields          = FIELDS;
 nparams         = length(fields);

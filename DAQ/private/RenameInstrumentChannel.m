@@ -6,7 +6,7 @@ function [] = RenameInstrumentChannel(instrument, channelname, newname)
 % channel object itself, and is the fieldname of the object, so there is
 % some mpctrl tinkering.
 %
-% $Id: RenameInstrumentChannel.m,v 1.2 2006/01/12 02:02:04 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

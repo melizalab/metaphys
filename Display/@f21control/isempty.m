@@ -5,7 +5,7 @@ function out = isempty(obj)
 % ISEMPTY(f21ctrl) returns true if the object is missing an essential
 % field.
 %
-% $Id: isempty.m,v 1.1 2006/01/28 01:12:43 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if isempty(obj.remote_host) || isempty(obj.remote_port)
     out = true;

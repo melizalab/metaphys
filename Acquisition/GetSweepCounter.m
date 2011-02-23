@@ -8,7 +8,7 @@ function out = GetSweepCounter()
 %
 % See also: INCREMENTSWEEPCOUNTER, RESETSWEEPCOUNTER
 %
-% $Id: GetSweepCounter.m,v 1.2 2006/01/30 20:04:34 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 FIELDNAME   = 'sweepcounter';
 

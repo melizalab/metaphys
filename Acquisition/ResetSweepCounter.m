@@ -8,7 +8,7 @@ function [] = ResetSweepCounter()
 %
 % See also: GETSWEEPCOUNTER, INCREMENTSWEEPCOUNTER
 %
-% $Id: ResetSweepCounter.m,v 1.2 2006/01/30 20:04:35 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 FIELDNAME   = 'sweepcounter';
 SetGlobal(FIELDNAME, 0);

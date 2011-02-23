@@ -19,7 +19,7 @@ function [] = LoadControl(filename)
 %
 % See also: INITCONTROL, SAVECONTROL
 %
-% $Id: LoadControl.m,v 1.5 2006/01/30 20:04:58 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 DEFAULT_FILE    = 'metaphys.mcf';
 

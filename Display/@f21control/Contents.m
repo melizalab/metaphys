@@ -34,4 +34,4 @@
 %   getmovietime   - Returns the amount of time (in ms) it will take to play the
 %   isempty        - Returns true if the f21control object is not complete
 %
-% $Id: Contents.m,v 1.3 2006/01/30 19:23:11 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE

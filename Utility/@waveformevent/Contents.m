@@ -47,4 +47,4 @@
 %   set              - Sets values for waveformevent object
 %   waveformevent    - Constructor for the waveformeevent class
 %
-% $Id: Contents.m,v 1.1 2006/01/27 23:46:46 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE

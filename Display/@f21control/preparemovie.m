@@ -7,7 +7,7 @@ function [frames] = preparemovie(obj)
 %
 % OUTPUTS: the number of frames loaded
 %
-% $Id: preparemovie.m,v 1.1 2006/01/24 03:26:08 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 out = sendrequest(obj, 'prepare');
 tok = StrTokenize(out);

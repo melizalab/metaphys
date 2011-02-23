@@ -7,7 +7,7 @@ function output = sendrequest(obj, command, varargin)
 % IMPORTANT: do not call this method if the command doesn't return feedback
 % or it will hang temporarily.
 %
-% $Id: sendrequest.m,v 1.1 2006/01/24 03:26:09 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 HEADER_SIZE = 8;
 MODE = 'uint8';

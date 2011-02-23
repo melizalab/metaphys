@@ -30,7 +30,7 @@ function varargout = ProtocolTemplate(action)
 % function.  Whenever the DAQ system returns data, that data will be
 % packaged and sent to the subscriber.
 %
-% $Id: ProtocolTemplate.m,v 1.3 2006/02/01 19:57:51 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % The main function generally only parses the action, which is how external
 % functions (such as the calling function) control its behavior.

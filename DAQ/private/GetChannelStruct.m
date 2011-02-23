@@ -14,7 +14,7 @@ function chan   = GetChannelStruct(instrument, cname)
 %
 % See Also: GETINSTRUMENTCHANNEL
 %
-% $Id: GetChannelStruct.m,v 1.3 2006/01/19 03:15:00 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 %% Check instrument
 instr   = GetInstrument(instrument);

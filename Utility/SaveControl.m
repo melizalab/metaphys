@@ -17,7 +17,7 @@ function [] = SaveControl(filename, subsystem)
 %
 % See also: LOADCONTROL, INITCONTROL
 %
-% $Id: SaveControl.m,v 1.5 2006/01/30 20:05:00 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

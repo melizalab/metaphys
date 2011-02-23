@@ -10,7 +10,7 @@ function currdir = uisetdatadir(startdir)
 %   
 %   Copyright (c) 1997 by The MathWorks, Inc.
 %
-%   $Id: uisetdatadir.m,v 1.4 2006/02/01 19:57:54 meliza Exp $
+%   Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 origdir      = pwd;
 if nargin > 0

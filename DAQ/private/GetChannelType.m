@@ -8,7 +8,7 @@ function chantypes  = GetChannelType(channels)
 % calling function does not have access to the name of the channel (as this
 % will give access to the .type field in the channel structure)
 %
-% $Id: GetChannelType.m,v 1.3 2006/01/12 02:02:03 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ~isa(channels,'daqchild')
     error('METAPHYS:invalidArgument',...

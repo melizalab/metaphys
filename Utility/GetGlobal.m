@@ -7,7 +7,7 @@ function [out] = GetGlobal(fieldname)
 %
 % If the global variable has not been defined, returns []
 %
-% $Id: GetGlobal.m,v 1.1 2006/01/25 17:49:32 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %
 global mpctrl
 

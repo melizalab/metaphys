@@ -16,7 +16,7 @@ function out = subscriber_struct(varargin)
 %
 %  See also: PACKET_STRUCT
 %
-% $Id: subscriber_struct.m,v 1.4 2006/01/30 20:04:51 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'name', 'instrument', 'fhandle', 'fargs'};
 C       = {'', {}, [], {}};

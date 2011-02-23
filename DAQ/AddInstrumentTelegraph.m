@@ -29,7 +29,7 @@ function [] = AddInstrumentTelegraph(instrument, telegraph, varargin)
 %
 % See also: UPDATETELEGRAPH, GETTELEGRAPH, DELETEINSTRUMENTTELEGRAPH
 %
-% $Id: AddInstrumentTelegraph.m,v 1.6 2006/01/31 20:00:14 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % This function is just a wrapper for private/AddTelegraph. If you want to
 % add another "standard" telegraph, this is where to set up how the

@@ -16,7 +16,7 @@ function channel    = GetInstrumentChannel(instrument, cname)
 %
 % See also: GETCHANNELSTRUCT
 %
-% $Id: GetInstrumentChannel.m,v 1.3 2006/01/30 20:04:39 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 chanstruct  = GetChannelStruct(instrument, cname);
 channel     = CellWrap(chanstruct.obj);

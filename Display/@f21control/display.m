@@ -2,7 +2,7 @@ function [] = display(obj)
 %
 % DISPLAY Display method for F21CONTROL object.
 %
-% $Id: display.m,v 1.1 2006/01/24 03:26:06 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fprintf('F21 Controller:\n\n');
 fprintf('   Remote Host: %s:%d\n', obj.remote_host, obj.remote_port);

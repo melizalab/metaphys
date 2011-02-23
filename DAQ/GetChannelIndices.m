@@ -9,7 +9,7 @@ function [indices, names] = GetChannelIndices(instrument, daqname)
 % [indices, names] = GETCHANNELINDICES(instrument, daqname)
 % 
 %
-% $Id: GetChannelIndices.m,v 1.2 2006/01/27 23:46:20 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 instr   = GetInstrument(instrument);
 channels   = StructFlatten(instr.channels);

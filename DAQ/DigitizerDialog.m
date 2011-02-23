@@ -7,7 +7,7 @@ function varargout = DigitizerDialog(action)
 %
 % See also: INITDAQ, RESETDAQ, DELETEDAQ
 %
-% $Id: DigitizerDialog.m,v 1.7 2006/01/30 20:04:38 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch lower(action)
     case 'init'

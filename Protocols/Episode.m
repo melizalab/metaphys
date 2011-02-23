@@ -34,7 +34,7 @@ function varargout = Episode(action)
 %
 % See also: EPISODE_DEFAULT
 %
-% $Id: Episode.m,v 1.10 2006/01/30 20:04:51 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % Parse action
 switch lower(action)

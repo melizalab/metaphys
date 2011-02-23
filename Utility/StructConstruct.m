@@ -13,7 +13,7 @@ function [S] = StructConstruct(fields, defaults, required, arguments)
 % values and the structure returned. If no arguments are supplied, then the
 % constructor returns an empty structure.
 %
-% $Id: StructConstruct.m,v 1.3 2006/01/30 20:05:01 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 nargs   = size(arguments,2);
 if nargs > 0

@@ -6,7 +6,7 @@ function out    = get(obj, fieldname)
 % val = GET(event)            - retrieves all field values
 % 
 %
-% $Id: get.m,v 1.2 2006/01/26 23:37:35 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % S       = waveformevent_struct;
 % fields  = fieldnames(S);

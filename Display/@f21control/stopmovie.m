@@ -6,7 +6,7 @@ function [] = stopmovie(obj)
 %
 % OUTPUTS: none
 %
-% $Id: stopmovie.m,v 1.1 2006/01/24 03:26:10 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 sendcommand(obj, 'break');
 % no output expected

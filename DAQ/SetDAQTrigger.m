@@ -60,7 +60,7 @@ function [] = SetDAQTrigger(triggertype, varargin)
 %
 % See also: GETDAQTRIGGER
 %
-% $Id: SetDAQTrigger.m,v 1.4 2006/01/30 20:04:43 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch lower(triggertype)
     case 'immediate'

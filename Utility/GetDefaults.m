@@ -17,7 +17,7 @@ function [props] = GetDefaults(class, defloc)
 %
 % See also: CLEARDEFAULTS, SETDEFAULTS, SETOBJECTDEFAULTS
 %
-% $Id: GetDefaults.m,v 1.4 2006/01/30 20:04:56 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin > 1
     switch lower(defloc)

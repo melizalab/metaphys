@@ -7,7 +7,7 @@ function daqs   = GetDAQNames(type)
 % daqs = GETDAQNAMES(type) returns only the daq objects of the type
 % specified, which can be 'analoginput', 'analogoutput', or 'digitialio'
 %
-% $Id: GetDAQNames.m,v 1.3 2006/01/21 01:22:25 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 global mpctrl
 
 if isempty(mpctrl.daq)

@@ -5,7 +5,7 @@ function c = char(obj)
 % CHAR(waveform) returns the character string 'waveform: N/M events', where
 % N is the number of channels and M is the number of events
 %
-% $Id: char.m,v 1.1 2006/01/26 23:37:31 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 for i = 1:length(obj)
     c(i,:)  = mychar(obj(i));

@@ -19,7 +19,7 @@ function [] = DebugSetOutput(debugmode, debugsink)
 %
 % See also: DEBUGPRINT
 %
-% $Id: DebugSetOutput.m,v 1.2 2006/01/30 20:04:55 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 %% Close existing debug file
 closeDebugFile

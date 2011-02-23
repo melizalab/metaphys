@@ -12,7 +12,7 @@ function defaults = GetDefaultValues(daq)
 % the values of the DefaultChannelValue property for each of the channels
 % defined on the object <daq>.
 %
-% $Id: GetDefaultValues.m,v 1.1 2006/01/19 03:14:55 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 defaults    = [];
 if ischar(daq)

@@ -15,7 +15,7 @@ function packet = DAQ2Packet(fn, channels, instrumenttype, scaledchannels)
 %             the channels to attempt to scale using telegraph data. If no
 %             telegraph data exists, this argument has no effect
 %
-% $Id: DAQ2Packet.m,v 1.1 2006/01/31 23:06:12 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 info        = GetDAQHeader(fn);
 [d t at]    = daqread(fn);

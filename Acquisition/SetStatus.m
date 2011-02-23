@@ -8,7 +8,7 @@ function [] = SetStatus(string)
 % which is nice if things try to set the status while the system is being
 % shut down
 %
-% $Id: SetStatus.m,v 1.1 2006/01/30 19:23:04 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 try
     SetUIParam('metaphys','protocol_status',string)

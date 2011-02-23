@@ -8,7 +8,7 @@ function connection = openconnection(obj)
 %
 % <connection> is a MATLAB tcpip object
 %
-% $Id: openconnection.m,v 1.1 2006/01/24 03:26:11 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % constant
 INPUT_BUFFER_SIZE = 64000;

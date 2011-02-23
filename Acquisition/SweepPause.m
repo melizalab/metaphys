@@ -9,7 +9,7 @@ function [] = SweepPause(time)
 %
 % See also: ISSWEEPPAUSED, ISDAQRUNNING
 %
-% $Id: SweepPause.m,v 1.2 2006/01/30 20:04:35 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 SetGlobal('sweep_pause',true)
 pause(time/1000);

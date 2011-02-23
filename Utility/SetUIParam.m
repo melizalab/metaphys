@@ -20,7 +20,7 @@ function [] = SetUIParam(module, tag, varargin)
 % set the 'String' property. This form will also attempt to cast numeric
 % values to strings.
 %
-% $Id: SetUIParam.m,v 1.8 2006/01/31 19:59:08 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % retrieve the object handle
 handle  = GetUIHandle(module, tag);

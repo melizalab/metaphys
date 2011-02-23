@@ -3,7 +3,7 @@ function [] = DeleteTelegraph(instrument, telegraph)
 % DELETETELEGRAPH Deletes a telegraph from an instrument, along with any
 % associated objects or channels.
 %
-% $Id: DeleteTelegraph.m,v 1.3 2006/01/17 18:07:59 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 global mpctrl
 
 %% Get telegraph structure

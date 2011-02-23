@@ -2,7 +2,7 @@ function [] = AddTelegraph(instrument, telegraph, type, object, checkfn, updfn, 
 %
 % ADDTELEGRAPH Adds a telegraph to an instrument.
 %
-% $Id: AddTelegraph.m,v 1.4 2006/01/17 18:07:58 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 global mpctrl
 
 instr   = GetInstrument(instrument);

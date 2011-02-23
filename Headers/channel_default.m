@@ -3,7 +3,7 @@ function s  = channel_default()
 % CHANNEL_DEFAULT Default values for a new channel
 %
 %
-% $Id: channel_default.m,v 1.1 2006/01/11 03:20:02 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 s   = struct('Name','',...
              'DefaultChannelValue',0,...

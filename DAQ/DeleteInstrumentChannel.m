@@ -14,7 +14,7 @@ function [] = DeleteInstrumentChannel(instrument, channelname)
 % DELETEINSTRUMENTCHANNEL(instrument, 'input') - Deletes all input channels.
 % DELETEINSTRUMENTCHANNEL(instrument, 'output') - Deletes all output channels.
 %
-% $Id: DeleteInstrumentChannel.m,v 1.3 2006/01/12 02:02:00 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 instrument = lower(instrument);
 

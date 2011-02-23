@@ -10,7 +10,7 @@ function [] = SetCurrentProtocol(fhandle)
 % SETCURRENTPROTOCOL([]) sets the current protocol as none - disabling the
 % protocol control buttons, updating the status message, etc.
 % 
-% $Id: SetCurrentProtocol.m,v 1.1 2006/01/28 00:46:07 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 MAIN_WINDOW = 'metaphys';
 PROTOCOL_BUTTONS = {'protocol_start', 'protocol_record'};

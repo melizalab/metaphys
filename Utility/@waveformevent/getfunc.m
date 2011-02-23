@@ -5,7 +5,7 @@ function f  = getfunc(obj, param)
 % GETFUNC(event, 'param') returns the 'param_func' function. If it does not
 %                         exist, returns []
 %
-% $Id: getfunc.m,v 1.2 2006/01/26 23:37:35 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fname   = sprintf('%s_func', param);
 f       = get(obj, fname);

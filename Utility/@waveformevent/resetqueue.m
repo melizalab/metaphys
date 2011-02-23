@@ -5,7 +5,7 @@ function obj    = resetqueue(obj)
 % RESETQUEUE(obj) returns an object with a reset parameter queue and sweep
 % pointer set to 0.
 %
-% $Id: resetqueue.m,v 1.2 2006/01/27 01:00:09 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 [obj.queued_params]   = deal({});
 [obj.queue_pointer]   = deal(0);

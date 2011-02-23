@@ -19,7 +19,7 @@ function c = AddInstrumentOutput(instrument, daqname, hwchannel, outputname, var
 %
 % See also INITINSTRUMENT, ADDINSTRUMENTINPUT, PRIVATE/ADDCHANNEL
 %
-% $Id: AddInstrumentOutput.m,v 1.4 2006/01/30 19:23:06 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 
 daq = GetDAQ(daqname);

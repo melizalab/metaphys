@@ -6,7 +6,7 @@ function seq = shuffledsequence(N, M)
 % SHUFFLEDSEQUENCE(N,M) returns an NxM array, with each column being a
 %                       shuffled sequence from 1:N
 %
-% $Id: shuffledsequence.m,v 1.1 2006/01/26 01:21:32 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin < 2
     M   = 1;

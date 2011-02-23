@@ -29,7 +29,7 @@ function [] = ResetDAQOutput(daq, event)
 % RESETDAQOUTPUT(obj, event) - resets the callback object
 % RESETDAQOUTPUT()        - resets the outputs on all output devices
 %
-% $Id: ResetDAQOutput.m,v 1.3 2006/01/27 23:46:24 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin == 0
     daqname = GetDAQNames('analogoutput');

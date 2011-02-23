@@ -16,7 +16,7 @@ function out = packet_struct(varargin)
 %
 % See also: SUBSCRIBER_STRUCT
 %
-% $Id: packet_struct.m,v 1.4 2006/01/30 20:04:49 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'name', 'instrument', 'channels', 'units', 'data', 'time',...
            'timestamp', 'message'};

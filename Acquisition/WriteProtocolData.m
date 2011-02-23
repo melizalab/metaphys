@@ -13,7 +13,7 @@ function [] = WriteProtocolData(varargin)
 %
 % See also WRITESWEEPDATA
 %
-% $Id: WriteProtocolData.m,v 1.2 2006/01/30 20:04:35 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 FILENAME    = '%s-params.mat';
 

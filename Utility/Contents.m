@@ -78,5 +78,5 @@
 %   setselected         - Sets the selected item in a list or popupmenu
 %   wmean               - Weighted average or mean value.
 %
-% $Id: Contents.m,v 1.6 2006/02/01 19:57:52 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %

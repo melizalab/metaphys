@@ -16,7 +16,7 @@ function varargout = ListRearranger(varargin)
 % 'UserData' property of the list is the same length as 'String', it will
 % also be rearranged
 %
-% $Id: ListRearranger.m,v 1.2 2006/01/27 23:46:41 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % Parse the arguments
 if nargin == 5

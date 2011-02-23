@@ -17,7 +17,7 @@ function [channames pretty short]  = GetInstrumentChannelNames(instrument, type)
 %
 % See also: GETINSTRUMENTNAMES, INITINSTRUMENT
 %
-% $Id: GetInstrumentChannelNames.m,v 1.6 2006/01/30 20:04:40 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 pretty      = [];
 short       = [];

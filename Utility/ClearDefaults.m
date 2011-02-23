@@ -22,7 +22,7 @@ function [] = ClearDefaults(class, defloc)
 %
 % See also: SETDEFAULTS, GETDEFAULTS
 %
-% $Id: ClearDefaults.m,v 1.2 2006/01/30 20:04:55 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin == 1
     clearPrefs(class)

@@ -4,7 +4,7 @@ function obj    = saveobj(obj)
 %
 % event = SAVEOBJ(event)
 %
-% $Id: saveobj.m,v 1.1 2006/01/27 00:40:12 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fn  = TRANSIENT_FIELDS;
 for i = 1:length(fn)

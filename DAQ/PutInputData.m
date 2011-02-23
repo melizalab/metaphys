@@ -23,7 +23,7 @@ function [T] = PutInputData(instrument, data, channel_names)
 %
 % See also: DAQDEVICE/PUTDATA, PUTINPUTWAVEFORM
 %
-% $Id: PutInputData.m,v 1.3 2006/01/30 20:04:42 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % we have to map to hardware indices here
 instr   = GetInstrument(instrument);

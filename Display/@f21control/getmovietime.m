@@ -9,7 +9,7 @@ function time   = getmovietime(obj, display_obj)
 % [time] = GETMOVIETIME(obj) - for f21mv, returns the amount of time it
 % will take to play the movie
 %
-% $Id: getmovietime.m,v 1.1 2006/01/24 21:42:16 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin > 1
     [mov frms] = getmovielist(obj, display_obj);

@@ -18,7 +18,7 @@ function [X, obj] = transformsignal(obj, T, X, channel)
 % TRANSFORMSIGNAL will return signals updated using the new parameter
 % values.
 %
-% $Id: transformsignal.m,v 1.1 2006/01/27 01:00:08 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin < 4
     channel = getchannelnames(obj);

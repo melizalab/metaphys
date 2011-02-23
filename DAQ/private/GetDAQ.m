@@ -7,7 +7,7 @@ function daq = GetDAQ(daqnames)
 %
 % daq = GETDAQ(daqnames)
 %
-% $Id: GetDAQ.m,v 1.2 2006/01/28 00:46:12 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin == 0 || isempty(daqnames)
     error('METAPHYS:invalidArguments',...

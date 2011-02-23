@@ -12,7 +12,7 @@ function varargout = getparamrotation(obj, nval)
 % each of the parameters is an NxM array, with N being the number of trials
 % and M the number of values in the parameter (for complex parameters)
 %
-% $Id: getparamrotation.m,v 1.4 2006/01/27 23:46:47 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 NVAL    = 10;
 

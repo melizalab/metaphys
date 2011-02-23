@@ -13,7 +13,7 @@ function varargout = PlayMovie(action)
 %
 % See Also: @F21CONTROL, PLAYMOVIE_DEFAULT
 %
-% $Id: PlayMovie.m,v 1.9 2006/01/30 20:04:52 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % Parse action
 switch lower(action)

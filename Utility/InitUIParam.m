@@ -15,7 +15,7 @@ function [] = InitUIParam(module, tag, handle)
 %
 % See also: INITUICONTROL, INITUIOBJECT
 %
-% $Id: InitUIParam.m,v 1.2 2006/01/30 20:04:58 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

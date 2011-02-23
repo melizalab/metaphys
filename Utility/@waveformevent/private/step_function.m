@@ -6,7 +6,7 @@ function out  = step_function(T, X, onset, ampl, dur, varargin)
 % STEP_FUNCTION is a step function. Very basic. Might have trouble with
 % enormous arrays.
 %
-% $Id: step_function.m,v 1.1 2006/01/26 01:21:36 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % figure out the output size; parameters are the same length
 M       = size(X,2);

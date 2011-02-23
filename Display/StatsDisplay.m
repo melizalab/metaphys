@@ -3,7 +3,7 @@ function [] = StatsDisplay(action, varargin)
 % STATSDISPLAY Display module for plotting statistics
 %
 %
-% $Id: StatsDisplay.m,v 1.1 2006/01/27 23:46:31 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch lower(action)
     case 'init'

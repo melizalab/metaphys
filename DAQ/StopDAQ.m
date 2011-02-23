@@ -9,7 +9,7 @@ function [] = StopDAQ(daqnames)
 %
 % See also: INITDAQ, RESETDAQ, STARTDAQ
 %
-% $Id: StopDAQ.m,v 1.4 2006/01/30 20:04:44 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 
 if nargin == 0

@@ -7,7 +7,7 @@ function out  = sealtest_default()
 %
 % See also: SEALTEST
 %
-% $Id: sealtest_default.m,v 1.3 2006/01/30 20:04:50 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 out = struct('pulse_amp', 5, ...
              'pulse_len', 40);

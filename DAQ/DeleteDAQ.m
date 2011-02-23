@@ -12,7 +12,7 @@ function [] = DeleteDAQ(daqnames)
 %
 % See also: INITDAQ, STOPDAQ
 %
-% $Id: DeleteDAQ.m,v 1.7 2006/01/30 20:04:37 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

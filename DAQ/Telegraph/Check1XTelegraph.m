@@ -30,7 +30,7 @@ function results = Check1XTelegraph(instrument, object, channels)
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH,
 % TELEGRAPHRESULTS_STRUCT
 %
-% $Id: Check1XTelegraph.m,v 1.6 2006/01/31 22:48:21 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 INST_TYPE   = '1x';
 

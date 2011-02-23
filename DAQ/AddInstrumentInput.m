@@ -19,7 +19,7 @@ function [] = AddInstrumentInput(instrument, daqname, hwchannel, inputname, vara
 %
 % See also INITINSTRUMENT, ADDINSTRUMENTOUTPUT, PRIVATE/ADDCHANNEL
 %
-% $Id: AddInstrumentInput.m,v 1.5 2006/01/30 19:23:05 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 daq = GetDAQ(daqname);
 

@@ -21,7 +21,7 @@ function fig = OpenGuideFigure(figfile, module)
 %
 %  See also: OPENFIGURE, FINDFIGURE
 %
-% $Id: OpenGuideFigure.m,v 1.5 2006/01/30 20:04:59 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin == 1
     [pn fn] = fileparts(figfile);

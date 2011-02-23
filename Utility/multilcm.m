@@ -8,7 +8,7 @@ function V = multilcm(V)
 %
 % Recursively calls LCM until there is only one number left
 %
-% $Id: multilcm.m,v 1.2 2006/01/30 20:05:03 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if any(V < 1 | fix(V) ~= V)
     error('METAPHYS:multilcm:InputNotPosInt',...

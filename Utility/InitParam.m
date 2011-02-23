@@ -23,7 +23,7 @@ function [] = InitParam(module, varargin)
 % See also: PARAM_STRUCT
 %
 %
-% $Id: InitParam.m,v 1.4 2006/01/30 20:04:57 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 global mpctrl
 
 module = lower(module);

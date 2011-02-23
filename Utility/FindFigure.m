@@ -9,7 +9,7 @@ function handle = FindFigure(tag)
 % handle - the matlab GUI handle that identifies the figure. If the figure
 %          does not exist, returns []
 %
-% $Id: FindFigure.m,v 1.3 2006/01/20 22:02:34 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 error(nargchk(1,1,nargin))
 tag = lower(tag);

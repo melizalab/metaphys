@@ -5,7 +5,7 @@ function C  = Cell2Num(C)
 %
 % C = CELL2NUM(C)
 %
-% $Id: Cell2Num.m,v 1.1 2006/01/24 03:26:11 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 try
     NC  = cellfun(@str2num, C, 'uniformoutput', false);

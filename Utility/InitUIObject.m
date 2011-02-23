@@ -19,7 +19,7 @@ function handle = InitUIObject(module, tag, creation_string, varargin)
 %   properties      - optional comma-delim used to the properties of 
 %                     the object
 %
-%   $Id: InitUIObject.m,v 1.2 2006/01/18 19:01:12 meliza Exp $
+%   Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin < 3
     error('METAPHYS:InitUIObject:argumentError','Not enough arguments');

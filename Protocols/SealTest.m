@@ -22,7 +22,7 @@ function [] = SealTest(action)
 %
 % See also:  PROTOCOLTEMPLATE, SEALTEST_DEFAULT
 %
-% $Id: SealTest.m,v 1.12 2006/01/31 00:50:52 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 
 % Parse action

@@ -27,5 +27,5 @@
 %   PROTOCOLS       - Modules that run experiments
 %   UTILITY         - Functions for parameter access and generaly utility
 %
-% $Id: Contents.m,v 1.2 2006/02/01 19:57:47 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 

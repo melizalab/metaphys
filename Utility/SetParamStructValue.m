@@ -12,7 +12,7 @@ function paramstruct = SetParamStructValue(paramstruct, value)
 %
 % See also: GETPARAMSTRUCTVALUE, SETPARAM, PARAM_STRUCT
 %
-% $Id: SetParamStructValue.m,v 1.4 2006/01/30 20:05:01 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 NUMERIC_TYPES   = {'int8', 'int16', 'int32', 'int64',...
                    'uint8', 'uint16', 'uint32', 'uint64',...

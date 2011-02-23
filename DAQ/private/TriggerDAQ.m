@@ -13,7 +13,7 @@ function [] = TriggerDAQ(daq)
 % digital io devices. It will check for device type and for the triggertype
 % property, and not attempt to trigger anything that can't handle it.
 %
-% $Id: TriggerDAQ.m,v 1.1 2006/01/27 23:46:30 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % exclude digital io objects
 types   = daq.Type;

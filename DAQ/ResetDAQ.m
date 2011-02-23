@@ -11,7 +11,7 @@ function [] = ResetDAQ(varargin)
 %
 % See also: INITDAQ, STOPDAQ
 %
-% $Id: ResetDAQ.m,v 1.3 2006/01/30 20:04:42 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin == 0
     daqnames = GetDAQNames;

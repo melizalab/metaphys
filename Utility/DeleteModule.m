@@ -7,7 +7,7 @@ function [] = DeleteModule(module)
 %
 % module (String) - module name
 %
-% $Id: DeleteModule.m,v 1.6 2006/01/27 23:46:41 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

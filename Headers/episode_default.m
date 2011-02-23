@@ -2,7 +2,7 @@ function out = episode_default()
 %
 % EPISODE_DEFAULT Returns default parameters for the EPISODE protocol
 %
-% $Id: episode_default.m,v 1.6 2006/01/31 17:21:01 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 out = struct('instrument',...
     param_struct('Instrument', 'list', 1, GetInstrumentNames),...

@@ -4,7 +4,7 @@ function out = playmovie_default()
 %
 % See also: PLAYMOVIE
 %
-% $Id: playmovie_default.m,v 1.5 2006/01/31 17:21:02 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 out = struct('instrument',...
     param_struct('Instrument', 'list', 1, GetInstrumentNames),...

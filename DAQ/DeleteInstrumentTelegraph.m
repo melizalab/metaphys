@@ -13,7 +13,7 @@ function [] = DeleteInstrumentTelegraph(instrument, telegraph)
 %
 % See also UPDATETELEGRAPH
 %
-% $Id: DeleteInstrumentTelegraph.m,v 1.3 2006/01/30 20:04:38 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ischar(telegraph)
     if strcmpi(telegraph, 'all')

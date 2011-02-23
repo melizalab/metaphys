@@ -7,7 +7,7 @@ function out = get(obj, prop)
 % GET() - Returns a structure with all property names and values
 % 
 %
-% $Id: get.m,v 1.1 2006/01/24 03:26:06 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 out  = getallproperties(obj);
 

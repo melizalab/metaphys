@@ -9,7 +9,7 @@ function [] = InstrumentDialog(action, instrumentname)
 %
 % See also: INITINSTRUMENT, ADDINSTRUMENTTELEGRPAH, ADDINSTRUMENTINPUT
 %
-% $Id: InstrumentDialog.m,v 1.9 2006/01/30 20:04:40 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch lower(action)
     case {'init', 'modal'}

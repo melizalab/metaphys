@@ -9,7 +9,7 @@ function S  = SplitPacket(P)
 % the channel and unit names are character rather than cell arrays. This,
 % however, is necessary for some functions that use this function.
 %
-% $Id: SplitPacket.m,v 1.1 2006/01/20 22:02:36 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 chancounts  = cellfun('length',{P.channels});
 

@@ -7,7 +7,7 @@ function daq = GetDAQStruct(daqnames)
 %
 % daq = GETDAQSTRUCT(daqnames)
 %
-% $Id: GetDAQStruct.m,v 1.1.1.1 2006/01/10 20:59:51 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if iscell(daqnames)
     for i = 1:length(daqnames)

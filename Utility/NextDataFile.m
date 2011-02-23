@@ -11,7 +11,7 @@ function out = NextDataFile(path, prefix)
 % the filename returned will look like
 % <prefix>_year_month_day-<serial>
 %
-% $Id: NextDataFile.m,v 1.2 2006/01/21 01:22:33 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 d = datevec(now);
 files = dir(path);

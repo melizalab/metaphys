@@ -17,7 +17,7 @@ function [] = StartContinuous(interval, loop, varargin)
 %
 % See also: STOPDAQ, STARTSWEEP
 %
-% $Id: StartContinuous.m,v 1.7 2006/01/30 20:04:43 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % Get DAQ objects
 daqnms  = GetDAQNames;

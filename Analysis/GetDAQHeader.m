@@ -9,7 +9,7 @@ function info = GetDAQHeader(filename)
 %
 % See also: DAQREAD, DAQFILEINFO_STRUCT
 %
-%   $Id: GetDAQHeader.m,v 1.1 2006/01/31 23:06:13 meliza Exp $
+%   Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 T_UNIT  = 'ms';
 T_FAC   = 1000;

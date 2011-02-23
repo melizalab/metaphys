@@ -5,7 +5,7 @@ function out = isvalid(obj)
 %
 % bool = ISVALID(f21ctrl)
 %
-% $Id: isvalid.m,v 1.2 2006/01/24 21:42:17 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 %
 
 out         = false;

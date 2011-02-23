@@ -5,7 +5,7 @@ function subscriber = GetSubscriber(subscribernames)
 % GETSUBSCRIBER(subscribername) - Returns the subscriber structure(s) named
 %                                 <subscribername>
 %
-% $Id: GetSubscriber.m,v 1.2 2006/01/19 03:14:52 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

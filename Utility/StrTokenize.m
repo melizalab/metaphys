@@ -14,7 +14,7 @@ function strings    = StrTokenize(string, delimiter)
 %
 % (This function is basically a wrapper for STRREAD)
 % 
-% $Id: StrTokenize.m,v 1.2 2006/01/30 20:05:01 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ~ischar(string)
     error('METAPHYS:strtokenize',...

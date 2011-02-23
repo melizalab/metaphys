@@ -14,7 +14,7 @@ function [] = SetObjectDefaults(object, class, location)
 %
 % See also: GETDEFAULTS, SETDEFAULTS, CLEARDEFAULTS
 %
-% $Id: SetObjectDefaults.m,v 1.2 2006/01/30 20:05:00 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin > 2
    props   = GetDefaults(class, location);

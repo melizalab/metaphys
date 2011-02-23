@@ -3,7 +3,7 @@ function s = getallproperties(obj)
 % GETALLPROPERTIES Returns all properties from the f21 object as a
 % structure.
 %
-% $Id: getallproperties.m,v 1.2 2006/01/24 21:42:17 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % there are two commands that will retrieve all stimulus properties
 

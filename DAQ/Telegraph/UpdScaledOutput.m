@@ -10,7 +10,7 @@ function [] = UpdScaledOutput(ch, results)
 %
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH, UPDSCALEDCHANNEL
 %
-% $Id: UpdScaledOutput.m,v 1.6 2006/01/31 22:48:23 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ~isa(ch, 'daqchild')
     error('METAPHYS:invalidArgument',...

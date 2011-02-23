@@ -9,7 +9,7 @@ function obj = f21control(remote_host, remote_port)
 %
 % The default port is 6543.
 %
-% $Id: f21control.m,v 1.2 2006/01/24 21:42:16 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if nargin < 2
     remote_port    = 6543;

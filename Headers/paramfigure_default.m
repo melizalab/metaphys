@@ -4,7 +4,7 @@ function props = paramfigure_default()
 %
 % See also: PARAMFIGURE
 %
-% $Id: paramfigure_default.m,v 1.2 2006/01/30 20:04:50 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 props = struct('numbertitle','off',...
                'DoubleBuffer','off',...

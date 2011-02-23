@@ -2,7 +2,7 @@ function [] = EnableSensitiveControls(mode)
 %
 % ENABLESENSITIVECONTROLS Turn on or off sensitive controls
 %
-% $Id: EnableSensitiveControls.m,v 1.2 2006/01/28 01:12:05 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
     PROT_OBJS   = {'protocol_start','protocol_record'};
     OBJECTS = {'data_dir_select', 'protocol_select', 'instrument_add',...

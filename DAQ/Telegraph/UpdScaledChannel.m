@@ -17,7 +17,7 @@ function [] = UpdScaledChannel(results)
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH, UPDSCALEDOUTPUT,
 % UPDSCALEDINPUT
 %
-% $Id: UpdScaledChannel.m,v 1.2 2006/01/31 22:48:23 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if isempty(results)
     return

@@ -15,7 +15,7 @@ function [] = MatWriter(packet, directory)
 %
 % MATWRITER('flush')
 %
-% $Id: MatWriter.m,v 1.3 2006/01/30 19:23:10 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 persistent mw_data datafile
 

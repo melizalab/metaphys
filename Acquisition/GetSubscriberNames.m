@@ -4,7 +4,7 @@ function subscribers = GetSubscriberNames()
 %
 % See also: SUBSCRIBER_STRUCT, PACKET_STRUCT, DATAHANDLER, EVENTHANDLER
 %
-% $Id: GetSubscriberNames.m,v 1.3 2006/01/30 20:04:34 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 global mpctrl
 

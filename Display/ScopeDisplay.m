@@ -15,7 +15,7 @@ function varargout = ScopeDisplay(action, varargin)
 %
 % See also: SWEEPDISPLAY
 %
-% $Id: ScopeDisplay.m,v 1.7 2006/02/02 01:36:15 dan lab Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 switch lower(action)
     case 'init'

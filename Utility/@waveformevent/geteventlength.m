@@ -11,7 +11,7 @@ function times  = geteventlength(obj)
 % Can take an array of objects, in which case the returned value will be an
 % Nx2 array.
 %
-% $Id: geteventlength.m,v 1.1 2006/01/26 23:37:35 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 for i = 1:length(obj)
     if isvalid(obj(i))

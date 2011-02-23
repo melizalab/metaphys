@@ -5,7 +5,7 @@ function out = IsSweepPaused()
 %
 % See also: SWEEPPAUSE, ISDAQRUNNING
 %
-% $Id: IsSweepPaused.m,v 1.2 2006/01/30 20:04:35 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 out = GetGlobal('sweep_pause');
 if isempty(out)

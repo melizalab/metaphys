@@ -8,7 +8,7 @@ function [] = setmovielist(obj, varargin)
 % If the remote program is f21mvx:
 % SETMOVIELIST(obj, display_object, {movie_names})
 %
-% $Id: setmovielist.m,v 1.1 2006/01/24 03:26:09 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 remote  = get(obj, 'project_name');
 switch lower(remote)

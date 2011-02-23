@@ -16,7 +16,7 @@ function S = telegraphresults_struct(varargin)
 %           .in_gain          - the input gain of the instrument
 %           .in_units         - the input units of the instrument
 %
-% $Id: telegraphresults_struct.m,v 1.1 2006/01/31 20:00:22 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields  = {'instrument', 'channel', 'out_gain', 'out_units',...
            'in_gain', 'in_units'};

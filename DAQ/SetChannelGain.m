@@ -15,7 +15,7 @@ function [] = SetChannelGain(varargin)
 %
 % See also: GETCHANNELGAIN
 %
-% $Id: SetChannelGain.m,v 1.5 2006/01/31 22:48:20 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 if ischar(varargin{1})
     chanstr     = GetChannelStruct(varargin{1}, varargin{2});

@@ -14,7 +14,7 @@ function results = CheckAnalogTelegraph(instrument, object, varargin)
 %
 % See also: UPDATETELEGRAPH, ADDINSTRUMENTTELEGRAPH
 %
-% $Id: CheckAnalogTelegraph.m,v 1.5 2006/01/31 00:30:27 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 ai      = object(1).Parent;
 chan    = object.Index;

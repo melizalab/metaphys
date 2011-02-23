@@ -33,7 +33,7 @@ function [] = SetDataStorage(mode, varargin)
 %
 % See also GETDATASTORAGE
 %
-% $Id: SetDataStorage.m,v 1.7 2006/01/30 20:04:43 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 MATWRITER   = 'MatWriter';
 mwfunc      = str2func(MATWRITER);

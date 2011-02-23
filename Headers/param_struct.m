@@ -44,7 +44,7 @@ function [S] = param_struct(varargin)
 %
 % See also: PARAMFIGURE, GETPARAM
 %
-% $Id: param_struct.m,v 1.4 2006/01/30 20:04:49 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 fields = {'description','fieldtype','value','choices','units','callback'};
 C      = {'','',[],{},'',[]};

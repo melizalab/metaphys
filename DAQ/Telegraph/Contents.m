@@ -55,4 +55,4 @@
 %   UpdScaledChannel     - Updates one or more channels on an amplifier based
 %   UpdScaledInput       - Updates a scaled input channel based on the mode and
 %
-% $Id: Contents.m,v 1.5 2006/02/01 19:57:49 meliza Exp $
+% Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
