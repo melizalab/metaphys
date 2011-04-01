@@ -105,6 +105,10 @@ if ~isempty(chan)
             set(ax,'YLim',[-1 5] .* adjscale);
         case '11'
             set(ax,'YLim',[-1 1] .* adjscale);
+        case '1010'
+            set(ax,'YLim',[-10 10] .* adjscale);
+        case '73'
+            set(ax,'YLim',[-7 3] .* adjscale);
         case 'fixed'
             ylow    = GetUIParam(me, 'fixed_lower', 'StringVal');
             yhigh   = GetUIParam(me, 'fixed_upper', 'StringVal');
@@ -352,15 +356,20 @@ InitUIControl(ph, me, 'pulse_base_units', 'style', 'text',...
 bgh = uibuttongroup('position',[.62 .02 0.35 0.19],...
     'Title','Scaling');
 InitUIParam(me, 'scaling', bgh)
-% four buttons: Auto, Manual, [-1 5] and [-1 1]
+% presets: Auto, Manual, [-1 5], [-1 1], [-10 10], [-7 3]
 uicontrol(bgh,'style','radiobutton','String','Auto',...
     'tag','auto','position',[10 45 w/2 20])
 uicontrol(bgh,'style','radiobutton','String','Manual',...
     'tag','manual','position',[10 25 w/2 20])
 uicontrol(bgh,'style','radiobutton','String','[-1 5]',...
-    'tag','15','position',[10+w/2 45 w/2-10 20])
+    'tag','15','position',[10+w/3 45 w/3-10 20],...
+    'TooltipString','Preset values are scaled up by 10 in current-clamp mode')
 uicontrol(bgh,'style','radiobutton','String','[-1 -1]',...
-    'tag','11','position',[10+w/2 25 w/2-10 20])
+    'tag','11','position',[10+w/3 25 w/3-10 20])
+uicontrol(bgh,'style','radiobutton','String','[-10 10]',...
+    'tag','1010','position',[10+2*w/3 45 w/3 20])
+uicontrol(bgh,'style','radiobutton','String','[-7 -3]',...
+    'tag','73','position',[10+2*w/3 25 w/3-10 20])
 % and one manual control
 uicontrol(bgh,'style','radiobutton','String','Fixed:',...
     'tag','fixed', 'position', [10 5 w/3 20]);
