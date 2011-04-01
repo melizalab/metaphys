@@ -74,18 +74,22 @@ function out = me()
 out = mfilename;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2011.03.18 MK
 function [] = loadData()
 % Load data from the stimulus file, center and rescale, and store
 stimfile        = GetParam(me, 'stimulus', 'value');
-stimmean        = GetParam(me, 'stim_mean', 'value');
-stimrange       = GetParam(me, 'stim_range', 'value');
+maxposcur       = GetParam(me, 'max_pos_cur', 'value');
+maxnegcur       = GetParam(me, 'max_neg_cur', 'value');
 instr   = GetParam(me,'instrument');
 chan    = GetParam(me,'data_output');
 Fs      = GetChannelSampleRate(instr, chan) / 1000;
 % should check sampling rate
 if ~isempty(stimfile)
   stimdata      = LoadStimulusWaveform(stimfile);
-  SetParam(me, 'stim_cache', stimdata * stimrange + stimmean);
+  ind           = stimdata > 0.0;
+  stimdata(ind) = stimdata(ind) * abs(maxposcur);
+  stimdata(~ind) = stimdata(~ind) * abs(maxnegcur);
+  SetParam(me, 'stim_cache', stimdata);
   DebugPrint('Loaded stimulus from %s, %d samples.', stimfile, ...
              length(stimdata));
   SweepDisplay('clearall', length(stimdata) / Fs);
