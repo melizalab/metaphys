@@ -7,8 +7,7 @@ function gain = GetChannelGain(varargin)
 % GETCHANNELGAIN(chaninfostruct) - from a channel info struct; assumes that
 %                                  the channel is an analog input child
 %
-% This method is not equipped to deal with nonsymmetric input/output
-% ranges. Also note that the values returned are CHANNEL gains (Units/V),
+% Note that the values returned are CHANNEL gains (Units/V),
 % not instrument gains.
 % 
 % See Also: SETCHANNELGAIN
@@ -27,14 +26,14 @@ else
     chantype    = 'output';
 end
 
+unitrange = diff(channel.UnitsRange);
 switch lower(chantype)
     case 'output'
-        gain    = channel.UnitsRange ./ channel.SensorRange;
-        gain    = gain(1);
+        voltrange = diff(channel.SensorRange);
     case 'input'
-        gain    = channel.UnitsRange ./ channel.OutputRange;
-        gain    = gain(1);
+        voltrange = diff(channel.OutputRange);
     otherwise
         error('METAPHYS:channel:invalidOperation',...
             'Channel type %s does not have a gain setting.', chantype)
 end
+gain = unitrange / voltrange;

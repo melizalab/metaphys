@@ -71,6 +71,8 @@ if isstruct(channel)
             updateChannels
             SetUIParam(mfilename,'hwchan','Selected',...
                        num2str(currentchan))
+            range   = GetChannelRange(channel.obj);
+            SetUIParam(mfilename,'range','String',num2str(range),'Enable','On');
             SetUIParam(mfilename,'units','String',channel.obj.Units,...
                 'Enable','On')
             gain    = GetChannelGain(channel.obj);
@@ -101,6 +103,12 @@ else
     SetUIParam(mfilename,'index','')
     SetUIParam(mfilename,'units','String','','Enable','On')
     SetUIParam(mfilename,'gain','String','','Enable','On')
+    if strcmpi(channel,'output')
+        range = '[-5 5]';
+    else
+        range = '[-10 10]';
+    end
+    SetUIParam(mfilename,'range','String',range,'Enable','On')
     updateChannels
 end
 
@@ -133,6 +141,7 @@ if ~isempty(currentchannel)
 end
 SetUIParam(mfilename,'hwchan','String',...
     cellstr(strjust(num2str(channels'),'left')));
+SetUIParam(mfilename,'range','TooltipString',sprintf('[%.2f %.2f] ',GetDAQRange(daqname)'));
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function s  = getData()
@@ -144,6 +153,7 @@ s   = struct('instrument',GetUIParam(mfilename,'instrument_name'),...
     'oldname',GetUIParam(mfilename,'name','UserData'),...
     'daqname',GetUIParam(mfilename,'digitizer','selected'),...
     'hwchan',str2double(GetUIParam(mfilename,'hwchan','selected')),...
+    'range',GetUIParam(mfilename,'range','stringval'),...
     'units',GetUIParam(mfilename,'units'),...
     'gain',GetUIParam(mfilename,'gain','stringval'));
 % set some values if they're missing
@@ -165,6 +175,7 @@ switch lower(chanstruct.type)
         error('MATLAB:unsupportedOperation',...
             'No function exists to add %s channels', chanstruct.type)
 end
+SetChannelRange(chanstruct.instrument, chanstruct.name, chanstruct.range)
 SetChannelGain(chanstruct.instrument, chanstruct.name,...
     chanstruct.gain)
 
@@ -183,6 +194,9 @@ switch tag
             return
         elseif isnumeric(chan.name(1))
             errordlg('Channel names must begin with a letter!')
+            return
+        elseif length(chan.range)~=2
+            errordlg('Range must be a two-element vector')
             return
         end
         
@@ -207,6 +221,7 @@ switch tag
             else
                 SetInstrumentChannelProps(chan.instrument, chan.name,...
                     'HwChannel', chan.hwchan, 'Units', chan.units);
+                SetChannelRange(chan.instrument, chan.name, chan.range)
                 SetChannelGain(chan.instrument, chan.name, chan.gain)
             end
             DebugPrint('Updated properties of channel %s/%s.',...
