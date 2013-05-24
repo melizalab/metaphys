@@ -99,6 +99,7 @@ function [stimdata] = loadData(stimfile, samplerate)
 % Load data from the stimulus file, center and rescale, and store
 maxposcur       = GetParam(me, 'max_pos_cur', 'value');
 maxnegcur       = GetParam(me, 'max_neg_cur', 'value');
+ep_interval     = GetParam(me,'ep_interval','value');
 instr   = GetParam(me,'instrument');
 chan    = GetParam(me,'data_output');
 Fs      = GetChannelSampleRate(instr, chan) / 1000;
@@ -107,19 +108,19 @@ stimdata      = LoadStimulusWaveform(stimfile, samplerate, Fs);
 ind           = stimdata > 0.0;
 stimdata(ind) = stimdata(ind) * abs(maxposcur);
 stimdata(~ind) = stimdata(~ind) * abs(maxnegcur);
+% pad the signal with the silent interval
+stimdata       = [stimdata; zeros(ep_interval * Fs,1)];
 DebugPrint('Loaded stimulus from %s, %d samples.', stimfile, ...
            length(stimdata));
-SweepDisplay('clearall', length(stimdata) / Fs);
+%SweepDisplay('clearall', length(stimdata) / Fs);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = loopControl(packet)
 if strcmpi(packet.message.Type, 'Stop')
-    ep_interval     = GetParam(me,'ep_interval','value');
     stim_list       = GetParam(me,'stim_list');
     ep_repeats      = GetParam(me,'ep_repeats','value');
     current_sweep   = GetSweepCounter;
     if (current_sweep / length(stim_list{1})) < ep_repeats;
-        SweepPause(ep_interval);
         sweepControl
     else
         cleanupControl(packet)
@@ -143,7 +144,7 @@ else
         stim_list{2}(stim_num));
     episodelength = PutInputData(instr, stimdata, {chan});
     % Start a sweep
-    StartSweep(episodelength)
+    StartSweep(episodelength,100)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,7 +168,9 @@ if ~isempty(instr)
         GetInstrumentChannelNames(instr,'input'));
     ParamFigure(me)
 end
-SweepDisplay('init',instr, Inf);
+% Open the display scope
+ScopeDisplay('init', instr);
+%SweepDisplay('init',instr, Inf);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = destroyModule(varargin)
@@ -177,6 +180,6 @@ cleanupControl;
 p   = GetParam(mfilename);
 SetDefaults(mfilename,'control',p)
 % delete display windows
-DeleteModule('sweepdisplay')
+DeleteModule('scopedisplay')
 SetCurrentProtocol([])
 
