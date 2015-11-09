@@ -16,7 +16,7 @@ function [X, obj] = generatesweep(obj, T, X)
 % Copyright 2006-2011 dmeliza@uchicago.edu; see LICENSE
 
 % see if we have enough data
-if obj.queue_pointer == 0 || obj.queue_pointer >= getqueuesize(obj)
+if (obj.queue_pointer == 0) || (obj.queue_pointer >= getqueuesize(obj))
     obj = queuesweeps(obj);
 end
 

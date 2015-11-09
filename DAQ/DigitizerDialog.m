@@ -256,7 +256,11 @@ count       = 1;
 daqhw       = daqhwinfo;
 adaptors    = daqhw.InstalledAdaptors;
 for i = 1:length(adaptors)
-    hwinfo  = daqhwinfo(adaptors{i});
+    try
+        hwinfo  = daqhwinfo(adaptors{i});
+    catch
+        continue;
+    end
     for j = 1:length(hwinfo.InstalledBoardIds)
         if ~isempty(hwinfo.ObjectConstructorName{j, 1})
             hwstruct(count) = makeHwStruct(hwinfo.AdaptorName,...
